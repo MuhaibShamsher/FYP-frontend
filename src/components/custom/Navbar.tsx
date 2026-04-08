@@ -10,6 +10,7 @@ import {
   LogOut,
   Menu,
   X,
+  ShieldAlert,
 } from 'lucide-react';
 import { type RootState } from '@/store';
 import armorLogo from '@/assets/armor_logo.png';
@@ -24,6 +25,12 @@ const NAV_ITEMS = [
   },
   { id: 'assets', icon: Server, label: 'Assets', path: '/assets' },
   { id: 'scans', icon: Radar, label: 'Scans', path: '/scans' },
+  {
+    id: 'vulnerabilities',
+    icon: ShieldAlert,
+    label: 'Vulnerabilities',
+    path: '/vulnerabilities',
+  },
   { id: 'settings', icon: Settings, label: 'Settings', path: '/settings' },
 ];
 

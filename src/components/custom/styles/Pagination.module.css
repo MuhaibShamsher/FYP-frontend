@@ -1,0 +1,128 @@
+.paginationFooter {
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to bottom, rgba(15, 15, 20, 0.2), rgba(15, 15, 20, 0.6));
+  backdrop-filter: blur(20px);
+  transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.paginationFooter::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(234, 88, 12, 0.3), transparent);
+}
+
+.isFetching {
+  opacity: 0.4;
+  pointer-events: none;
+  filter: blur(1px);
+}
+
+.paginationInfo {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.technicalTag {
+  padding: 0.125rem 0.375rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.25rem;
+  color: #e2e8f0;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.8125rem;
+}
+
+.pageHighlight {
+  color: white;
+  font-weight: 800;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+.paginationControls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.pageButton {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.03);
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.pageButton:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(234, 88, 12, 0.3);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.pageButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.pageButton:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+  filter: grayscale(1);
+}
+
+.pageButtonActive {
+  background: rgba(234, 88, 12, 0.15);
+  color: rgb(234, 88, 12);
+  border-color: rgba(234, 88, 12, 0.5);
+  box-shadow: 0 0 20px rgba(234, 88, 12, 0.15), inset 0 0 10px rgba(234, 88, 12, 0.1);
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+.arrowIcon {
+  transition: transform 200ms;
+}
+
+.pageButton:hover .arrowIconPrev {
+  transform: translateX(-3px);
+}
+
+.pageButton:hover .arrowIconNext {
+  transform: translateX(3px);
+}
+
+@media (max-width: 640px) {
+  .paginationFooter {
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 1.5rem;
+  }
+  
+  .paginationInfo {
+    order: 2;
+  }
+}
