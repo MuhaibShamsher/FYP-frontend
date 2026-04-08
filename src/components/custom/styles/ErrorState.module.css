@@ -1,0 +1,50 @@
+.container {
+  display: flex;
+  min-height: calc(100vh - 8rem);
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.errorBox {
+  display: inline-block;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  background-color: rgba(239, 68, 68, 0.1);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.iconContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.icon {
+  width: 3rem;
+  height: 3rem;
+  color: rgb(239, 68, 68);
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: rgb(239, 68, 68);
+  margin-bottom: 0.5rem;
+}
+
+.message {
+  color: rgba(239, 68, 68, 0.8);
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

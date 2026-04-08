@@ -1,0 +1,398 @@
+/* Asset Details Page Container */
+.pageContainer {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  animation: fade-in 500ms;
+}
+
+/* Header Section */
+.headerSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .headerSection {
+    align-items: center;
+  }
+}
+
+.assetHostname {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: white;
+  letter-spacing: -0.05em;
+}
+
+.headerLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  color: rgb(234, 88, 12);
+  font-family: monospace;
+  opacity: 0.8;
+}
+
+.backButton {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: rgb(163, 163, 163);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 300ms;
+}
+
+.backButton:hover {
+  color: white;
+  border-color: rgba(234, 88, 12, 0.3);
+}
+
+.backIcon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+}
+
+/* Main Content Grid */
+.contentGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 1280px) {
+  .contentGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Card Styles */
+.infoCard {
+  height: fit-content;
+}
+
+@media (min-width: 1280px) {
+  .infoCard {
+    grid-column: span 1;
+  }
+}
+
+.tableCard {
+  grid-column: span 1;
+}
+
+@media (min-width: 1280px) {
+  .tableCard {
+    grid-column: span 3;
+  }
+}
+
+.cardHeader {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 1rem;
+}
+
+.cardTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 0.025em;
+}
+
+.titleIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: rgb(234, 88, 12);
+}
+
+.cardContent {
+  padding-top: 1.5rem;
+}
+
+.infoList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Info Field Row */
+.infoField {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  transition: all 300ms;
+}
+
+.infoField:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+.infoLabelBox {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: rgb(163, 163, 163);
+  transition: color 300ms;
+}
+
+.infoField:hover .infoLabelBox {
+  color: rgb(212, 212, 212);
+}
+
+.fieldIcon {
+  width: 1rem;
+  height: 1rem;
+  color: rgba(234, 88, 12, 0.4);
+  transition: color 300ms;
+}
+
+.infoField:hover .fieldIcon {
+  color: rgb(234, 88, 12);
+}
+
+.fieldLabelText {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fieldValue {
+  text-align: right;
+  font-family: monospace;
+  font-size: 0.875rem;
+  color: rgb(229, 229, 229);
+}
+
+.valuePlaceholder {
+  color: rgb(82, 82, 82);
+}
+
+/* Port Analytics Table Section */
+.portHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.portCount {
+  font-size: 0.75rem;
+  font-family: monospace;
+  color: rgb(115, 115, 115);
+}
+
+.tableWrapper {
+  overflow: hidden;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.scrollContainer {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  text-align: left;
+}
+
+.tableHeadRow {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.tableHeaderCell {
+  padding: 1rem 1.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgb(234, 88, 12);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+.tableBody {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.tableRow {
+  transition: background-color 200ms;
+}
+
+.tableRow:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.tableCell {
+  padding: 1rem 1.5rem;
+  font-size: 0.875rem;
+  color: rgb(212, 212, 212);
+  white-space: nowrap;
+}
+
+.monoCell {
+  font-family: monospace;
+  color: rgba(234, 88, 12, 0.8);
+}
+
+.tableRow:hover .monoCell {
+  color: rgb(234, 88, 12);
+  font-weight: 700;
+}
+
+.fallbackText {
+  color: rgb(82, 82, 82);
+  font-style: italic;
+}
+
+/* Edit Button */
+.editButton {
+  height: 2rem;
+  width: 2rem;
+  padding: 0;
+  color: rgb(115, 115, 115);
+  border-radius: 9999px;
+  transition: all 200ms;
+}
+
+.editButton:hover {
+  color: rgb(234, 88, 12);
+  background-color: rgba(234, 88, 12, 0.1);
+}
+
+.editIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Empty Port State */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0;
+  text-align: center;
+  border: 2px dashed rgba(255, 255, 255, 0.05);
+  border-radius: 0.75rem;
+}
+
+.emptyIcon {
+  width: 3rem;
+  height: 3rem;
+  color: rgb(38, 38, 38);
+  margin-bottom: 1rem;
+}
+
+.emptyText {
+  color: rgb(163, 163, 163);
+  font-weight: 500;
+}
+
+.emptySubtext {
+  font-size: 0.75rem;
+  color: rgb(82, 82, 82);
+  margin-top: 0.25rem;
+}
+
+/* Severity Badges & Status */
+.severityBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-width: 1px;
+}
+
+.sevCritical {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: rgb(239, 68, 68);
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.sevHigh {
+  background-color: rgba(249, 115, 22, 0.1);
+  color: rgb(249, 115, 22);
+  border-color: rgba(249, 115, 22, 0.2);
+}
+
+.sevMedium {
+  background-color: rgba(234, 179, 8, 0.1);
+  color: rgb(234, 179, 8);
+  border-color: rgba(234, 179, 8, 0.2);
+}
+
+.sevLow {
+  background-color: rgba(34, 197, 94, 0.1);
+  color: rgb(34, 197, 94);
+  border-color: rgba(34, 197, 94, 0.2);
+}
+
+.sevDot {
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 9999px;
+}
+
+.dotCritical {
+  background-color: rgb(239, 68, 68);
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.dotHigh {
+  background-color: rgb(249, 115, 22);
+}
+
+.dotMedium {
+  background-color: rgb(234, 179, 8);
+}
+
+.dotLow {
+  background-color: rgb(34, 197, 94);
+}
+
+.statusActive {
+  color: rgb(16, 185, 129);
+  font-weight: 700;
+}
+
+.statusOffline {
+  color: rgb(115, 115, 115);
+}
+
+/* Animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

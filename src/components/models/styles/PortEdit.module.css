@@ -1,0 +1,216 @@
+/* PortEditModal.module.css */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  animation: fadeIn 200ms ease-out;
+}
+
+.modalCard {
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(24px); /* backdrop-blur-xl */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+  max-width: 32rem; /* max-w-lg */
+  overflow: hidden;
+  animation: zoomIn 300ms ease-out;
+}
+
+/* Header */
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.title {
+  font-size: 1.25rem; /* text-xl */
+  font-weight: 900;
+  color: white;
+  letter-spacing: 0.025em;
+}
+
+.protocolBadge {
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-width: 1px;
+}
+
+.protocolTcp {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: rgb(59, 130, 246);
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+.protocolUdp {
+  background-color: rgba(168, 85, 247, 0.1);
+  color: rgb(168, 85, 247);
+  border-color: rgba(168, 85, 247, 0.2);
+}
+
+.protocolOther {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: rgb(163, 163, 163);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Content */
+.content {
+  padding-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formStack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-size: 0.75rem; /* text-xs */
+  font-weight: 700;
+  color: rgb(115, 115, 115);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 0.75rem;
+  top: 0.625rem;
+  width: 1rem;
+  height: 1rem;
+  color: rgb(115, 115, 115);
+  transition: color 200ms;
+}
+
+.inputWrapper:focus-within .inputIcon {
+  color: var(--primary);
+}
+
+.input {
+  padding-left: 2.25rem; /* pl-9 */
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.05);
+  color: white;
+  transition: all 200ms;
+}
+
+.input:focus {
+  border-color: rgba(var(--primary), 0.5);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.input::placeholder {
+  color: rgb(82, 82, 82);
+}
+
+.inputMono {
+  font-family: monospace;
+}
+
+/* Error Box */
+.errorBox {
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: rgb(248, 113, 113); /* text-red-400 */
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.errorIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cancelButton {
+  color: rgb(115, 115, 115);
+}
+
+.cancelButton:hover {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.saveButton {
+  background-color: var(--primary);
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  box-shadow: 0 10px 15px -3px rgba(var(--primary), 0.2);
+  min-width: 120px;
+}
+
+.saveButton:hover {
+  background-color: color-mix(in srgb, var(--primary), black 10%);
+}
+
+.saveButton:disabled {
+  opacity: 0.7;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

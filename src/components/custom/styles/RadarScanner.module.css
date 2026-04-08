@@ -1,0 +1,101 @@
+/* RadarScanner.module.css */
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.scannerWrapper {
+  position: relative;
+  border-radius: 9999px;
+  padding: 0.25rem;
+  background: linear-gradient(
+    to top right,
+    rgba(249, 115, 22, 0.2),
+    transparent
+  );
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 30px rgba(249, 115, 22, 0.1);
+}
+
+.canvas {
+  /* Default Mobile Size */
+  width: 150px;
+  height: 150px;
+  border-radius: 9999px;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .canvas {
+    /* Tablet/Desktop Size */
+    width: 192px;
+    height: 192px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .canvas {
+    /* Large Desktop Size */
+    width: 240px;
+    height: 240px;
+  }
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.overlayContent {
+  text-align: center;
+}
+
+.progressText {
+  display: block;
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 900;
+  color: white;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+  font-family: monospace;
+}
+
+@media (min-width: 1024px) {
+  .progressText {
+    font-size: 2.25rem; /* text-4xl roughly */
+  }
+}
+
+.statusText {
+  font-size: 10px;
+  color: rgb(251, 146, 60); /* text-orange-400 */
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@media (min-width: 1024px) {
+  .statusText {
+    font-size: 0.75rem; /* text-xs */
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
