@@ -17,7 +17,7 @@ import {
   PortsBarChart,
 } from '@/components/charts';
 import { InitiateScanModal } from '@/components/models';
-import { LoadingState, ErrorState, EmptyState } from '@/components/custom';
+import { LoadingState, ErrorState, EmptyState, DashboardSummary } from '@/components/custom';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
@@ -55,9 +55,7 @@ export default function DashboardPage() {
   const handleStartScan = useCallback(
     async (ip_range: string, scan_type: 'standard' | 'comprehensive') => {
       if (isScanning) {
-        toast.warning(
-          'A scan is already running — please wait or cancel it first.'
-        );
+        toast.warning('A scan is already running — please wait or cancel it first.');
         return;
       }
       if (!ip_range.trim()) {
@@ -148,6 +146,9 @@ export default function DashboardPage() {
           )}
         </Button>
       </div>
+
+      {/* Synchronized Mission & Compliance Briefing */}
+      <DashboardSummary />
 
       <div className={styles.chartsGrid}>
         {/* Asset Severity Line Chart */}

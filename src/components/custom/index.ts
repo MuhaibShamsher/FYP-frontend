@@ -8,3 +8,4 @@ export { default as Navbar } from './Navbar';
 export { default as CyberGrid } from './CyberGrid';
 export { default as RadarScanner } from './RadarScanner';
 export { default as TypingText } from './TypingText';
+export { default as DashboardSummary } from './DashboardSummary';
