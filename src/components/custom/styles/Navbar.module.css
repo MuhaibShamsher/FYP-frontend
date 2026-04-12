@@ -34,7 +34,10 @@
   color: rgb(156, 163, 175);
   text-decoration: none;
   border: 1px solid transparent;
-  transition: color 200ms, background-color 200ms, border-color 200ms;
+  transition:
+    color 200ms,
+    background-color 200ms,
+    border-color 200ms;
 }
 
 .complianceSubLink:hover {
@@ -503,6 +506,56 @@
     transparent
   );
   box-shadow: 0 0 4px color-mix(in srgb, var(--primary), transparent 50%);
+}
+
+/* Navigation Header Component Styles */
+.navigationHeader {
+  position: fixed;
+  top: 5rem; /* top-20 */
+  left: 0;
+  right: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(40px);
+  z-index: 40;
+}
+
+.navigationContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem; /* gap-1 */
+  padding: 0.75rem 2rem; /* px-8 py-3 */
+}
+
+.navButton {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem; /* px-3 py-2 */
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 500; /* font-medium */
+  border-radius: 0.5rem; /* rounded-lg */
+  transition: all 200ms; /* transition-colors */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: rgb(156, 163, 175); /* text-gray-400 */
+}
+
+.navButton:hover {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.navButtonActive {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.navIcon {
+  width: 1rem;
+  height: 1rem; /* w-4 h-4 */
+  margin-right: 0.5rem; /* mr-2 */
 }
 
 /* Animations */

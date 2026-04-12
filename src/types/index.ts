@@ -1,4 +1,9 @@
-export type ScanStatus = 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
+export type ScanStatus =
+  | 'pending'
+  | 'running'
+  | 'completed'
+  | 'failed'
+  | 'cancelled';
 export type ScanType = 'quick' | 'standard' | 'comprehensive';
 export type DeviceType =
   | 'unknown'
@@ -90,7 +95,10 @@ export type SectionKey =
   | 'reports'
   | 'settings'
   | 'vulnerabilities'
-  | 'compliance';
+  | 'compliance-violations'
+  | 'compliance-results'
+  | 'compliance'
+  | 'feeds';
 
 export interface ScanProgressUpdate {
   scan_id: string;
@@ -390,4 +398,28 @@ export interface ComplianceUpdate {
   progress: number;
   frameworks: ComplianceFramework[];
   error: string;
+}
+
+export type FeedType = 'nvd' | 'epss' | 'cisa_kev';
+
+export interface FeedMetadata {
+  since?: string;
+  [key: string]: any;
+}
+
+export interface FeedStatus {
+  feed_type: FeedType;
+  last_successful_run: string;
+  records_processed: number;
+  records_errors: number;
+  source_name: string;
+  mode: 'incremental' | 'full';
+  task_id: string;
+  metadata: FeedMetadata;
+  is_running: boolean;
+  is_stale: boolean;
+}
+
+export interface FeedStatusResponse {
+  feeds: FeedStatus[];
 }
