@@ -1,0 +1,226 @@
+/* FeedCard Component Styles */
+
+/* Feed Card */
+.feedCard {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  transition: all 0.3s;
+}
+
+.feedCard:hover {
+  transform: scale(1.01);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Pulse effect when running */
+.pulseEffect {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.05);
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.feedCardContent {
+  position: relative;
+  padding: 1.5rem;
+}
+
+/* Card header */
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.cardTitleSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 0.25rem;
+}
+
+.cardDescription {
+  font-size: 0.875rem;
+  color: rgb(156, 163, 175);
+}
+
+/* Status badges */
+.statusBadges {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.statusBadge {
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid;
+}
+
+.statusBadge.running {
+  color: rgb(250, 204, 21);
+  border-color: rgba(250, 204, 21, 0.3);
+}
+
+.statusBadge.stale {
+  color: rgb(251, 146, 60);
+  border-color: rgba(251, 146, 60, 0.3);
+}
+
+.statusBadge.updated {
+  color: rgb(74, 222, 128);
+  border-color: rgba(74, 222, 128, 0.3);
+}
+
+.statusIcon {
+  width: 0.75rem;
+  height: 0.75rem;
+  margin-right: 0.25rem;
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Stats grid */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.statCard {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+}
+
+.statLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: rgb(156, 163, 175);
+  margin-bottom: 0.25rem;
+}
+
+.statValue {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: white;
+}
+
+.statValue.processed {
+  color: rgb(74, 222, 128);
+}
+
+.statValue.errors {
+  color: rgb(248, 113, 113);
+  font-size: 0.75rem;
+  margin-left: 0.5rem;
+}
+
+/* Additional info */
+.additionalInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.infoRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.infoLabel {
+  font-size: 0.875rem;
+  color: rgb(156, 163, 175);
+}
+
+.infoValue {
+  font-size: 0.75rem;
+  color: rgb(107, 114, 128);
+  max-width: 12.5rem;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.infoBadge {
+  font-size: 0.75rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.375rem;
+  padding: 0.125rem 0.5rem;
+}
+
+/* Sync button section */
+.syncButtonSection {
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.syncButton {
+  width: 100%;
+  background-color: rgb(37, 99, 235);
+  color: white;
+  font-weight: 500;
+  transition: all 0.3s;
+  border: none;
+  border-radius: 0.375rem;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.syncButton:hover:not(:disabled) {
+  background-color: rgb(29, 78, 216);
+}
+
+.syncButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.syncButtonIcon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+}
