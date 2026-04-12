@@ -10,6 +10,8 @@ const ScansPage = lazy(() => import('@/pages/Scans'));
 const SettingsPage = lazy(() => import('@/pages/Settings'));
 const AssetDetailsPage = lazy(() => import('@/pages/AssetDetails'));
 const VulnerabilitiesPage = lazy(() => import('@/pages/Vulnerabilities'));
+const ComplianceViolationsPage = lazy(() => import('@/pages/ComplianceViolations'));
+const ComplianceResultsPage = lazy(() => import('@/pages/ComplianceResults'));
 
 
 export const router = createBrowserRouter([
@@ -30,6 +32,8 @@ export const router = createBrowserRouter([
           { path: 'assets/:assetId', element: (<AssetDetailsPage />) },
           { path: 'scans', element: (<ScansPage />) },
           { path: 'vulnerabilities', element: (<VulnerabilitiesPage />) },
+          { path: 'compliance/violations', element: (<ComplianceViolationsPage />) },
+          { path: 'compliance/results', element: (<ComplianceResultsPage />) },
           { path: 'settings', element: (<SettingsPage />) },
         ],
       },

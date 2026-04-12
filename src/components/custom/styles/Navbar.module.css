@@ -11,6 +11,53 @@
   transition: all 300ms;
 }
 
+/* Second row under main bar: Violations | Results */
+.complianceSubNav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 2rem 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background-color: rgba(0, 0, 0, 0.25);
+  position: relative;
+  z-index: 10;
+}
+
+.complianceSubLink {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.45rem 1.1rem;
+  border-radius: 0.5rem;
+  color: rgb(156, 163, 175);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: color 200ms, background-color 200ms, border-color 200ms;
+}
+
+.complianceSubLink:hover {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.complianceSubLinkActive {
+  color: white;
+  background: linear-gradient(
+    to bottom right,
+    color-mix(in srgb, var(--primary), transparent 82%),
+    color-mix(in srgb, var(--primary), transparent 94%)
+  );
+  border-color: color-mix(in srgb, var(--primary), transparent 65%);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--primary), transparent 88%);
+}
+
+.navWithComplianceSub .mobileMenu {
+  top: 7.75rem;
+}
+
 .dynamicBg {
   position: absolute;
   inset: 0;

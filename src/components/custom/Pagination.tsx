@@ -9,6 +9,7 @@ interface TerminalPaginationProps {
   totalItems?: number;
   itemsPerPage?: number;
   isFetching?: boolean;
+  itemLabel?: string;
 }
 
 export default function TerminalPagination({
@@ -18,6 +19,7 @@ export default function TerminalPagination({
   totalItems,
   itemsPerPage = 20,
   isFetching = false,
+  itemLabel = 'Vulnerabilities',
 }: TerminalPaginationProps) {
   if (totalPages <= 0) return null;
 
@@ -48,7 +50,7 @@ export default function TerminalPagination({
             <>
             Showing <span className={styles.pageHighlight}>{startRange}</span> to{' '}
             <span className={styles.pageHighlight}>{endRange}</span> of{' '}
-            <span className={styles.pageHighlight}>{totalItems}</span> Vulnerabilities
+            <span className={styles.pageHighlight}>{totalItems}</span> {itemLabel}
             </>
           ) : (
             <>
@@ -76,7 +78,7 @@ export default function TerminalPagination({
                 <button
                   className={`${styles.pageButton} ${
                     currentPage === pageNum ? styles.pageButtonActive : ''
-                  } !p-0 w-9 h-9 flex items-center justify-center font-mono`}
+                  } p-0! w-9 h-9 flex items-center justify-center font-mono`}
                   onClick={() => onPageChange(pageNum as number)}
                   disabled={isFetching}
                 >

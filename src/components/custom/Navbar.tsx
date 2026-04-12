@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation, NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveSection } from '@/store/slices/headerSlice';
 import {
@@ -11,39 +11,58 @@ import {
   Menu,
   X,
   ShieldAlert,
+  ShieldCheck,
+  type LucideIcon,
 } from 'lucide-react';
+import type { SectionKey } from '@/types';
 import { type RootState } from '@/store';
 import armorLogo from '@/assets/armor_logo.png';
 import styles from './styles/Navbar.module.css';
-
-const NAV_ITEMS = [
-  {
-    id: 'dashboard',
-    icon: LayoutDashboard,
-    label: 'Dashboard',
-    path: '/dashboard',
-  },
-  { id: 'assets', icon: Server, label: 'Assets', path: '/assets' },
-  { id: 'scans', icon: Radar, label: 'Scans', path: '/scans' },
-  {
-    id: 'vulnerabilities',
-    icon: ShieldAlert,
-    label: 'Vulnerabilities',
-    path: '/vulnerabilities',
-  },
-  { id: 'settings', icon: Settings, label: 'Settings', path: '/settings' },
-];
 
 export default function Navbar() {
   const activeSection = useSelector(
     (state: RootState) => state.header.activeSection
   );
+
+  type NavItem = {
+    id: SectionKey;
+    icon: LucideIcon;
+    label: string;
+    path: string;
+  };
+
+  const navItems: NavItem[] = [
+    {
+      id: 'dashboard',
+      icon: LayoutDashboard,
+      label: 'Dashboard',
+      path: '/dashboard',
+    },
+    { id: 'assets', icon: Server, label: 'Assets', path: '/assets' },
+    { id: 'scans', icon: Radar, label: 'Scans', path: '/scans' },
+    {
+      id: 'vulnerabilities',
+      icon: ShieldAlert,
+      label: 'Vulnerabilities',
+      path: '/vulnerabilities',
+    },
+    {
+      id: 'compliance',
+      icon: ShieldCheck,
+      label: 'Compliance',
+      path: '/compliance/violations',
+    },
+    { id: 'settings', icon: Settings, label: 'Settings', path: '/settings' },
+  ];
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const isComplianceSection = location.pathname.startsWith('/compliance');
+
   // Close mobile menu on navigation
-  const handleNavigation = (item: any) => {
+  const handleNavigation = (item: NavItem) => {
     dispatch(setActiveSection(item.id));
     navigate(item.path);
     setIsMobileMenuOpen(false);
@@ -65,7 +84,9 @@ export default function Navbar() {
   }, [isMobileMenuOpen]);
 
   return (
-    <nav className={styles.nav}>
+    <nav
+      className={`${styles.nav} ${isComplianceSection ? styles.navWithComplianceSub : ''}`}
+    >
       <div className={styles.dynamicBg}></div>
 
       {/* Main Navbar Container */}
@@ -90,8 +111,11 @@ export default function Navbar() {
 
         {/* Center: Desktop Navigation Menu */}
         <div className={styles.desktopNav}>
-          {NAV_ITEMS.map((item) => {
-            const isActive = activeSection === item.id;
+          {navItems.map((item) => {
+            const isActive =
+              item.id === 'compliance'
+                ? isComplianceSection
+                : activeSection === item.id;
             const Icon = item.icon;
 
             return (
@@ -145,12 +169,42 @@ export default function Navbar() {
         </div>
       </div>
 
+      {isComplianceSection && (
+        <div
+          className={styles.complianceSubNav}
+          role="navigation"
+          aria-label="Compliance pages"
+        >
+          <NavLink
+            to="/compliance/violations"
+            className={({ isActive }) =>
+              `${styles.complianceSubLink} ${isActive ? styles.complianceSubLinkActive : ''}`
+            }
+            onClick={() => dispatch(setActiveSection('compliance'))}
+          >
+            Violations
+          </NavLink>
+          <NavLink
+            to="/compliance/results"
+            className={({ isActive }) =>
+              `${styles.complianceSubLink} ${isActive ? styles.complianceSubLinkActive : ''}`
+            }
+            onClick={() => dispatch(setActiveSection('compliance'))}
+          >
+            Results
+          </NavLink>
+        </div>
+      )}
+
       {/* Mobile Menu Overlay */}
       <div
         className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.mobileMenuOpen : ''}`}
       >
-        {NAV_ITEMS.map((item) => {
-          const isActive = activeSection === item.id;
+        {navItems.map((item) => {
+          const isActive =
+            item.id === 'compliance'
+              ? isComplianceSection
+              : activeSection === item.id;
           const Icon = item.icon;
 
           return (
