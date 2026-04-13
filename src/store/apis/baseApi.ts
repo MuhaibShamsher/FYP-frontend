@@ -52,7 +52,15 @@ const baseQueryWithReauth: BaseQueryFn<
       Object.prototype.hasOwnProperty.call(response, 'data') &&
       Object.prototype.hasOwnProperty.call(response, 'success')
     ) {
-      result.data = response.data;
+      if (Object.prototype.hasOwnProperty.call(response, 'pagination')) {
+        // If it's a paginated response, keep both data and pagination
+        result.data = {
+          data: response.data,
+          pagination: response.pagination,
+        };
+      } else {
+        result.data = response.data;
+      }
     }
   }
 
@@ -101,9 +109,18 @@ const baseQueryWithReauth: BaseQueryFn<
               } as FetchBaseQueryError,
             };
           }
-          if (Object.prototype.hasOwnProperty.call(retryResponse, 'data') && 
-              retryResponse.success === true) {
-            result.data = retryResponse.data;
+          if (
+            Object.prototype.hasOwnProperty.call(retryResponse, 'data') &&
+            retryResponse.success === true
+          ) {
+            if (Object.prototype.hasOwnProperty.call(retryResponse, 'pagination')) {
+              result.data = {
+                data: retryResponse.data,
+                pagination: retryResponse.pagination,
+              };
+            } else {
+              result.data = retryResponse.data;
+            }
           }
         }
       } else {
@@ -128,6 +145,8 @@ export const baseApi = createApi({
     'ScanDetails',
     'Statistics',
     'Users',
+    'RiskAssessments',
+    'ComplianceResults',
   ],
   endpoints: () => ({}),
 });
