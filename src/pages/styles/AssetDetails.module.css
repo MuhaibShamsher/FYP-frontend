@@ -57,38 +57,29 @@
   margin-right: 0.5rem;
 }
 
-/* Main Content Grid */
-.contentGrid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
+/* Horizontal Layout */
+.horizontalLayout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-@media (min-width: 1280px) {
-  .contentGrid {
-    grid-template-columns: repeat(4, 1fr);
-  }
+/* Unified Card Styles */
+.infoCard,
+.riskProfileCard,
+.tableCard,
+.vulnCard {
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 300ms;
 }
 
-/* Card Styles */
-.infoCard {
-  height: fit-content;
-}
-
-@media (min-width: 1280px) {
-  .infoCard {
-    grid-column: span 1;
-  }
-}
-
-.tableCard {
-  grid-column: span 1;
-}
-
-@media (min-width: 1280px) {
-  .tableCard {
-    grid-column: span 3;
-  }
+.infoCard:hover,
+.riskProfileCard:hover,
+.tableCard:hover,
+.vulnCard:hover {
+  border-color: rgba(234, 88, 12, 0.2);
 }
 
 .cardHeader {
@@ -117,20 +108,21 @@
 }
 
 .infoList {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
 }
 
-/* Info Field Row */
+/* Compact Info Field Row */
 .infoField {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem;
+  padding: 0.75rem 1rem;
   border-radius: 0.5rem;
   border: 1px solid transparent;
   transition: all 300ms;
+  background-color: rgba(255, 255, 255, 0.02);
 }
 
 .infoField:hover {
@@ -141,7 +133,7 @@
 .infoLabelBox {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
   color: rgb(163, 163, 163);
   transition: color 300ms;
 }
@@ -151,8 +143,8 @@
 }
 
 .fieldIcon {
-  width: 1rem;
-  height: 1rem;
+  width: 0.875rem;
+  height: 0.875rem;
   color: rgba(234, 88, 12, 0.4);
   transition: color 300ms;
 }
@@ -162,7 +154,7 @@
 }
 
 .fieldLabelText {
-  font-size: 0.75rem;
+  font-size: 0.625rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -171,12 +163,32 @@
 .fieldValue {
   text-align: right;
   font-family: monospace;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: rgb(229, 229, 229);
+  font-weight: 500;
 }
 
 .valuePlaceholder {
   color: rgb(82, 82, 82);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .infoList {
+    grid-template-columns: 1fr;
+  }
+
+  .infoField {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .fieldLabelText {
+    font-size: 0.5625rem;
+  }
+
+  .fieldValue {
+    font-size: 0.6875rem;
+  }
 }
 
 /* Port Analytics Table Section */
@@ -192,28 +204,23 @@
   color: rgb(115, 115, 115);
 }
 
-.tableWrapper {
-  overflow: hidden;
-  border-radius: 0.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+/* Port Table Container */
+.portTableContainer {
   background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 0.75rem;
+  overflow: hidden;
 }
 
-.scrollContainer {
-  overflow-x: auto;
-}
-
-.table {
+/* Port Table Styles */
+.portTable {
   width: 100%;
-  text-align: left;
+  border-collapse: collapse;
 }
 
-.tableHeadRow {
+.portTableHeader {
   background-color: rgba(255, 255, 255, 0.05);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.tableHeaderCell {
   padding: 1rem 1.5rem;
   font-size: 0.75rem;
   font-weight: 700;
@@ -223,42 +230,43 @@
   white-space: nowrap;
 }
 
-.tableBody {
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.tableRow {
+.portTableRow {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   transition: background-color 200ms;
 }
 
-.tableRow:hover {
+.portTableRow:hover {
   background-color: rgba(255, 255, 255, 0.05);
 }
 
-.tableCell {
+.portTableRow:last-child {
+  border-bottom: none;
+}
+
+.portTableCell {
   padding: 1rem 1.5rem;
   font-size: 0.875rem;
   color: rgb(212, 212, 212);
   white-space: nowrap;
 }
 
-.monoCell {
+.portTableCellMono {
   font-family: monospace;
   color: rgba(234, 88, 12, 0.8);
 }
 
-.tableRow:hover .monoCell {
+.portTableRow:hover .portTableCellMono {
   color: rgb(234, 88, 12);
   font-weight: 700;
 }
 
-.fallbackText {
+.portTableCellFallback {
   color: rgb(82, 82, 82);
   font-style: italic;
 }
 
-/* Edit Button */
-.editButton {
+/* Port Edit Button */
+.portEditButton {
   height: 2rem;
   width: 2rem;
   padding: 0;
@@ -267,18 +275,18 @@
   transition: all 200ms;
 }
 
-.editButton:hover {
+.portEditButton:hover {
   color: rgb(234, 88, 12);
   background-color: rgba(234, 88, 12, 0.1);
 }
 
-.editIcon {
+.portEditIcon {
   width: 1rem;
   height: 1rem;
 }
 
-/* Empty Port State */
-.emptyState {
+/* Port Empty State */
+.portEmptyState {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -289,19 +297,19 @@
   border-radius: 0.75rem;
 }
 
-.emptyIcon {
+.portEmptyIcon {
   width: 3rem;
   height: 3rem;
   color: rgb(38, 38, 38);
   margin-bottom: 1rem;
 }
 
-.emptyText {
+.portEmptyText {
   color: rgb(163, 163, 163);
   font-weight: 500;
 }
 
-.emptySubtext {
+.portEmptySubtext {
   font-size: 0.75rem;
   color: rgb(82, 82, 82);
   margin-top: 0.25rem;
@@ -377,7 +385,239 @@
   color: rgb(115, 115, 115);
 }
 
-/* Animations */
+/* Risk Badge for Risk Profile Card */
+.riskBadge {
+  display: inline-block;
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.vulnHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vulnCount {
+  font-size: 0.75rem;
+  color: rgb(163, 163, 163);
+  font-family: monospace;
+}
+
+.vulnList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.vulnItem {
+  padding: 1.5rem;
+  background-color: #0f0f0f;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  transition: all 200ms;
+}
+
+.vulnItem:hover {
+  background-color: #1a1a1a;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.vulnHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.vulnTypeIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  border-radius: 0.5rem;
+  flex-shrink: 0;
+}
+
+.vulnIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: rgb(248, 113, 113);
+}
+
+.vulnTitleSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.vulnTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.vulnMeta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.vulnPort {
+  font-size: 0.75rem;
+  color: rgb(163, 163, 163);
+  font-family: monospace;
+}
+
+.vulnSource {
+  font-size: 0.75rem;
+  color: rgb(163, 163, 163);
+  font-family: monospace;
+}
+
+.vulnScore {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.75rem;
+  background-color: rgba(234, 88, 12, 0.2);
+  border: 1px solid rgba(234, 88, 12, 0.4);
+  border-radius: 0.5rem;
+  flex-shrink: 0;
+}
+
+.scoreValue {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: rgb(251, 146, 60);
+  line-height: 1;
+}
+
+.scoreLabel {
+  font-size: 0.625rem;
+  color: rgb(163, 163, 163);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.25rem;
+}
+
+.vulnDescription {
+  font-size: 0.875rem;
+  color: rgb(163, 163, 163);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.vulnDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.detailRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.detailLabel {
+  font-size: 0.75rem;
+  color: rgb(115, 115, 115);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  min-width: 100px;
+  flex-shrink: 0;
+}
+
+.detailValue {
+  font-size: 0.875rem;
+  color: white;
+  font-family: monospace;
+}
+
+.cweList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.cweTag {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  background-color: rgba(59, 130, 246, 0.2);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  border-radius: 0.25rem;
+  font-size: 0.625rem;
+  font-family: monospace;
+  color: rgb(96, 165, 250);
+}
+
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  background-color: rgba(156, 163, 175, 0.2);
+  border: 1px solid rgba(156, 163, 175, 0.4);
+  border-radius: 0.25rem;
+  font-size: 0.625rem;
+  font-family: monospace;
+  color: rgb(156, 163, 175);
+}
+
+.remediationSection {
+  padding: 1rem;
+  background-color: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  border-radius: 0.5rem;
+}
+
+.remediationHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.remediationIcon {
+  width: 1rem;
+  height: 1rem;
+  color: rgb(74, 222, 128);
+}
+
+.remediationTitle {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgb(74, 222, 128);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.remediationText {
+  font-size: 0.875rem;
+  color: rgb(163, 163, 163);
+  line-height: 1.5;
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;

@@ -1,0 +1,205 @@
+/* System Identity Component Styles */
+
+/* Unified Card Styles */
+.infoCard {
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 300ms;
+}
+
+.infoCard:hover {
+  border-color: rgba(234, 88, 12, 0.2);
+}
+
+.cardHeader {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 1rem;
+}
+
+.cardTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 0.025em;
+}
+
+.titleIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: rgb(234, 88, 12);
+}
+
+.cardContent {
+  padding-top: 1.5rem;
+}
+
+/* Info List Grid */
+.infoList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+/* Compact Info Field Row */
+.infoField {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  transition: all 300ms;
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.infoField:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+.infoLabelBox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgb(163, 163, 163);
+  transition: color 300ms;
+}
+
+.infoField:hover .infoLabelBox {
+  color: rgb(212, 212, 212);
+}
+
+.fieldIcon {
+  width: 0.875rem;
+  height: 0.875rem;
+  color: rgba(234, 88, 12, 0.4);
+  transition: color 300ms;
+}
+
+.infoField:hover .fieldIcon {
+  color: rgb(234, 88, 12);
+}
+
+.fieldLabelText {
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fieldValue {
+  text-align: right;
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: rgb(229, 229, 229);
+  font-weight: 500;
+}
+
+.valuePlaceholder {
+  color: rgb(82, 82, 82);
+}
+
+/* Status Indicators */
+.statusActive {
+  color: rgb(16, 185, 129);
+  font-weight: 700;
+}
+
+.statusOffline {
+  color: rgb(115, 115, 115);
+}
+
+/* Severity Badges */
+.severityBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-width: 1px;
+}
+
+.sevCritical {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: rgb(239, 68, 68);
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.sevHigh {
+  background-color: rgba(249, 115, 22, 0.1);
+  color: rgb(249, 115, 22);
+  border-color: rgba(249, 115, 22, 0.2);
+}
+
+.sevMedium {
+  background-color: rgba(234, 179, 8, 0.1);
+  color: rgb(234, 179, 8);
+  border-color: rgba(234, 179, 8, 0.2);
+}
+
+.sevLow {
+  background-color: rgba(34, 197, 94, 0.1);
+  color: rgb(34, 197, 94);
+  border-color: rgba(34, 197, 94, 0.2);
+}
+
+.sevDot {
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 9999px;
+}
+
+.dotCritical {
+  background-color: rgb(239, 68, 68);
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.dotHigh {
+  background-color: rgb(249, 115, 22);
+}
+
+.dotMedium {
+  background-color: rgb(234, 179, 8);
+}
+
+.dotLow {
+  background-color: rgb(34, 197, 94);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .infoList {
+    grid-template-columns: 1fr;
+  }
+
+  .infoField {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .fieldLabelText {
+    font-size: 0.5625rem;
+  }
+
+  .fieldValue {
+    font-size: 0.6875rem;
+  }
+}
+
+/* Animations */
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
