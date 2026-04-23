@@ -1,13 +1,13 @@
-import type { RootState } from '@/store';
-import type { ComplianceFramework } from '@/types';
-
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useGetComplianceResultsQuery } from '@/store/apis/complianceApi';
+import useDebouncedSearch from './useDebouncedSearch';
 import {
   COMPLIANCE_RESULTS_PAGE_SIZE,
   FALLBACK_COMPLIANCE_ASSESSMENT_ID,
 } from '@/components/compliance/utils/constants';
+import type { RootState } from '@/store';
+import type { ComplianceFramework } from '@/types';
 
 function categorySearchPlaceholder(framework: ComplianceFramework): string {
   switch (framework) {
@@ -30,15 +30,14 @@ export default function useComplianceResultsPage() {
 
   const [framework, setFramework] = useState<ComplianceFramework>('iso27001');
   const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [categoryInput, setCategoryInput] = useState('');
-  const [debouncedCategory, setDebouncedCategory] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  useEffect(() => {
-    const t = setTimeout(() => setDebouncedCategory(categoryInput.trim()), 400);
-    return () => clearTimeout(t);
-  }, [categoryInput]);
+  const {
+    searchQuery: categoryInput,
+    setSearchQuery: setCategoryInput,
+    debouncedQuery: debouncedCategory,
+  } = useDebouncedSearch({ initialValue: '' });
 
   useEffect(() => {
     setCurrentPage(1);

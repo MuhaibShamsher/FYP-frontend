@@ -1,20 +1,18 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import { lazy } from 'react';
 import ProtectedRoute from './ProtectedRoutes';
 import RootLayout from '@/Layout';
-import LoginPage from '@/pages/Login';
-
-const DashboardPage = lazy(() => import('@/pages/Dashboard'));
-const AssetsPage = lazy(() => import('@/pages/Assets'));
-const ScansPage = lazy(() => import('@/pages/Scans'));
-const SettingsPage = lazy(() => import('@/pages/Settings'));
-const AssetDetailsPage = lazy(() => import('@/pages/AssetDetails'));
-const VulnerabilitiesPage = lazy(() => import('@/pages/Vulnerabilities'));
-const ComplianceViolationsPage = lazy(
-  () => import('@/pages/ComplianceViolations')
-);
-const ComplianceResultsPage = lazy(() => import('@/pages/ComplianceResults'));
-const FeedManagementPage = lazy(() => import('@/pages/FeedManagement'));
+import {
+  LoginPage,
+  DashboardPage,
+  AssetsPage,
+  ScansPage,
+  SettingsPage,
+  AssetDetailsPage,
+  VulnerabilitiesPage,
+  ComplianceViolationsPage,
+  ComplianceResultsPage,
+  FeedManagementPage,
+} from '@/pages';
 
 export const router = createBrowserRouter([
   {

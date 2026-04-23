@@ -1,7 +1,10 @@
+import type { ComplianceResultStatus } from "@/types";
+
 // Date formatting utilities
 export const formatDate = (dateString: string): string => {
   return new Date(dateString).toLocaleString();
 };
+
 
 // Severity badge variant utilities
 export const getSeverityVariant = (
@@ -17,6 +20,7 @@ export const getSeverityVariant = (
   }
 };
 
+
 export const getSeverityImpactVariant = (
   impact?: string
 ): 'destructive' | 'default' | 'secondary' => {
@@ -29,6 +33,37 @@ export const getSeverityImpactVariant = (
       return 'secondary';
   }
 };
+
+
+export const getStatusVariant = (status: ComplianceResultStatus) => {
+  switch (status) {
+    case 'pass':
+      return 'default';
+    case 'fail':
+      return 'destructive';
+    default:
+      return 'secondary';
+  }
+};
+
+
+export const getStatusText = (status: ComplianceResultStatus) => {
+  switch (status) {
+    case 'pass':
+      return 'PASS';
+    case 'fail':
+      return 'FAIL';
+    case 'partial':
+      return 'PARTIAL';
+    case 'needs_review':
+      return 'NEEDS REVIEW';
+    case 'not_applicable':
+      return 'NOT APPLICABLE';
+    default:
+      return String(status).replace(/_/g, ' ').toUpperCase();
+  }
+};
+
 
 // Text formatting utilities
 export const formatVulnType = (vulnType?: string): string => {

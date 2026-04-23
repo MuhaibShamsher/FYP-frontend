@@ -1,0 +1,149 @@
+/* ComplianceAffectedAssetsTable Styles */
+.evidenceRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.evidenceRow:last-child {
+  margin-bottom: 0;
+}
+
+.evidenceLabel {
+  font-size: 0.75rem;
+  color: var(--ui-text-muted);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.scrollX {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* Asset Group Styles */
+.assetHostname {
+  color: var(--ui-text-primary);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.assetGroupRow .assetGroupCell {
+  padding: 0;
+  border: none;
+  vertical-align: middle;
+}
+
+.assetGroupCell {
+  background: linear-gradient(90deg, rgba(var(--ui-accent-blue), 0.08) 0%, rgba(0, 0, 0, 0.32) 40%);
+  border-left: 2px solid rgb(var(--ui-accent-blue));
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+tbody tr:first-child .assetGroupCell {
+  border-top: none;
+}
+
+.assetGroupInner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem;
+}
+
+.assetIpBadge {
+  font-family: ui-monospace, monospace;
+  font-size: 0.72rem;
+  color: var(--ui-accent-blue-mid);
+  background: rgba(var(--ui-accent-blue), 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.375rem;
+  border: 1px solid rgba(var(--ui-accent-blue), 0.2);
+}
+
+.assetMetaInline {
+  font-size: 0.72rem;
+  color: var(--ui-text-muted);
+  flex: 1 1 auto;
+  min-width: 8rem;
+}
+
+/* Table Styles */
+.findingsTable {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.75rem;
+}
+
+.findingsTable thead th {
+  padding: 0.75rem 0.6rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  color: var(--ui-text-secondary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: left;
+  vertical-align: bottom;
+}
+
+.findingsColPort {
+  width: 4.75rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.findingsColService {
+  width: 26%;
+  text-align: left;
+  word-break: break-word;
+}
+
+.findingsColSeverity {
+  width: 6rem;
+  text-align: center;
+}
+
+.findingsColType {
+  width: auto;
+  text-align: left;
+}
+
+/* Finding Row Styles */
+.findingRow {
+  transition: background-color 0.2s ease;
+}
+
+.findingRow:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.findingRow td {
+  padding: 0.45rem 0.6rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  vertical-align: middle;
+}
+
+.findingsEmptyRow {
+  text-align: center;
+  color: var(--ui-text-muted);
+  font-size: 0.78rem;
+  font-style: italic;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Utility Classes */
+.mono {
+  font-family: ui-monospace, monospace;
+}
+
+.vulnType {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--ui-text-secondary);
+}

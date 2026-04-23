@@ -1,0 +1,28 @@
+/* ComplianceDetectedServicesTable Styles */
+.evidenceRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.evidenceRow:last-child {
+  margin-bottom: 0;
+}
+
+.evidenceLabel {
+  font-size: 0.75rem;
+  color: var(--ui-text-muted);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.scrollX {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* Table Styles */
+.mono {
+  font-family: ui-monospace, monospace;
+}

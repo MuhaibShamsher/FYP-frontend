@@ -116,6 +116,24 @@ body {
   --chart-3: oklch(0.7 0.15 150); /* Tech Green */
   --chart-4: oklch(0.6 0.18 300); /* Neon Purple */
   --chart-5: oklch(0.75 0.2 85); /* Yellow/Gold */
+
+  /* Application Shared UI Colors */
+  --ui-bg-gradient-start: rgba(20, 20, 25, 0.5);
+  --ui-bg-gradient-end: rgba(10, 10, 15, 0.7);
+  
+  --ui-text-primary: rgb(248, 250, 252);
+  --ui-text-secondary: rgb(209, 213, 219);
+  --ui-text-muted: rgb(156, 163, 175);
+  --ui-text-code: rgb(228, 228, 231);
+
+  --ui-accent-blue: 59, 130, 246;
+  --ui-accent-blue-light: rgb(147, 197, 253);
+  --ui-accent-blue-mid: rgb(96, 165, 250);
+
+  --ui-status-pass: 34, 197, 94;
+  --ui-status-fail: 239, 68, 68;
+  --ui-status-partial: 234, 179, 8;
+  --ui-status-high: 245, 158, 11;
 }
 
 @layer base {
