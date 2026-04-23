@@ -22,20 +22,23 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 700;
-  color: white;
+  color: var(--ui-text-primary);
   margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 .titleIcon {
-  color: rgb(59, 130, 246);
-  width: 1.75rem;
-  height: 1.75rem;
+  color: rgb(var(--ui-status-fail));
+  width: 1.85rem;
+  height: 1.85rem;
+  filter: drop-shadow(0 0 8px rgba(var(--ui-status-fail), 0.4));
 }
 
 .subtitle {
-  color: rgb(156, 163, 175);
+  color: var(--ui-text-muted);
   font-size: 0.875rem;
 }
 
@@ -526,6 +529,14 @@
   .detailRowValue {
     font-size: 0.75rem;
   }
+}
+
+.mainCard {
+  padding: 0;
+  border: none;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Fix table layout issues */
