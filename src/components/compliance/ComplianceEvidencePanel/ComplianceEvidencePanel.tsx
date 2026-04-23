@@ -1,9 +1,9 @@
-import ComplianceAffectedAssetsTable from '../ComplianceAffectedAssetsTable/ComplianceAffectedAssetsTable';
-import ComplianceDetectedServicesTable from '../ComplianceDetectedServicesTable/ComplianceDetectedServicesTable';
+import { ComplianceAffectedAssetsTable, ComplianceDetectedServicesTable } from '@/components/compliance';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { parseEvidence, type Evidence } from '../utils/helpers';
 import { EVIDENCE_LABELS } from '../utils/constants';
+import { FileText } from 'lucide-react';
 import styles from './ComplianceEvidencePanel.module.css';
 
 // Helper component for narrative sections
@@ -62,6 +62,10 @@ export default function ComplianceEvidencePanel({
 
   return (
     <div className={styles.evidenceBox}>
+      <h4 className={styles.sectionTitle}>
+        <FileText className={styles.sectionIcon} aria-hidden />
+        {EVIDENCE_LABELS.EVIDENCE}
+      </h4>
       {hasStatsGrid && (
         <Card className={styles.statsGrid}>
           {parsed.confidence && (

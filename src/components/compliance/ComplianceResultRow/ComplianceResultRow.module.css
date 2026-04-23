@@ -9,8 +9,6 @@
   border-bottom: none;
 }
 
-
-
 .resultIdent {
   display: flex;
   align-items: flex-start;
@@ -95,23 +93,7 @@
   animation: slide-down 300ms ease-out;
 }
 
-.sectionTitle {
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: var(--ui-text-primary);
-  margin-bottom: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
 
-.sectionIcon {
-  color: var(--ui-text-muted);
-  width: 1.25rem;
-  height: 1.25rem;
-}
 
 .metaTags {
   display: flex;

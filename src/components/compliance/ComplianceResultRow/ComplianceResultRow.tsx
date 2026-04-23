@@ -1,5 +1,5 @@
-import ComplianceEvidencePanel from '../ComplianceEvidencePanel/ComplianceEvidencePanel';
-import ExpandableRow from '@/components/custom/ExpandableRow';
+import { ComplianceEvidencePanel } from '@/components/compliance';
+import { ExpandableRow } from '@/components/custom';
 import { Badge } from '@/components/ui/badge';
 import {
   formatDate,
@@ -17,7 +17,7 @@ import {
   META_LABELS,
 } from '../utils/constants';
 import { isRecord } from '@/utils/guards';
-import { FileText, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react';
+import { CheckCircle2, XCircle, AlertTriangle } from 'lucide-react';
 import type { ComplianceResult, ComplianceResultStatus } from '@/types';
 import styles from './ComplianceResultRow.module.css';
 
@@ -106,10 +106,6 @@ export default function ComplianceResultRow({
 
   const expandedContent = (
     <>
-      <h4 className={styles.sectionTitle}>
-        <FileText className={styles.sectionIcon} aria-hidden />
-        {EVIDENCE_LABELS.EVIDENCE}
-      </h4>
       <ComplianceEvidencePanel evidence={evidence} />
 
       {row.notes && (
