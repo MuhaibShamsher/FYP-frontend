@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { LogOut } from 'lucide-react';
 import armorLogo from '@/assets/armor_logo.png';
-import styles from './styles/Navbar.module.css';
+import styles from './Navbar.module.css';
 
 export default function Navbar() {
   const navigate = useNavigate();

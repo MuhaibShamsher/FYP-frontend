@@ -12,7 +12,7 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import type { SectionKey } from '@/types';
-import styles from './styles/Navbar.module.css';
+import styles from './NavigationHeader.module.css';
 
 export default function NavigationHeader() {
   type NavItem = {
@@ -30,7 +30,6 @@ export default function NavigationHeader() {
       path: '/dashboard',
     },
     { id: 'assets', icon: Server, label: 'Assets', path: '/assets' },
-    { id: 'scans', icon: Radar, label: 'Scans', path: '/scans' },
     {
       id: 'vulnerabilities',
       icon: ShieldAlert,
@@ -50,6 +49,7 @@ export default function NavigationHeader() {
       path: '/compliance/results',
     },
     { id: 'feeds', icon: Database, label: 'Feeds', path: '/feeds' },
+    { id: 'scans', icon: Radar, label: 'Scans', path: '/scans' },
     { id: 'settings', icon: Settings, label: 'Settings', path: '/settings' },
   ];
 

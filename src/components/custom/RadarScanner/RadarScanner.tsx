@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import styles from './styles/RadarScanner.module.css';
+import styles from './RadarScanner.module.css';
 
 export default function RadarScanner({
   progress,

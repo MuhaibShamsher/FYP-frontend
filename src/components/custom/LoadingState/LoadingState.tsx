@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import styles from './styles/LoadingState.module.css';
+import styles from './LoadingState.module.css';
 
 interface LoadingStateProps {
   text?: string;

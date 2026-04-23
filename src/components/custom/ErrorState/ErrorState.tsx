@@ -1,6 +1,6 @@
 import { AlertTriangle } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import styles from './styles/ErrorState.module.css';
+import styles from './ErrorState.module.css';
 
 interface ErrorStateProps {
   title?: string;

@@ -7,8 +7,8 @@ import {
 } from '@/store/apis/complianceApi';
 import { fmtNum, getRiskClassLabel } from '@/utils/formatters';
 import { Activity, FileCheck } from 'lucide-react';
-import FrameworkGauge from './FrameworkGauge';
-import styles from './styles/DashboardSummary.module.css';
+import FrameworkGauge from '../FrameworkGauge/FrameworkGauge';
+import styles from './DashboardSummary.module.css';
 
 const SUPPORTED_FRAMEWORKS = ['iso27001', 'cis', 'nist'] as const;
 
@@ -48,16 +48,38 @@ export default function DashboardSummary() {
   // risk assessment vulnerabilities data
   const vulnData = useMemo(() => {
     return [
-      { id: 'crit', label: 'Critical', count: risk?.critical_count, dotStyle: styles.dotcritical, },
-      { id: 'high', label: 'High', count: risk?.high_count, dotStyle: styles.dothigh, },
-      { id: 'med', label: 'Medium', count: risk?.medium_count, dotStyle: styles.dotmedium, },
-      { id: 'low', label: 'Low', count: risk?.low_count, dotStyle: styles.dotlow, },
+      {
+        id: 'crit',
+        label: 'Critical',
+        count: risk?.critical_count,
+        dotStyle: styles.dotcritical,
+      },
+      {
+        id: 'high',
+        label: 'High',
+        count: risk?.high_count,
+        dotStyle: styles.dothigh,
+      },
+      {
+        id: 'med',
+        label: 'Medium',
+        count: risk?.medium_count,
+        dotStyle: styles.dotmedium,
+      },
+      {
+        id: 'low',
+        label: 'Low',
+        count: risk?.low_count,
+        dotStyle: styles.dotlow,
+      },
     ];
   }, [risk]);
 
   // Aggregate passed/failed controls
   const complianceTotals = useMemo(() => {
-    let pass = 0, fail = 0, partial = 0;
+    let pass = 0,
+      fail = 0,
+      partial = 0;
     frameworks.forEach((s) => {
       pass += s.controls_pass || 0;
       fail += s.controls_fail || 0;
@@ -67,10 +89,8 @@ export default function DashboardSummary() {
       { label: 'Pass', count: pass, cssClass: styles.pass },
       { label: 'Fail', count: fail, cssClass: styles.fail },
       { label: 'Partial', count: partial, cssClass: styles.partial },
-    ]
+    ];
   }, [frameworks]);
-
-    
 
   // Derived colors for consistency
   const compColor =
@@ -109,7 +129,9 @@ export default function DashboardSummary() {
               </div>
               <div className={styles.metricSub}>
                 Overall Risk Level:
-                <span className={`${styles.riskLevelBadge} ${styles[getRiskClassLabel(risk?.overall_risk_level)] || ''}`}>
+                <span
+                  className={`${styles.riskLevelBadge} ${styles[getRiskClassLabel(risk?.overall_risk_level)] || ''}`}
+                >
                   {risk?.overall_risk_level || '—'}
                 </span>
               </div>
@@ -146,7 +168,10 @@ export default function DashboardSummary() {
       <div className={styles.panelCard}>
         <div className={styles.header}>
           <div className={styles.titleArea}>
-            <FileCheck className={`${styles.titleIcon} ${styles.iconEmerald}`} size={18} />
+            <FileCheck
+              className={`${styles.titleIcon} ${styles.iconEmerald}`}
+              size={18}
+            />
             <span className={styles.title}>Compliance</span>
           </div>
         </div>
@@ -157,12 +182,20 @@ export default function DashboardSummary() {
             <div className={styles.metricBlock}>
               <div className={styles.metricTitle}>Overall Compliance</div>
               <div className={styles.metricValue}>
-                {Math.round(avgCompliance)}<span className={styles.metricUnit}>%</span>
+                {Math.round(avgCompliance)}
+                <span className={styles.metricUnit}>%</span>
               </div>
               <div className={styles.metricSub}>
                 Status:{' '}
-                <span style={{ color: compColor }} className={styles.compStatusTag}>
-                  {avgCompliance >= 80 ? 'Optimal' : avgCompliance >= 50 ? 'Warning' : 'Critical'}
+                <span
+                  style={{ color: compColor }}
+                  className={styles.compStatusTag}
+                >
+                  {avgCompliance >= 80
+                    ? 'Optimal'
+                    : avgCompliance >= 50
+                      ? 'Warning'
+                      : 'Critical'}
                 </span>
               </div>
             </div>
@@ -170,14 +203,12 @@ export default function DashboardSummary() {
             <div className={`${styles.metricBlock} ${styles.alignRight}`}>
               <div className={styles.metricTitle}>Total Controls</div>
               <div className={styles.compFilterValues}>
-                {complianceTotals.map(stat => (
+                {complianceTotals.map((stat) => (
                   <div key={stat.label} className={styles.compStatBlock}>
                     <span className={`${styles.compStatNum} ${stat.cssClass}`}>
                       {fmtNum(stat.count)}
                     </span>
-                    <span className={styles.compStatLabel}>
-                      {stat.label}
-                    </span>
+                    <span className={styles.compStatLabel}>{stat.label}</span>
                   </div>
                 ))}
               </div>
@@ -206,4 +237,4 @@ export default function DashboardSummary() {
       </div>
     </div>
   );
-};
+}

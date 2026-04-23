@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import type { FrameworkSummary } from '@/types';
-import styles from './styles/FrameworkGauge.module.css';
+import styles from './FrameworkGauge.module.css';
 
 export interface FwGaugeProps {
   summary: FrameworkSummary;
@@ -15,15 +15,29 @@ export default function FrameworkGauge({ summary }: FwGaugeProps) {
 
   const stats = useMemo(() => {
     return [
-      { label: 'Pass', value: summary.controls_pass, cssClass: styles.colorPass },
-      { label: 'Fail', value: summary.controls_fail, cssClass: styles.colorFail },
-      { label: 'Partial', value: summary.controls_partial, cssClass: styles.colorPartial },
-    ]
-  }, [summary])
+      {
+        label: 'Pass',
+        value: summary.controls_pass,
+        cssClass: styles.colorPass,
+      },
+      {
+        label: 'Fail',
+        value: summary.controls_fail,
+        cssClass: styles.colorFail,
+      },
+      {
+        label: 'Partial',
+        value: summary.controls_partial,
+        cssClass: styles.colorPartial,
+      },
+    ];
+  }, [summary]);
 
   return (
     <div className={styles.fwCard}>
-      <div className={`${styles.gaugeContainer} ${styles[`container${stateClass}`]}`}>
+      <div
+        className={`${styles.gaugeContainer} ${styles[`container${stateClass}`]}`}
+      >
         <svg
           className={styles.gaugeSvg}
           width="56"
@@ -45,7 +59,7 @@ export default function FrameworkGauge({ summary }: FwGaugeProps) {
       <div className={styles.fwDetails}>
         <span className={styles.fwName}>{summary.framework_display}</span>
         <div className={styles.fwStatsList}>
-          {stats.map(stat => (
+          {stats.map((stat) => (
             <span key={stat.label}>
               <span className={`${styles.statVal} ${stat.cssClass}`}>
                 {stat.value}
@@ -57,4 +71,4 @@ export default function FrameworkGauge({ summary }: FwGaugeProps) {
       </div>
     </div>
   );
-};
+}

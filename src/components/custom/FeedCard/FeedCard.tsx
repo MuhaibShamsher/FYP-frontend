@@ -9,7 +9,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import type { FeedStatus } from '@/types';
-import styles from './styles/FeedCard.module.css';
+import styles from './FeedCard.module.css';
 
 const FEED_CONFIGS = {
   nvd: {

@@ -1,5 +1,5 @@
 import { Card, CardContent } from '@/components/ui/card';
-import styles from './styles/StatCard.module.css';
+import styles from './StatCard.module.css';
 
 interface StatCardProps {
   title: string;
