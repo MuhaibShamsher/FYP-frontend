@@ -231,6 +231,7 @@ export interface AssetRiskProfileListItem {
 
 export interface AssetRiskProfileDetail extends AssetRiskProfileListItem {
   vulnerabilities: Vulnerability[];
+  complianceIssues: ComplianceResult[];
   recommendations: string[];
   ai_summary: string | null;
   updated_at: string;

@@ -9,12 +9,11 @@ import {
   HardDrive,
   Search,
 } from 'lucide-react';
-import LoadingState from '@/components/custom/LoadingState';
-import ErrorState from '@/components/custom/ErrorState';
+import { LoadingState, ErrorState } from '@/components/custom';
 import useComplianceViolationsPage from '@/hooks/useComplianceViolationsPage';
 import useVisualFetching from '@/hooks/useVisualFetching';
-import styles from './ComplianceViolations.module.css';
 import type { RootCause } from '@/types';
+import styles from './ComplianceViolations.module.css';
 
 export default function ComplianceViolationsPage() {
   const {

@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
 import useComplianceResultsPage from '@/hooks/useComplianceResultsPage';
 import useVisualFetching from '@/hooks/useVisualFetching';
-import LoadingState from '@/components/custom/LoadingState';
-import ErrorState from '@/components/custom/ErrorState';
-import Pagination from '@/components/custom/Pagination';
-import EmptyState from '@/components/custom/EmptyState';
-import ComplianceResultRow from '@/components/compliance/ComplianceResultRow/ComplianceResultRow';
-import SearchFilterBar from '@/components/custom/SearchFilterBar';
+import {
+  LoadingState,
+  ErrorState,
+  TerminalPagination,
+  EmptyState,
+  SearchFilterBar,
+} from '@/components/custom';
+import { ComplianceResultRow } from '@/components/compliance';
 import { Card } from '@/components/ui/card';
 import { ShieldCheck } from 'lucide-react';
 import type { ComplianceFramework } from '@/types';
@@ -105,9 +107,7 @@ export default function ComplianceResultsPage() {
       </div>
 
       <Card className={styles.mainCard}>
-        <div
-          className={`${styles.resultsList} ${isVisualFetching ? styles.updating : ''}`}
-        >
+        <div className={isVisualFetching ? styles.updating : ''}>
           {results.length === 0 ? (
             <EmptyState
               icon={ShieldCheck}
@@ -130,7 +130,7 @@ export default function ComplianceResultsPage() {
         {results.length > 0 &&
           pagination &&
           (pagination.total_pages || 1) > 1 && (
-            <Pagination
+            <TerminalPagination
               currentPage={pagination.page || currentPage}
               totalPages={Math.max(1, pagination.total_pages || 1)}
               totalItems={pagination.count}

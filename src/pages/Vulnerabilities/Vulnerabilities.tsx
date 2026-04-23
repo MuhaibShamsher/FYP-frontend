@@ -1,11 +1,9 @@
-import VulnerabilityRow from '@/components/vulnerability/VulnerabilityRow/VulnerabilityRow';
-import Pagination from '@/components/custom/Pagination';
-import { EmptyState, StatCard } from '@/components/custom';
+import useVulnerabilitiesPage from '@/hooks/useVulnerabilitiesPage';
+import { TerminalPagination, EmptyState, StatCard, SearchFilterBar } from '@/components/custom';
+import { VulnerabilityRow } from '@/components/vulnerability';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ShieldAlert, ShieldCheck, Zap } from 'lucide-react';
-import SearchFilterBar from '@/components/custom/SearchFilterBar';
-import useVulnerabilitiesPage from '@/hooks/useVulnerabilitiesPage';
 import styles from './Vulnerabilities.module.css';
 
 export default function VulnerabilitiesPage() {
@@ -121,7 +119,7 @@ export default function VulnerabilitiesPage() {
         {vulnerabilities.length > 0 &&
           pagination &&
           (pagination.total_pages || 1) > 1 && (
-            <Pagination
+            <TerminalPagination
               currentPage={pagination.page || currentPage}
               totalPages={Math.max(1, pagination.total_pages || 1)}
               totalItems={pagination.count}

@@ -1,9 +1,7 @@
-import LoadingState from '@/components/custom/LoadingState';
-import ErrorState from '@/components/custom/ErrorState';
-import FeedCard from '@/components/custom/FeedCard';
-import useFeedManagementPage from '@/hooks/useFeedManagementPage';
+import { LoadingState, ErrorState, FeedCard } from '@/components/custom';
 import { Button } from '@/components/ui/button';
 import { RefreshCw } from 'lucide-react';
+import useFeedManagementPage from '@/hooks/useFeedManagementPage';
 import feedStyles from './FeedManagement.module.css';
 
 export default function FeedManagement() {
