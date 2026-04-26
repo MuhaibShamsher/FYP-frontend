@@ -1,21 +1,22 @@
+import { useDashboardPage } from '@/hooks';
 import {
-  DoughnutChart,
+  AssetSeverityDoughnutChart,
   AssetSeverityLineChart,
-  DeviceTypePieChart,
-  PortsBarChart,
+  AssetDeviceTypePieChart,
+  AssetOpenPortsBarChart,
 } from '@/components/charts';
-import { InitiateScanModal } from '@/components/models';
 import {
   LoadingState,
   ErrorState,
   EmptyState,
   DashboardSummary,
 } from '@/components/custom';
+import { InitiateScanModal } from '@/components/models';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Server } from 'lucide-react';
-import { useDashboardPage } from '@/hooks';
 import styles from './Dashboard.module.css';
+
 
 export default function DashboardPage() {
   const {
@@ -114,7 +115,7 @@ export default function DashboardPage() {
             </CardTitle>
           </div>
           <CardContent className={styles.centeredCardContent}>
-            <DoughnutChart assets={assets} />
+            <AssetSeverityDoughnutChart assets={assets} />
           </CardContent>
         </Card>
 
@@ -129,7 +130,7 @@ export default function DashboardPage() {
             </CardTitle>
           </div>
           <CardContent className={styles.cardContent}>
-            <PortsBarChart assets={assets} />
+            <AssetOpenPortsBarChart assets={assets} />
           </CardContent>
         </Card>
 
@@ -144,7 +145,7 @@ export default function DashboardPage() {
             </CardTitle>
           </div>
           <CardContent className={styles.centeredCardContent}>
-            <DeviceTypePieChart assets={assets} />
+            <AssetDeviceTypePieChart assets={assets} />
           </CardContent>
         </Card>
       </div>

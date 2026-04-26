@@ -14,7 +14,7 @@ interface SearchInputProps
 const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
   ({ className, placeholder, value, onChange, ...props }, ref) => {
     return (
-      <div className="relative">
+      <div className="relative w-full">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4 pointer-events-none" />
         <Input
           ref={ref}
