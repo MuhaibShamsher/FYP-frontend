@@ -9,7 +9,7 @@ import {
   Sector,
 } from 'recharts';
 
-import { transformAssetsToDeviceTypeData } from '@/constants/transform_data/transformToPieChartData';
+import { transformAssetsToDeviceTypeData } from '@/constants';
 import type { Asset } from '@/types';
 import styles from './DeviceTypePieChart.module.css';
 
@@ -96,14 +96,11 @@ export default function DeviceTypePieChart({
     '#3a7bd5', // Electric Blue
   ];
 
-  const data = (chartDataRaw.labels || [])
-    .map((label, index) => ({
-      name: label,
-      value: chartDataRaw.datasets?.[0]?.data?.[index] || 0,
-      color: cyberCyanPalette[index % cyberCyanPalette.length],
-      glowColor: `${cyberCyanPalette[index % cyberCyanPalette.length]}66`,
-    }))
-    .filter((item) => item.value > 0);
+  const data = chartDataRaw.map((item, index) => ({
+    ...item,
+    color: cyberCyanPalette[index % cyberCyanPalette.length],
+    glowColor: `${cyberCyanPalette[index % cyberCyanPalette.length]}66`,
+  }));
 
   const totalDevices = useMemo(
     () => data.reduce((acc, curr) => acc + curr.value, 0),

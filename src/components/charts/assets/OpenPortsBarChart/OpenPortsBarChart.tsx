@@ -8,17 +8,15 @@ import {
   ResponsiveContainer,
   Cell,
 } from 'recharts';
-import { transformAssetToBarChartData } from '@/constants/transform_data/transformToBarChartData';
+import { transformAssetToBarChartData } from '@/constants';
 import type { Asset } from '@/types';
 import styles from './OpenPortsBarChart.module.css';
 
 export default function PortsBarChart({ assets }: { assets: Asset[] }) {
-  const chartDataRaw = transformAssetToBarChartData(assets);
-
-  const maxPorts = chartDataRaw.maxPorts || 10;
-  const data = (chartDataRaw.labels || []).map((label, index) => ({
-    name: label,
-    ports: chartDataRaw.datasets?.[0]?.data?.[index] || 0,
+  const dataRaw = transformAssetToBarChartData(assets);
+  const maxPorts = Math.max(...dataRaw.map((d) => d.ports), 0);
+  const data = dataRaw.map((d) => ({
+    ...d,
     full: maxPorts + 1,
   }));
 

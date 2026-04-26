@@ -8,7 +8,7 @@ import {
   AreaChart,
 } from 'recharts';
 import type { Asset } from '@/types';
-import { transformAssetsToLineChartData } from '@/constants/transform_data/transformToLineChartData';
+import { transformAssetsToLineChartData } from '@/constants';
 import styles from './SeverityLineChart.module.css';
 
 const CustomDot = (props: any) => {
@@ -43,13 +43,7 @@ export default function AssetSeverityLineChart({
 }: {
   assets: Asset[];
 }) {
-  const chartDataRaw = transformAssetsToLineChartData(assets);
-
-  // Convert Chart.js format to Recharts format
-  const chartData = (chartDataRaw.labels || []).map((label, index) => ({
-    name: label,
-    severity: chartDataRaw.datasets?.[0]?.data?.[index] || 0,
-  }));
+  const chartData = transformAssetsToLineChartData(assets);
 
   const severityLabels: Record<number, string> = {
     1: 'Low',
