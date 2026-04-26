@@ -6,7 +6,6 @@ import type {
   FrameworkSummary,
   ComplianceResult,
   ViolatingAsset,
-  ApiResponse,
 } from '@/types';
 
 export const complianceApi = baseApi.injectEndpoints({
