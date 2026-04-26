@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useGenerateScanReportMutation } from '@/store/apis/reports';
+import { useGenerateScanReportMutation } from '@/apis';
 import { formatDateTime, formatDuration } from '@/utils/formatUtils';
 import { getStatusColor } from '@/utils/scan';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';

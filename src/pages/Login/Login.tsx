@@ -10,7 +10,7 @@ import {
   Shield,
   Activity,
 } from 'lucide-react';
-import useLoginPage from '@/hooks/useLoginPage';
+import { useLoginPage } from '@/hooks';
 import ArmorLogo from '@/assets/armor_logo.png';
 import styles from './Login.module.css';
 

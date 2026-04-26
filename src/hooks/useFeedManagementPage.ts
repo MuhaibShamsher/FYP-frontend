@@ -1,8 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import {
-  useGetFeedStatusQuery,
-  useSyncFeedMutation,
-} from '@/store/apis/feedApis';
+import { useGetFeedStatusQuery, useSyncFeedMutation } from '@/apis';
 import type { FeedStatus, FeedType } from '@/types';
 import { toast } from 'sonner';
 

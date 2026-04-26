@@ -14,7 +14,7 @@ import {
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Server } from 'lucide-react';
-import useDashboardPage from '@/hooks/useDashboardPage';
+import { useDashboardPage } from '@/hooks';
 import styles from './Dashboard.module.css';
 
 export default function DashboardPage() {
@@ -91,7 +91,7 @@ export default function DashboardPage() {
 
       <div className={styles.chartsGrid}>
         {/* Asset Severity Line Chart */}
-        <Card className={styles.mainChartCard}>
+        <Card className={`${styles.chartCard} ${styles.mainChartCard}`}>
           <div className={styles.cardHeader}>
             <CardTitle className={styles.cardTitle}>
               <div
@@ -106,7 +106,7 @@ export default function DashboardPage() {
         </Card>
 
         {/* Severity Distribution Doughnut Chart */}
-        <Card className={styles.secondaryChartCard}>
+        <Card className={`${styles.chartCard} ${styles.secondaryChartCard}`}>
           <div className={styles.cardHeader}>
             <CardTitle className={styles.cardTitle}>
               <div className={`${styles.indicatorDot} ${styles.dotBlue}`}></div>
@@ -119,7 +119,7 @@ export default function DashboardPage() {
         </Card>
 
         {/* Open Ports Bar Chart */}
-        <Card className={styles.mainChartCard}>
+        <Card className={`${styles.chartCard} ${styles.mainChartCard}`}>
           <div className={styles.cardHeader}>
             <CardTitle className={styles.cardTitle}>
               <div
@@ -134,7 +134,7 @@ export default function DashboardPage() {
         </Card>
 
         {/* Assets by Type Pie Chart */}
-        <Card className={styles.secondaryChartCard}>
+        <Card className={`${styles.chartCard} ${styles.secondaryChartCard}`}>
           <div className={styles.cardHeader}>
             <CardTitle className={styles.cardTitle}>
               <div

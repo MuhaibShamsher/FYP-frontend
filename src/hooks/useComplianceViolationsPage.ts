@@ -1,21 +1,26 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useGetComplianceViolationsQuery } from '@/store/apis/complianceApi';
-import useDebouncedSearch from './useDebouncedSearch';
+import { useGetComplianceViolationsQuery } from '@/apis';
+import { useDebouncedSearch } from '@/hooks';
 import type { RootState } from '@/store';
 
 export default function useComplianceViolationsPage() {
   const activeIds = useSelector((state: RootState) => state.activeIds);
-  const targetAssessmentId = activeIds.complianceId || '0fbe3433-16d4-4878-835c-a85e31eb70a7';
+  const targetAssessmentId =
+    activeIds.complianceId || '0fbe3433-16d4-4878-835c-a85e31eb70a7';
 
   const {
     data: response,
     isLoading,
     isError,
-  } = useGetComplianceViolationsQuery(targetAssessmentId, { skip: !targetAssessmentId });
+  } = useGetComplianceViolationsQuery(targetAssessmentId, {
+    skip: !targetAssessmentId,
+  });
 
   const [expandedAsset, setExpandedAsset] = useState<string | null>(null);
-  const { searchQuery, setSearchQuery, debouncedQuery } = useDebouncedSearch({ debounceMs: 500 });
+  const { searchQuery, setSearchQuery, debouncedQuery } = useDebouncedSearch({
+    debounceMs: 500,
+  });
 
   const toggleAsset = (ip: string) => {
     setExpandedAsset(expandedAsset === ip ? null : ip);

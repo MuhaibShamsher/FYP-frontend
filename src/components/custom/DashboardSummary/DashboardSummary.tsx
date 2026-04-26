@@ -1,30 +1,33 @@
 import { useMemo } from 'react';
-import { useGetScansQuery } from '@/store/apis/scanApi';
-import { useGetAssessmentsQuery } from '@/store/apis/riskApi';
 import {
   useGetComplianceAssessmentsQuery,
   useGetComplianceSummaryQuery,
-} from '@/store/apis/complianceApi';
+  useGetScansQuery,
+  useGetAssessmentsQuery,
+} from '@/apis';
+import { FrameworkGauge } from '@/components/custom';
 import { fmtNum, getRiskClassLabel } from '@/utils/formatters';
 import { Activity, FileCheck } from 'lucide-react';
-import FrameworkGauge from '../FrameworkGauge/FrameworkGauge';
 import styles from './DashboardSummary.module.css';
 
 const SUPPORTED_FRAMEWORKS = ['iso27001', 'cis', 'nist'] as const;
 
 export default function DashboardSummary() {
-  // ── Data Layer ──
+  // get last scan data (data.scans[0]) from list of scans
   const { data: scansResult } = useGetScansQuery();
   const latestScan = useMemo(() => scansResult?.scans?.[0], [scansResult]);
 
+  // get last risk_assessment data (data[0]) from list of risk_assessments
   const { data: assessmentsResult } = useGetAssessmentsQuery({});
   const risk = useMemo(() => assessmentsResult?.data?.[0], [assessmentsResult]);
 
+  // get last compliance id (data[0].id) from list of compliance data
   const { data: compResult } = useGetComplianceAssessmentsQuery({
     page_size: 1,
   });
   const compId = useMemo(() => compResult?.data?.[0]?.id, [compResult]);
 
+  // use the compliance id to get the summary
   const { data: compSummary } = useGetComplianceSummaryQuery(compId as string, {
     skip: !compId,
   });

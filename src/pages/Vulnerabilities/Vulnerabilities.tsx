@@ -1,4 +1,4 @@
-import useVulnerabilitiesPage from '@/hooks/useVulnerabilitiesPage';
+import { useVulnerabilitiesPage } from '@/hooks';
 import { TerminalPagination, EmptyState, StatCard, SearchFilterBar } from '@/components/custom';
 import { VulnerabilityRow } from '@/components/vulnerability';
 import { Card } from '@/components/ui/card';

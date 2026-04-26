@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
-import { useChangePasswordMutation } from '@/store/apis/authApis';
-import useErrorHandler from '@/hooks/useErrorHandler';
+import { useChangePasswordMutation } from '@/apis';
+import { useErrorHandler } from '@/hooks';
 
 interface PasswordFormData {
   oldPassword: string;

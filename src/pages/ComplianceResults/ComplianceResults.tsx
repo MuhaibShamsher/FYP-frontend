@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
-import useComplianceResultsPage from '@/hooks/useComplianceResultsPage';
-import useVisualFetching from '@/hooks/useVisualFetching';
+import { useComplianceResultsPage, useVisualFetching } from '@/hooks';
 import {
   LoadingState,
   ErrorState,

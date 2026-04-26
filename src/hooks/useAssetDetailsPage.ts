@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useGetAssetByIdQuery } from '@/store/apis/assetsApi';
 import {
+  useGetAssetByIdQuery,
   useGetRiskDashboardQuery,
   useGetAssetRiskProfileQuery,
-} from '@/store/apis/riskApi';
+} from '@/apis';
 import type { Asset, AssetRiskProfileDetail } from '@/types';
 
 interface UseAssetDetailsPageReturn {

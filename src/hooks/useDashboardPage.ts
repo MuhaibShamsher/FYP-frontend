@@ -6,7 +6,7 @@ import {
   useCreateScanMutation,
   useCancelScanMutation,
   useGetLastScanAssetsQuery,
-} from '@/store/apis/scanApi';
+} from '@/apis';
 import type { Asset } from '@/types';
 import { toast } from 'sonner';
 

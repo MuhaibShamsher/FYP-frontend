@@ -10,8 +10,7 @@ import {
   Search,
 } from 'lucide-react';
 import { LoadingState, ErrorState } from '@/components/custom';
-import useComplianceViolationsPage from '@/hooks/useComplianceViolationsPage';
-import useVisualFetching from '@/hooks/useVisualFetching';
+import { useComplianceViolationsPage, useVisualFetching } from '@/hooks';
 import type { RootCause } from '@/types';
 import styles from './ComplianceViolations.module.css';
 

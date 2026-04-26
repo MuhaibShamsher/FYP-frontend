@@ -17,7 +17,7 @@ import {
   Globe,
   Hourglass,
 } from 'lucide-react';
-import useScansPage from '@/hooks/useScansPage';
+import { useScansPage } from '@/hooks';
 import styles from './Scans.module.css';
 
 export default function ScansPage() {

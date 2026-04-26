@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useGetComplianceResultsQuery } from '@/store/apis/complianceApi';
-import useDebouncedSearch from './useDebouncedSearch';
+import { useGetComplianceResultsQuery } from '@/apis';
+import { useDebouncedSearch } from '@/hooks';
 import {
   COMPLIANCE_RESULTS_PAGE_SIZE,
   FALLBACK_COMPLIANCE_ASSESSMENT_ID,

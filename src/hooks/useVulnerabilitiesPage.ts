@@ -1,10 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
-import {
-  useGetRiskDashboardQuery,
-  useGetAssessmentVulnerabilitiesQuery,
-} from '@/store/apis/riskApi';
-import useDebouncedSearch from './useDebouncedSearch';
-import useVisualFetching from './useVisualFetching';
+import { useGetRiskDashboardQuery, useGetAssessmentVulnerabilitiesQuery } from '@/apis';
+import { useDebouncedSearch, useVisualFetching } from '@/hooks';
 import { ShieldAlert, AlertTriangle, Info, ShieldCheck } from 'lucide-react';
 
 export default function useVulnerabilitiesPage() {

@@ -8,7 +8,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Server } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import useAssetsPage from '@/hooks/useAssetsPage';
+import { useAssetsPage } from '@/hooks';
 import styles from './Assets.module.css';
 
 export default function AssetsPage() {

@@ -3,7 +3,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import {
   useGetScanAssetsQuery,
   useGetLastScanAssetsQuery,
-} from '@/store/apis/scanApi';
+} from '@/apis';
 import { CalculateAssetStatistics } from '@/utils/asset';
 import {
   Shield,

@@ -10,7 +10,7 @@ import { LoadingState, ErrorState, EmptyState } from '@/components/custom';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Server } from 'lucide-react';
 import type { Port } from '@/types';
-import useAssetDetailsPage from '@/hooks/useAssetDetailsPage';
+import { useAssetDetailsPage } from '@/hooks';
 import styles from './AssetDetails.module.css';
 
 export default function AssetDetailsPage() {

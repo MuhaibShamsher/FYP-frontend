@@ -13,3 +13,4 @@ export { default as TypingText } from './TypingText/TypingText';
 export { default as DashboardSummary } from './DashboardSummary/DashboardSummary';
 export { default as ExpandableRow } from './ExpandableRow/ExpandableRow';
 export { default as SearchFilterBar } from './SearchFilterBar/SearchFilterBar';
+export { default as FrameworkGauge } from './FrameworkGauge/FrameworkGauge';
