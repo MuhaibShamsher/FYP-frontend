@@ -1,10 +1,4 @@
 import { useMemo } from 'react';
-import {
-  useGetComplianceAssessmentsQuery,
-  useGetComplianceSummaryQuery,
-  useGetScansQuery,
-  useGetAssessmentsQuery,
-} from '@/apis';
 import { FrameworkGauge } from '@/components/custom';
 import { fmtNum, getRiskClassLabel } from '@/utils/formatters';
 import { Activity, FileCheck } from 'lucide-react';
@@ -12,41 +6,56 @@ import styles from './DashboardSummary.module.css';
 
 const SUPPORTED_FRAMEWORKS = ['iso27001', 'cis', 'nist'] as const;
 
-export default function DashboardSummary() {
-  // get last scan data (data.scans[0]) from list of scans
-  const { data: scansResult } = useGetScansQuery();
-  const latestScan = useMemo(() => scansResult?.scans?.[0], [scansResult]);
+import type { LatestPipelineResponse } from '@/apis/sharedApi';
 
-  // get last risk_assessment data (data[0]) from list of risk_assessments
-  const { data: assessmentsResult } = useGetAssessmentsQuery({});
-  const risk = useMemo(() => assessmentsResult?.data?.[0], [assessmentsResult]);
+interface DashboardSummaryProps {
+  latestData?: LatestPipelineResponse;
+  isLoading?: boolean;
+}
 
-  // get last compliance id (data[0].id) from list of compliance data
-  const { data: compResult } = useGetComplianceAssessmentsQuery({
-    page_size: 1,
-  });
-  const compId = useMemo(() => compResult?.data?.[0]?.id, [compResult]);
-
-  // use the compliance id to get the summary
-  const { data: compSummary } = useGetComplianceSummaryQuery(compId as string, {
-    skip: !compId,
-  });
+export default function DashboardSummary({ latestData, isLoading }: DashboardSummaryProps) {
+  const latestScan = latestData?.asset_scan?.scan;
+  const latestScanSummary = latestData?.asset_scan?.summary;
+  const riskAssessment = latestData?.risk_assessment?.assessment;
+  const complianceAssessment = latestData?.compliance?.compliance_assessment;
 
   const avgCompliance = useMemo(() => {
-    if (!compSummary?.summaries?.length) return 0;
-    const t = compSummary.summaries.reduce(
-      (a, c) => a + (c.implemented_pct || 0),
-      0
-    );
-    return t / compSummary.summaries.length;
-  }, [compSummary]);
+    // Note: If the backend includes summaries in the shared/latest response, 
+    // we would use them here. For now, we derive from available scores.
+    const scores = [
+      complianceAssessment?.iso_score,
+      complianceAssessment?.cis_score,
+      complianceAssessment?.nist_score,
+    ].filter((s): s is number => s !== null && s !== undefined);
+
+    if (scores.length === 0) return 0;
+    return scores.reduce((a, b) => a + b, 0) / scores.length;
+  }, [complianceAssessment]);
 
   const frameworks = useMemo(() => {
-    if (!compSummary?.summaries) return [];
-    return compSummary.summaries.filter((s) =>
-      SUPPORTED_FRAMEWORKS.includes(s.framework as any)
-    );
-  }, [compSummary]);
+    if (!complianceAssessment) return [];
+    
+    // Convert scores to a format FrameworkGauge can display
+    return (complianceAssessment.frameworks || [])
+      .filter((fw) => SUPPORTED_FRAMEWORKS.includes(fw as any))
+      .map((fw) => {
+        const score = (complianceAssessment as any)[`${fw}_score`] || 0;
+        return {
+          framework: fw as any,
+          framework_display: fw.toUpperCase(),
+          score: score,
+          implemented_pct: score,
+          partial_pct: 0,
+          not_implemented_pct: 100 - score,
+          controls_pass: 0,
+          controls_fail: 0,
+          controls_partial: 0,
+          controls_not_applicable: 0,
+          controls_needs_review: 0,
+          controls_evaluated: 0,
+        };
+      });
+  }, [complianceAssessment]);
 
   // risk assessment vulnerabilities data
   const vulnData = useMemo(() => {
@@ -54,29 +63,29 @@ export default function DashboardSummary() {
       {
         id: 'crit',
         label: 'Critical',
-        count: risk?.critical_count,
+        count: riskAssessment?.critical_count,
         dotStyle: styles.dotcritical,
       },
       {
         id: 'high',
         label: 'High',
-        count: risk?.high_count,
+        count: riskAssessment?.high_count,
         dotStyle: styles.dothigh,
       },
       {
         id: 'med',
         label: 'Medium',
-        count: risk?.medium_count,
+        count: riskAssessment?.medium_count,
         dotStyle: styles.dotmedium,
       },
       {
         id: 'low',
         label: 'Low',
-        count: risk?.low_count,
+        count: riskAssessment?.low_count,
         dotStyle: styles.dotlow,
       },
     ];
-  }, [risk]);
+  }, [riskAssessment]);
 
   // Aggregate passed/failed controls
   const complianceTotals = useMemo(() => {
@@ -103,6 +112,10 @@ export default function DashboardSummary() {
         ? 'rgb(245, 158, 11)'
         : 'rgb(239, 68, 68)';
 
+  if (isLoading) {
+    return <div className={styles.loading}>Updating intelligence briefing...</div>;
+  }
+
   return (
     <div className={styles.splitContainer}>
       {/* LEFT PANEL: RISK ASSESSMENT */}
@@ -118,7 +131,7 @@ export default function DashboardSummary() {
             <div className={styles.metricBlock}>
               <div className={styles.metricTitle}>Assets Discovered</div>
               <div className={styles.metricValue}>
-                {fmtNum(latestScan?.assets_count)}
+                {fmtNum(latestScanSummary?.total_assets)}
               </div>
               <div className={styles.metricSub}>
                 IP Range: {latestScan?.ip_range || '—'}
@@ -128,14 +141,14 @@ export default function DashboardSummary() {
             <div className={styles.metricBlock}>
               <div className={styles.metricTitle}>System Risk Score</div>
               <div className={styles.metricValue}>
-                {risk?.overall_risk_score?.toFixed(1) || '0.0'}
+                {riskAssessment?.overall_risk_score?.toFixed(1) || '0.0'}
               </div>
               <div className={styles.metricSub}>
                 Overall Risk Level:
                 <span
-                  className={`${styles.riskLevelBadge} ${styles[getRiskClassLabel(risk?.overall_risk_level)] || ''}`}
+                  className={`${styles.riskLevelBadge} ${styles[getRiskClassLabel(riskAssessment?.overall_risk_level)] || ''}`}
                 >
-                  {risk?.overall_risk_level || '—'}
+                  {riskAssessment?.overall_risk_level || '—'}
                 </span>
               </div>
             </div>
@@ -148,7 +161,7 @@ export default function DashboardSummary() {
                 Vulnerabilities Distribution
               </div>
               <div className={styles.payloadTotal}>
-                Total: {fmtNum(risk?.total_vulnerabilities)}
+                Total: {fmtNum(riskAssessment?.total_vulnerabilities)}
               </div>
             </div>
 

@@ -1,5 +1,11 @@
 import { baseApi } from './baseApi';
-import type { Scan, Assessment, ComplianceAssessmentListItem } from '@/types';
+import type {
+  Scan,
+  Assessment,
+  ComplianceAssessmentListItem,
+  AssetSummary,
+  RiskDashboardStatistics,
+} from '@/types';
 
 export interface PipelineStartResponse {
   pipeline_id: string;
@@ -10,15 +16,22 @@ export interface PipelineStartResponse {
 }
 
 export interface LatestPipelineResponse {
-  scan: Scan;
-  risk_assessment: Assessment;
-  compliance_assessment: ComplianceAssessmentListItem;
+  asset_scan: {
+    scan: Scan;
+    summary: AssetSummary;
+  };
+  risk_assessment: {
+    assessment: Assessment;
+    statistics: RiskDashboardStatistics['statistics'];
+  };
+  compliance: {
+    compliance_assessment: ComplianceAssessmentListItem | null;
+  };
 }
 
 export const sharedApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    // Starts the full security pipeline:
-    // Asset Scan -> Risk Assessment -> Compliance Inspection
+    // Starts the full pipeline: Asset Scan -> Risk Assessment -> Compliance Inspection
     startPipeline: builder.mutation<
       PipelineStartResponse,
       { ip_range: string; scan_type: string; frameworks?: string[] }

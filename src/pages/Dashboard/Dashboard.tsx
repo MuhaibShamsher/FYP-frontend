@@ -1,4 +1,10 @@
-import { useDashboardPage } from '@/hooks';
+import { useSelector } from 'react-redux';
+import type { RootState } from '@/store';
+import { 
+  usePipelineStatus, 
+  useAssetIntelligence, 
+  useScanActions 
+} from '@/hooks';
 import {
   AssetSeverityDoughnutChart,
   AssetSeverityLineChart,
@@ -19,34 +25,49 @@ import styles from './Dashboard.module.css';
 
 
 export default function DashboardPage() {
+  const { 
+    latestData, 
+    isLoading: isPipelineLoading, 
+    isError: isPipelineError 
+  } = usePipelineStatus();
+  
+  const { 
+    assets, 
+    isLoading: isAssetsLoading, 
+    isError: isAssetsError 
+  } = useAssetIntelligence();
+  
   const {
-    assets,
-    isScanning,
     isNewScanModalOpen,
-    isLoading,
     isCreatingScan,
     isCancellingScan,
-    error,
     openNewScanModal,
     closeNewScanModal,
     createNewScan,
     cancelCurrentScan,
-  } = useDashboardPage();
+  } = useScanActions();
 
-  if (isLoading) {
-    return <LoadingState text="LOADING ASSETS..." />;
+  const { isScanning } = useSelector((s: RootState) => s.scanSession);
+
+  // Unified loading and error handling
+  const isInitialLoading = isPipelineLoading || isAssetsLoading;
+  const hasError = isPipelineError || isAssetsError;
+
+  if (isInitialLoading) {
+    return <LoadingState text="SYNCHRONIZING INTELLIGENCE BRIEFING..." />;
   }
 
-  if (error) {
+  if (hasError) {
     return (
       <ErrorState
-        title="Error Loading Assets"
-        message="Unable to fetch asset data. Please try again later."
+        title="Intelligence Sync Failure"
+        message="Unable to establish a secure connection to the threat intelligence pipeline."
       />
     );
   }
 
-  if (!assets || assets.length === 0) {
+  // Use latestData to determine if system is empty
+  if (!latestData && assets.length === 0) {
     return (
       <EmptyState
         icon={Server}
@@ -88,7 +109,10 @@ export default function DashboardPage() {
       </div>
 
       {/* Synchronized Mission & Compliance Briefing */}
-      <DashboardSummary />
+      <DashboardSummary
+        latestData={latestData}
+        isLoading={isPipelineLoading}
+      />
 
       <div className={styles.chartsGrid}>
         {/* Asset Severity Line Chart */}
