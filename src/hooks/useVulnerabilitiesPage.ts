@@ -1,11 +1,18 @@
 import { useState, useMemo, useEffect } from 'react';
-import { useGetRiskDashboardQuery, useGetAssessmentVulnerabilitiesQuery } from '@/apis';
-import { useDebouncedSearch, useVisualFetching } from '@/hooks';
+import { useSelector } from 'react-redux';
+import { useGetAssessmentVulnerabilitiesQuery } from '@/apis';
+import { useDebouncedSearch, useVisualFetching, usePipelineStatus } from '@/hooks';
 import { ShieldAlert, AlertTriangle, Info, ShieldCheck } from 'lucide-react';
+import { 
+  DEFAULT_PAGE_SIZE, 
+  DEFAULT_DEBOUNCE_MS, 
+  MIN_VISIBLE_LOADING_TIME_MS 
+} from '@/constants';
+import type { RootState } from '@/store';
 
 export default function useVulnerabilitiesPage() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize] = useState(20);
+  const [pageSize] = useState(DEFAULT_PAGE_SIZE);
   const [severityFilter, setSeverityFilter] = useState<string>('all');
   const [isKevOnly, setIsKevOnly] = useState(false);
   const [expandedVulnId, setExpandedVulnId] = useState<string | null>(null);
@@ -14,14 +21,19 @@ export default function useVulnerabilitiesPage() {
     searchQuery: searchTerm,
     setSearchQuery: setSearchTerm,
     debouncedQuery,
-  } = useDebouncedSearch({ debounceMs: 500 });
+  } = useDebouncedSearch({ debounceMs: DEFAULT_DEBOUNCE_MS });
+
   const { isVisualFetching, handleFetchingChange } = useVisualFetching({
-    minVisibleTime: 400,
+    minVisibleTime: MIN_VISIBLE_LOADING_TIME_MS,
   });
 
-  // 1. Fetch dashboard to get latest assessment ID
-  const { data: dashboardData } = useGetRiskDashboardQuery();
-  const assessmentId = dashboardData?.statistics?.assessment_id;
+  // 1. Get intelligence from the unified pipeline status
+  const { latestData } = usePipelineStatus();
+  const { riskAssessmentId } = useSelector((s: RootState) => s.activeIds);
+
+  // Use the ID from the pipeline result OR fallback to the persisted ID from Redux
+  const assessmentId = latestData?.risk_assessment?.assessment?.id || riskAssessmentId;
+  const riskStatistics = latestData?.risk_assessment?.statistics;
 
   // 2. Fetch vulnerabilities for that ID
   const { data: vulnResponse, isFetching } =
@@ -60,6 +72,7 @@ export default function useVulnerabilitiesPage() {
     (Array.isArray(vulnResponse)
       ? vulnResponse
       : (vulnResponse as any)?.data) || [];
+      
   const pagination = (vulnResponse as any)?.pagination;
 
   const isFiltered = debouncedQuery || severityFilter !== 'all' || isKevOnly;
@@ -68,30 +81,30 @@ export default function useVulnerabilitiesPage() {
     () => [
       {
         title: 'CRITICAL',
-        value: dashboardData?.statistics.severity_breakdown.critical || 0,
+        value: riskStatistics?.severity_breakdown.critical || 0,
         icon: ShieldAlert,
         iconColorClass: 'text-red-500',
       },
       {
         title: 'HIGH',
-        value: dashboardData?.statistics.severity_breakdown.high || 0,
+        value: riskStatistics?.severity_breakdown.high || 0,
         icon: AlertTriangle,
         iconColorClass: 'text-orange-500',
       },
       {
         title: 'MEDIUM',
-        value: dashboardData?.statistics.severity_breakdown.medium || 0,
+        value: riskStatistics?.severity_breakdown.medium || 0,
         icon: Info,
         iconColorClass: 'text-yellow-500',
       },
       {
         title: 'CLEAN',
-        value: dashboardData?.statistics.severity_breakdown.low || 0,
+        value: riskStatistics?.severity_breakdown.low || 0,
         icon: ShieldCheck,
         iconColorClass: 'text-blue-500',
       },
     ],
-    [dashboardData]
+    [riskStatistics]
   );
 
   return {

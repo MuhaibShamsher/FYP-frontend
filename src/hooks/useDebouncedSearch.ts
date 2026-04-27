@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { DEFAULT_DEBOUNCE_MS } from '@/constants';
 
 interface UseDebouncedSearchProps {
   debounceMs?: number;
@@ -6,7 +7,7 @@ interface UseDebouncedSearchProps {
 }
 
 export default function useDebouncedSearch({
-  debounceMs = 400,
+  debounceMs = DEFAULT_DEBOUNCE_MS,
   initialValue = '',
 }: UseDebouncedSearchProps = {}) {
   const [searchQuery, setSearchQuery] = useState(initialValue);

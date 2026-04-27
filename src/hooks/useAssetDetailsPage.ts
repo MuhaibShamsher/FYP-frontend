@@ -1,10 +1,12 @@
 import { useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import type { RootState } from '@/store';
 import {
   useGetAssetByIdQuery,
-  useGetRiskDashboardQuery,
   useGetAssetRiskProfileQuery,
 } from '@/apis';
+import { usePipelineStatus } from '@/hooks';
 import type { Asset, AssetRiskProfileDetail } from '@/types';
 
 interface UseAssetDetailsPageReturn {
@@ -25,13 +27,12 @@ export default function useAssetDetailsPage(): UseAssetDetailsPageReturn {
   const { assetId } = useParams<{ assetId: string }>();
   const navigate = useNavigate();
 
-  // 1. Fetch dashboard to get latest assessment ID
-  const {
-    data: dashboardData,
-    isLoading: dashboardLoading,
-    error: dashboardError,
-  } = useGetRiskDashboardQuery();
-  const assessmentId = dashboardData?.statistics?.assessment_id;
+  // 1. Get intelligence from the unified pipeline status
+  const { latestData, isLoading: isPipelineLoading, error: pipelineError } = usePipelineStatus();
+  const { riskAssessmentId } = useSelector((s: RootState) => s.activeIds);
+
+  // Use the ID from the pipeline result OR fallback to the persisted ID from Redux
+  const assessmentId = latestData?.risk_assessment?.assessment?.id || riskAssessmentId;
 
   // 2. Fetch asset data
   const {
@@ -54,9 +55,9 @@ export default function useAssetDetailsPage(): UseAssetDetailsPageReturn {
   );
 
   // Loading states
-  const isLoading = dashboardLoading || assetLoading || riskProfileLoading;
-  const isError = Boolean(dashboardError || assetError || riskProfileError);
-  const error = dashboardError || assetError || riskProfileError;
+  const isLoading = isPipelineLoading || assetLoading || riskProfileLoading;
+  const isError = Boolean(pipelineError || assetError || riskProfileError);
+  const error = pipelineError || assetError || riskProfileError;
 
   // Computed states
   const hasVulnerabilities = Boolean(riskProfile?.vulnerabilities?.length);
