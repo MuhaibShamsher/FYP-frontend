@@ -1,16 +1,11 @@
-import { baseApi } from './baseApi'
+import { baseApi } from './baseApi';
+import type { User } from '@/types/auth';
 
 export interface LoginResponse {
   email: string;
   role: string;
   refresh_token: string;
   access_token: string;
-}
-
-export interface User {
-  id: string;
-  email: string;
-  role: string;
 }
 
 export const authApi = baseApi.injectEndpoints({
@@ -66,12 +61,35 @@ export const authApi = baseApi.injectEndpoints({
       }),
     }),
 
-    getUsers: builder.query<User[], void>({
-      query: () => 'auth/users/',
+    getUsers: builder.query<
+      User[],
+      { search?: string; is_active?: boolean } | void
+    >({
+      query: (params) => ({
+        url: 'auth/users/',
+        params: params || undefined,
+      }),
       providesTags: ['Users'],
     }),
+
+    updateUser: builder.mutation<User, { id: string; data: any }>({
+      query: ({ id, data }) => ({
+        url: `auth/users/${id}/`,
+        method: 'PATCH',
+        body: data,
+      }),
+      invalidatesTags: ['Users'],
+    }),
+
+    deleteUser: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `auth/users/${id}/`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Users'],
+    }),
   }),
-})
+});
 
 export const {
   useRegisterMutation,
@@ -81,4 +99,6 @@ export const {
   useResetPasswordEmailMutation,
   useResetPasswordMutation,
   useGetUsersQuery,
-} = authApi
+  useUpdateUserMutation,
+  useDeleteUserMutation,
+} = authApi;

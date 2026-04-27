@@ -9,6 +9,7 @@ import {
   Database,
   Settings,
   FileText,
+  Users as UsersIcon,
   type LucideIcon,
 } from 'lucide-react';
 import type { SectionKey } from '@/types';
@@ -49,6 +50,7 @@ export default function NavigationHeader() {
       path: '/compliance/results',
     },
     { id: 'feeds', icon: Database, label: 'Feeds', path: '/feeds' },
+    { id: 'users', icon: UsersIcon, label: 'Users', path: '/users' },
     { id: 'scans', icon: Radar, label: 'Scans', path: '/scans' },
     { id: 'settings', icon: Settings, label: 'Settings', path: '/settings' },
   ];

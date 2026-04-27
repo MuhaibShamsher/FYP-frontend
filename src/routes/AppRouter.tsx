@@ -12,6 +12,7 @@ import {
   ComplianceViolationsPage,
   ComplianceResultsPage,
   FeedManagementPage,
+  UsersPage,
 } from '@/pages';
 
 export const router = createBrowserRouter([
@@ -38,6 +39,7 @@ export const router = createBrowserRouter([
           },
           { path: 'compliance/results', element: <ComplianceResultsPage /> },
           { path: 'feeds', element: <FeedManagementPage /> },
+          { path: 'users', element: <UsersPage /> },
           { path: 'settings', element: <SettingsPage /> },
         ],
       },

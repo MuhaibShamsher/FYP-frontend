@@ -13,3 +13,6 @@ export { default as useScanActions } from './useScanActions';
 export { default as useAssetIntelligence } from './useAssetIntelligence';
 export { default as usePipelineStatus } from './usePipelineStatus';
 
+export { default as useErrorHandler } from './useErrorHandler';
+export * from './usePermissions';
+export * from './useUserManagement';
