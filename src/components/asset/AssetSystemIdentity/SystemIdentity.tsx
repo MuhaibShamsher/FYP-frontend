@@ -1,7 +1,7 @@
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui';
 import { Server, Activity, Shield, Clock } from 'lucide-react';
-import styles from './styles/SystemIdentity.module.css';
+import styles from './SystemIdentity.module.css';
 
 interface AssetField {
   label: string;

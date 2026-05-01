@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui';
 import {
   TrendingUp,
   Shield,
@@ -9,7 +9,7 @@ import {
   Clock,
 } from 'lucide-react';
 import type { AssetRiskProfileDetail } from '@/types';
-import styles from './styles/RiskProfile.module.css';
+import styles from './RiskProfile.module.css';
 
 interface RiskProfileProps {
   riskProfile: AssetRiskProfileDetail;

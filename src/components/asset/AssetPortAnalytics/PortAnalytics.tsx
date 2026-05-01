@@ -1,17 +1,20 @@
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
   TableRow,
-} from '@/components/ui/table';
-import { Activity, Edit2, Shield } from 'lucide-react';
+  Card, 
+  CardContent, 
+  CardHeader, 
+  CardTitle, 
+  Button,
+} from '@/components/ui';
 import type { Port } from '@/types';
-import styles from './styles/PortAnalytics.module.css';
+import { Activity, Edit2, Shield } from 'lucide-react';
+import styles from './PortAnalytics.module.css';
 
 interface PortAnalyticsProps {
   ports: Port[] | undefined;
