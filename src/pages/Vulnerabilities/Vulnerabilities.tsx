@@ -1,8 +1,12 @@
 import { useVulnerabilitiesPage } from '@/hooks';
-import { TerminalPagination, EmptyState, StatCard, SearchFilterBar } from '@/components/custom';
+import {
+  TerminalPagination,
+  EmptyState,
+  StatCard,
+  SearchFilterBar,
+} from '@/components/custom';
 import { VulnerabilityRow } from '@/components/vulnerability';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card, Button } from '@/components/ui';
 import { ShieldAlert, ShieldCheck, Zap } from 'lucide-react';
 import styles from './Vulnerabilities.module.css';
 

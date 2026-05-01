@@ -1,14 +1,14 @@
+import { useNavigate } from 'react-router-dom';
+import { useAssetsPage } from '@/hooks';
 import { ASSETS_COLUMNS_NAME } from '@/utils/asset';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui';
 import {
   LoadingState,
   ErrorState,
   EmptyState,
   StatCard,
 } from '@/components/custom';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Server } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { useAssetsPage } from '@/hooks';
 import styles from './Assets.module.css';
 
 export default function AssetsPage() {

@@ -1,7 +1,12 @@
 import { useSelector } from 'react-redux';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import useSettingsPage from '@/hooks/useSettingsPage';
+import { useSettingsPage } from '@/hooks';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  Button,
+} from '@/components/ui';
 import {
   Lock,
   Eye,

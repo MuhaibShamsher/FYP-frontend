@@ -1,9 +1,9 @@
 import { useSelector } from 'react-redux';
 import type { RootState } from '@/store';
-import { 
-  usePipelineStatus, 
-  useAssetIntelligence, 
-  useScanActions 
+import {
+  usePipelineStatus,
+  useAssetIntelligence,
+  useScanActions,
 } from '@/hooks';
 import {
   AssetSeverityDoughnutChart,
@@ -17,26 +17,24 @@ import {
   EmptyState,
   DashboardSummary,
 } from '@/components/custom';
-import { InitiateScanModal } from '@/components/models';
-import { Card, CardContent, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { InitiateScanModal } from '@/components/modal';
+import { Card, CardContent, CardTitle, Button } from '@/components/ui';
 import { Server } from 'lucide-react';
 import styles from './Dashboard.module.css';
 
-
 export default function DashboardPage() {
-  const { 
-    latestData, 
-    isLoading: isPipelineLoading, 
-    isError: isPipelineError 
+  const {
+    latestData,
+    isLoading: isPipelineLoading,
+    isError: isPipelineError,
   } = usePipelineStatus();
-  
-  const { 
-    assets, 
-    isLoading: isAssetsLoading, 
-    isError: isAssetsError 
+
+  const {
+    assets,
+    isLoading: isAssetsLoading,
+    isError: isAssetsError,
   } = useAssetIntelligence();
-  
+
   const {
     isNewScanModalOpen,
     isCreatingScan,
@@ -109,10 +107,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Synchronized Mission & Compliance Briefing */}
-      <DashboardSummary
-        latestData={latestData}
-        isLoading={isPipelineLoading}
-      />
+      <DashboardSummary latestData={latestData} isLoading={isPipelineLoading} />
 
       <div className={styles.chartsGrid}>
         {/* Asset Severity Line Chart */}

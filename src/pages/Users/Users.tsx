@@ -1,25 +1,32 @@
-import { useState } from 'react';
+import { useState, type ComponentType } from 'react';
+import { useSelector } from 'react-redux';
 import { useUserManagement } from '@/hooks';
-import { UserForm, DeleteUserModal } from '@/components/models';
-import { Card, CardContent } from '@/components/ui/card';
+import { UserForm, DeleteUserModal } from '@/components/modal';
+import { Card, CardContent, Button, Badge } from '@/components/ui';
 import { LoadingState, ErrorState, SearchFilterBar } from '@/components/custom';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ROLE_DISPLAY_NAMES, roleBadgeVariant } from '@/utils/rbac';
+import {
+  getRoleLabel,
+  roleBadgeVariant,
+  canAccessUsers,
+} from '@/utils/rbac';
 import { formatDateTime } from '@/utils/formatUtils';
 import { Plus, Edit2, Trash2, ToggleLeft, ToggleRight } from 'lucide-react';
-import type { UserRole } from '@/types/auth';
+import type { RootState } from '@/store';
 import styles from './Users.module.css';
 
-
 const DateCell = ({ value }: { value: string | null | undefined }) => (
-  <td className={styles.cellLogin}>{formatDateTime(value)}</td>
+  <td className={styles.cellLogin}>{formatDateTime(value ?? null)}</td>
 );
 
-const ActionButton = ({ title, onClick, icon: Icon, variant }: { 
-  title: string; 
-  onClick: () => void; 
-  icon: React.ComponentType<{ className?: string }>; 
+const ActionButton = ({
+  title,
+  onClick,
+  icon: Icon,
+  variant,
+}: {
+  title: string;
+  onClick: () => void;
+  icon: ComponentType<{ className?: string }>;
   variant: 'edit' | 'delete';
 }) => (
   <button
@@ -32,6 +39,8 @@ const ActionButton = ({ title, onClick, icon: Icon, variant }: {
 );
 
 export default function UsersPage() {
+  const userRole = useSelector((state: RootState) => state.auth.user?.role);
+
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<boolean | undefined>(
     undefined
@@ -69,6 +78,15 @@ export default function UsersPage() {
       <ErrorState
         title="ERROR LOADING USER DATA"
         message={error || 'Unable to retrieve user management data.'}
+      />
+    );
+  }
+
+  if (!canAccessUsers(userRole)) {
+    return (
+      <ErrorState
+        title="ACCESS DENIED"
+        message="Only Admin users can access user management."
       />
     );
   }
@@ -136,20 +154,31 @@ export default function UsersPage() {
                       <tr key={u.id} className={styles.tableRow}>
                         <td className={styles.cellUser}>
                           <div className={styles.userInfo}>
-                            <div className={styles.userAvatar}>{u.name?.charAt(0)?.toUpperCase() ?? '?'}</div>
+                            <div className={styles.userAvatar}>
+                              {u.name?.charAt(0)?.toUpperCase() ?? '?'}
+                            </div>
                             <div className={styles.userDetails}>
-                              <span className={styles.userName}>{u.name ?? '—'}</span>
-                              <span className={styles.userEmail}>{u.email}</span>
+                              <span className={styles.userName}>
+                                {u.name ?? '—'}
+                              </span>
+                              <span className={styles.userEmail}>
+                                {u.email}
+                              </span>
                             </div>
                           </div>
                         </td>
                         <td className={styles.cellRole}>
-                          <Badge variant={roleBadgeVariant(u.role)} className={styles.roleBadge}>
-                            {ROLE_DISPLAY_NAMES[u.role as UserRole] ?? u.role}
+                          <Badge
+                            variant={roleBadgeVariant(u.role)}
+                            className={styles.roleBadge}
+                          >
+                            {getRoleLabel(u.role)}
                           </Badge>
                         </td>
                         <td className={styles.cellStatus}>
-                          <button className={`${styles.statusToggle} ${isActive ? styles.statusActive : styles.statusInactive}`}>
+                          <button
+                            className={`${styles.statusToggle} ${isActive ? styles.statusActive : styles.statusInactive}`}
+                          >
                             {isActive ? (
                               <ToggleRight className="h-5 w-5" />
                             ) : (

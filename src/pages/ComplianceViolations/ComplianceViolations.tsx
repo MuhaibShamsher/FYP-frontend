@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+import { LoadingState, ErrorState } from '@/components/custom';
+import { useComplianceViolationsPage, useVisualFetching } from '@/hooks';
 import {
   ShieldAlert,
   Server,
@@ -9,8 +11,6 @@ import {
   HardDrive,
   Search,
 } from 'lucide-react';
-import { LoadingState, ErrorState } from '@/components/custom';
-import { useComplianceViolationsPage, useVisualFetching } from '@/hooks';
 import type { RootCause } from '@/types';
 import styles from './ComplianceViolations.module.css';
 

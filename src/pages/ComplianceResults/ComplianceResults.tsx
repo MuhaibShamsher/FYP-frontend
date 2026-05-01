@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useComplianceResultsPage, useVisualFetching } from '@/hooks';
+import { ComplianceResultRow } from '@/components/compliance';
 import {
   LoadingState,
   ErrorState,
@@ -7,8 +8,7 @@ import {
   EmptyState,
   SearchFilterBar,
 } from '@/components/custom';
-import { ComplianceResultRow } from '@/components/compliance';
-import { Card } from '@/components/ui/card';
+import { Card } from '@/components/ui';
 import { ShieldCheck } from 'lucide-react';
 import type { ComplianceFramework } from '@/types';
 import styles from './ComplianceResults.module.css';
