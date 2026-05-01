@@ -1,11 +1,13 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import activeIdsReducer from './slices/activeIdsSlice';
-import authReducer from './slices/authSlice';
-import headerReducer from './slices/headerSlice';
-import scanSessionReducer from './slices/scanSessionSlice';
+import { persistStore, persistReducer } from 'redux-persist';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { baseApi } from '@/apis';
+import {
+  activeIdsReducer,
+  authReducer,
+  headerReducer,
+  scanSessionReducer,
+} from './slices';
 import { 
   apiErrorMiddleware,
   scanSocketMiddleware,
