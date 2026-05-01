@@ -1,21 +1,20 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { skipToken } from '@reduxjs/toolkit/query/react';
 import { useGetComplianceViolationsQuery } from '@/apis';
 import { useDebouncedSearch } from '@/hooks';
 import type { RootState } from '@/store';
 
 export default function useComplianceViolationsPage() {
-  const activeIds = useSelector((state: RootState) => state.activeIds);
-  const targetAssessmentId =
-    activeIds.complianceId || '0fbe3433-16d4-4878-835c-a85e31eb70a7';
+  const complianceId = useSelector(
+    (state: RootState) => state.activeIds.complianceId
+  );
 
   const {
     data: response,
     isLoading,
     isError,
-  } = useGetComplianceViolationsQuery(targetAssessmentId, {
-    skip: !targetAssessmentId,
-  });
+  } = useGetComplianceViolationsQuery(complianceId ?? skipToken);
 
   const [expandedAsset, setExpandedAsset] = useState<string | null>(null);
   const { searchQuery, setSearchQuery, debouncedQuery } = useDebouncedSearch({

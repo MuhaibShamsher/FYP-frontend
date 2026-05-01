@@ -1,18 +1,16 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { skipToken } from '@reduxjs/toolkit/query/react';
 import { useGetComplianceResultsQuery } from '@/apis';
 import { useDebouncedSearch } from '@/hooks';
-import {
-  COMPLIANCE_RESULTS_PAGE_SIZE,
-  FALLBACK_COMPLIANCE_ASSESSMENT_ID,
-} from '@/components/compliance/utils/constants';
+import { COMPLIANCE_RESULTS_PAGE_SIZE } from '@/components/compliance/utils/constants';
 import type { RootState } from '@/store';
 import type { ComplianceFramework } from '@/types';
 
 function categorySearchPlaceholder(framework: ComplianceFramework): string {
   switch (framework) {
     case 'iso27001':
-      return 'Filter by category (Organizational Controls)...';
+      return 'Filter by category (Org Controls)...';
     case 'nist':
       return 'Filter by family code (RA, SC, CM)...';
     case 'cis':
@@ -26,7 +24,6 @@ export default function useComplianceResultsPage() {
   const complianceId = useSelector(
     (state: RootState) => state.activeIds.complianceId
   );
-  const assessmentId = complianceId ?? FALLBACK_COMPLIANCE_ASSESSMENT_ID;
 
   const [framework, setFramework] = useState<ComplianceFramework>('iso27001');
   const [statusFilter, setStatusFilter] = useState<string>('all');
@@ -45,30 +42,26 @@ export default function useComplianceResultsPage() {
 
   const queryArgs = useMemo(
     () => ({
-      id: assessmentId,
+      id: complianceId as string,
       framework,
       page: currentPage,
       page_size: COMPLIANCE_RESULTS_PAGE_SIZE,
       ...(statusFilter !== 'all' ? { status: statusFilter } : {}),
       ...(debouncedCategory ? { category: debouncedCategory } : {}),
     }),
-    [assessmentId, framework, currentPage, statusFilter, debouncedCategory]
+    [complianceId, framework, currentPage, statusFilter, debouncedCategory]
   );
 
-  const {
-    data: response,
-    isLoading,
-    isFetching,
-    isError,
-  } = useGetComplianceResultsQuery(queryArgs, { skip: !assessmentId });
+  const { data: response, isLoading, isFetching, isError } = useGetComplianceResultsQuery(
+    complianceId ? queryArgs : skipToken
+  );
 
   const placeholder = useMemo(
-    () => categorySearchPlaceholder(framework),
-    [framework]
+    () => categorySearchPlaceholder(framework), [framework]
   );
 
   return {
-    assessmentId,
+    complianceId,
     framework,
     setFramework,
     statusFilter,

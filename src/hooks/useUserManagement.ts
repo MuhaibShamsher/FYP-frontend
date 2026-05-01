@@ -8,7 +8,7 @@ import {
 import { useErrorHandler } from '@/hooks';
 import type { CreateUserRequest, UpdateUserRequest, User } from '@/types/auth';
 
-export function useUserManagement(params?: { search?: string; is_active?: boolean }) {
+export default function useUserManagement(params?: { search?: string; is_active?: boolean }) {
   const { handleAsyncError } = useErrorHandler({ showToast: true });
 
   // Modal states
