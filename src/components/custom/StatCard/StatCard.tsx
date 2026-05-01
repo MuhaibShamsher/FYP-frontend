@@ -1,4 +1,4 @@
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui';
 import styles from './StatCard.module.css';
 
 interface StatCardProps {

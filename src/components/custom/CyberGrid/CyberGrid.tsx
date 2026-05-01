@@ -1,4 +1,13 @@
 import { useEffect, useRef } from 'react';
+import styles from './CyberGrid.module.css';
+
+interface Particle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+}
 
 export default function CyberGrid() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -30,17 +39,7 @@ export default function CyberGrid() {
     let animationFrameId: number;
 
     // Particle Config
-    const particleCount = 80;
-    const connectionDistance = 150;
-
-    interface Particle {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      size: number;
-    }
-
+    const particleCount = 40;
     const particles: Particle[] = [];
 
     // Initialize Particles
@@ -55,7 +54,6 @@ export default function CyberGrid() {
     }
 
     const draw = () => {
-      // Clear canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Draw subtle background grid
@@ -75,7 +73,7 @@ export default function CyberGrid() {
         ctx.stroke();
       }
 
-      particles.forEach((p, i) => {
+      particles.forEach((p) => {
         // Move particles
         p.x += p.vx;
         p.y += p.vy;
@@ -89,23 +87,6 @@ export default function CyberGrid() {
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fillStyle = '#ea580c'; // Primary Orange
         ctx.fill();
-
-        // Connect to other particles
-        for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dx = p.x - p2.x;
-          const dy = p.y - p2.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-
-          if (dist < connectionDistance) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(234, 88, 12, ${(1 - dist / connectionDistance) * 0.4})`;
-            ctx.lineWidth = 0.8;
-            ctx.stroke();
-          }
-        }
       });
 
       animationFrameId = requestAnimationFrame(draw);
@@ -119,10 +100,5 @@ export default function CyberGrid() {
     };
   }, []);
 
-  return (
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0 z-0 pointer-events-none"
-    />
-  );
+  return <canvas ref={canvasRef} className={styles.canvas} />;
 }

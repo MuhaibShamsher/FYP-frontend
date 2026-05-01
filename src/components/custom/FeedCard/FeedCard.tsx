@@ -1,3 +1,4 @@
+import { Badge, Card, Button } from '@/components/ui';
 import {
   RefreshCw,
   AlertTriangle,
@@ -5,9 +6,6 @@ import {
   Clock,
   Activity,
 } from 'lucide-react';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import type { FeedStatus } from '@/types';
 import styles from './FeedCard.module.css';
 
