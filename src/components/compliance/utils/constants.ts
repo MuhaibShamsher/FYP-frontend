@@ -73,9 +73,3 @@ export const META_LABELS = {
   IMPACT: 'Impact',
 } as const;
 
-// Compliance page constants
-export const COMPLIANCE_RESULTS_PAGE_SIZE = 20;
-
-/** When no assessment is selected in app state (e.g. direct navigation). */
-export const FALLBACK_COMPLIANCE_ASSESSMENT_ID =
-  '0fbe3433-16d4-4878-835c-a85e31eb70a7';

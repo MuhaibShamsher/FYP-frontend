@@ -1,6 +1,6 @@
 import { ComplianceEvidencePanel } from '@/components/compliance';
 import { ExpandableRow } from '@/components/custom';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/components/ui';
 import {
   formatDate,
   getSeverityImpactVariant,

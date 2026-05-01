@@ -1,5 +1,4 @@
 import { isRecord } from '@/utils/guards';
-import { Card } from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -7,14 +6,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+  Card,
+} from '@/components/ui';
 import styles from './ComplianceDetectedServicesTable.module.css';
 
-export default function ComplianceDetectedServicesTable({
-  rows,
-}: {
-  rows: unknown[];
-}) {
+export default function ComplianceDetectedServicesTable({rows}: {rows: unknown[]}) {
   return (
     <div className={styles.evidenceRow}>
       <div className={styles.evidenceLabel}>Detected services</div>

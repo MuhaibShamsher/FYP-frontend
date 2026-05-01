@@ -1,6 +1,8 @@
-import { ComplianceAffectedAssetsTable, ComplianceDetectedServicesTable } from '@/components/compliance';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import {
+  ComplianceAffectedAssetsTable,
+  ComplianceDetectedServicesTable,
+} from '@/components/compliance';
+import { Card, Badge } from '@/components/ui';
 import { parseEvidence, type Evidence } from '../utils/helpers';
 import { EVIDENCE_LABELS } from '../utils/constants';
 import { FileText } from 'lucide-react';
@@ -31,33 +33,34 @@ const ChipList = ({ label, items }: { label: string; items: unknown[] }) => (
   </div>
 );
 
-export default function ComplianceEvidencePanel({
-  evidence,
-}: {
-  evidence: Evidence;
-}) {
+export default function ComplianceEvidencePanel({evidence}: {evidence: Evidence}) {
   const parsed = parseEvidence(evidence);
 
   const hasStatsGrid = Boolean(
     parsed.confidence ||
-      parsed.evaluationPattern ||
-      parsed.detectedCount !== null ||
-      parsed.totalFindings !== null
+    parsed.evaluationPattern ||
+    parsed.detectedCount !== null ||
+    parsed.totalFindings !== null
   );
+
   const hasNarrative = Boolean(
     parsed.rationale || parsed.note || parsed.partialNote
   );
+
   const hasCheckedLists = Boolean(
     parsed.portsChecked?.length || parsed.servicesChecked?.length
   );
+
   const hasDetected = Boolean(parsed.detected?.length);
   const hasAffected = Boolean(parsed.affectedAssets?.length);
+
   const hasRenderable =
     hasStatsGrid ||
     hasNarrative ||
     hasCheckedLists ||
     hasDetected ||
     hasAffected;
+    
   const showRawFallback = !hasRenderable && Object.keys(evidence).length > 0;
 
   return (

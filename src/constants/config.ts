@@ -8,4 +8,4 @@ export const DEFAULT_DEBOUNCE_MS = 500;
 export const MIN_VISIBLE_LOADING_TIME_MS = 400;
 
 // Standard pagination
-export const DEFAULT_PAGE_SIZE = 20;
+export const DEFAULT_PAGE_SIZE = 12;
