@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { useComplianceResultsPage, useVisualFetching } from '@/hooks';
+import { useComplianceResultsPage } from '@/hooks';
 import { ComplianceResultRow } from '@/components/compliance';
 import {
   LoadingState,
@@ -29,26 +28,18 @@ export default function ComplianceResultsPage() {
     results,
     pagination,
     isLoading,
-    isFetching,
+    isVisualFetching,
     isError,
-    hasResponse,
+    isEmptyResult,
+    isFiltered,
     pageSize,
   } = useComplianceResultsPage();
-
-  const { isVisualFetching, handleFetchingChange } = useVisualFetching({
-    minVisibleTime: 400,
-  });
-
-  // Apply visual fetching when isFetching changes
-  useEffect(() => {
-    handleFetchingChange(isFetching);
-  }, [isFetching, handleFetchingChange]);
 
   if (isLoading) {
     return <LoadingState text="LOADING COMPLIANCE RESULTS..." />;
   }
 
-  if (isError || !hasResponse) {
+  if (isError) {
     return (
       <ErrorState
         title="FAILED TO LOAD RESULTS"
@@ -107,11 +98,21 @@ export default function ComplianceResultsPage() {
 
       <Card className={styles.mainCard}>
         <div className={isVisualFetching ? styles.updating : ''}>
-          {results.length === 0 ? (
+          {isEmptyResult ? (
             <EmptyState
               icon={ShieldCheck}
-              title="NO COMPLIANCE RESULTS"
-              message="No compliance controls were found for the current assessment."
+              title="NO RESULTS FOUND"
+              message={
+                isFiltered
+                  ? 'Adjust your filters or search term to discover other violations.'
+                  : 'No compliance controls were found for the current assessment.'
+              }
+              actionLabel={isFiltered ? 'RESET ALL FILTERS' : undefined}
+              onAction={() => {
+                setFramework('iso27001'),
+                setStatusFilter('all'),
+                setCategoryInput('')
+              }}
             />
           ) : (
             results.map((row, index) => (
@@ -135,7 +136,7 @@ export default function ComplianceResultsPage() {
               totalItems={pagination.count}
               itemsPerPage={pagination.page_size || pageSize}
               onPageChange={setCurrentPage}
-              isFetching={isFetching}
+              isFetching={isVisualFetching}
               itemLabel="controls"
             />
           )}

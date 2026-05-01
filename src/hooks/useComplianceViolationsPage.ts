@@ -1,24 +1,36 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import { useGetComplianceViolationsQuery } from '@/apis';
-import { useDebouncedSearch } from '@/hooks';
+import { useDebouncedSearch, useVisualFetching } from '@/hooks';
+import {
+  DEFAULT_DEBOUNCE_MS,
+  MIN_VISIBLE_LOADING_TIME_MS,
+} from '@/constants';
 import type { RootState } from '@/store';
 
 export default function useComplianceViolationsPage() {
-  const complianceId = useSelector(
-    (state: RootState) => state.activeIds.complianceId
-  );
+  const { complianceId } = useSelector((s: RootState) => s.activeIds);
 
   const {
     data: response,
+    isFetching,
     isLoading,
     isError,
-  } = useGetComplianceViolationsQuery(complianceId ?? skipToken);
+  } = useGetComplianceViolationsQuery(complianceId ? complianceId : skipToken);
+
+  const { isVisualFetching, handleFetchingChange } = useVisualFetching({
+    minVisibleTime: MIN_VISIBLE_LOADING_TIME_MS,
+  });
+
+  // Apply visual fetching when isFetching changes
+  useEffect(() => {
+    handleFetchingChange(isFetching);
+  }, [isFetching, handleFetchingChange]);
 
   const [expandedAsset, setExpandedAsset] = useState<string | null>(null);
   const { searchQuery, setSearchQuery, debouncedQuery } = useDebouncedSearch({
-    debounceMs: 500,
+    debounceMs: DEFAULT_DEBOUNCE_MS,
   });
 
   const toggleAsset = (ip: string) => {
@@ -47,13 +59,24 @@ export default function useComplianceViolationsPage() {
     );
   });
 
+  const isEmptyResult = !isLoading && filteredAssets.length === 0;
+
   return {
+    // Data
     assets: filteredAssets,
     response,
+
+    // Loading and error states
     isLoading,
+    isVisualFetching,
     isError,
+    isEmptyResult,
+
+    // Search
     searchQuery,
     setSearchQuery,
+
+    // Expansion
     expandedAsset,
     toggleAsset,
     getSeverityClass,

@@ -1,6 +1,9 @@
-import { useEffect } from 'react';
-import { LoadingState, ErrorState } from '@/components/custom';
-import { useComplianceViolationsPage, useVisualFetching } from '@/hooks';
+import { useComplianceViolationsPage } from '@/hooks';
+import {
+  LoadingState,
+  ErrorState,
+  EmptyState,
+} from '@/components/custom';
 import {
   ShieldAlert,
   Server,
@@ -18,22 +21,15 @@ export default function ComplianceViolationsPage() {
   const {
     assets,
     isLoading,
+    isVisualFetching,
     isError,
+    isEmptyResult,
     searchQuery,
     setSearchQuery,
     expandedAsset,
     toggleAsset,
     getSeverityClass,
   } = useComplianceViolationsPage();
-
-  const { isVisualFetching, handleFetchingChange } = useVisualFetching({
-    minVisibleTime: 400,
-  });
-
-  // Apply visual fetching when loading changes
-  useEffect(() => {
-    handleFetchingChange(isLoading);
-  }, [isLoading, handleFetchingChange]);
 
   if (isLoading) {
     return <LoadingState text="LOADING VIOLATIONS..." />;
@@ -76,17 +72,18 @@ export default function ComplianceViolationsPage() {
         </div>
       </div>
 
-      {assets.length === 0 ? (
-        <div className={styles.centerContent}>
-          <ShieldAlert
-            size={48}
-            style={{ color: '#22c55e', marginBottom: '1rem' }}
-          />
-          <h2 style={{ color: 'white', fontSize: '1.25rem' }}>
-            No Violations Found
-          </h2>
-          <p>All assets are fully compliant with the assessed frameworks.</p>
-        </div>
+      {isEmptyResult ? (
+        <EmptyState
+          icon={ShieldAlert}
+          title="NO VIOLATIONS FOUND"
+          message={
+            searchQuery
+              ? 'Adjust your search term to discover other violations.'
+              : 'All assets are fully compliant with the assessed frameworks.'
+          }
+          actionLabel={searchQuery ? 'RESET SEARCH' : undefined}
+          onAction={() => setSearchQuery('')}
+        />
       ) : (
         <div className={styles.mainCard}>
           <div

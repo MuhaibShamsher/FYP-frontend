@@ -1,21 +1,22 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { skipToken } from '@reduxjs/toolkit/query/react';
 import { useGetAssessmentVulnerabilitiesQuery } from '@/apis';
-import { useDebouncedSearch, useVisualFetching, usePipelineStatus } from '@/hooks';
-import { ShieldAlert, AlertTriangle, Info, ShieldCheck } from 'lucide-react';
-import { 
-  DEFAULT_PAGE_SIZE, 
-  DEFAULT_DEBOUNCE_MS, 
-  MIN_VISIBLE_LOADING_TIME_MS 
+import { useDebouncedSearch, useVisualFetching } from '@/hooks';
+import {
+  DEFAULT_PAGE_SIZE,
+  DEFAULT_DEBOUNCE_MS,
+  MIN_VISIBLE_LOADING_TIME_MS,
 } from '@/constants';
 import type { RootState } from '@/store';
 
 export default function useVulnerabilitiesPage() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize] = useState(DEFAULT_PAGE_SIZE);
+  const { riskAssessmentId } = useSelector((s: RootState) => s.activeIds);
+
   const [severityFilter, setSeverityFilter] = useState<string>('all');
   const [isKevOnly, setIsKevOnly] = useState(false);
   const [expandedVulnId, setExpandedVulnId] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const {
     searchQuery: searchTerm,
@@ -27,27 +28,26 @@ export default function useVulnerabilitiesPage() {
     minVisibleTime: MIN_VISIBLE_LOADING_TIME_MS,
   });
 
-  // 1. Get intelligence from the unified pipeline status
-  const { latestData } = usePipelineStatus();
-  const { riskAssessmentId } = useSelector((s: RootState) => s.activeIds);
+  const queryArgs = useMemo(
+    () => ({
+      assessmentId: riskAssessmentId,
+      page: currentPage,
+      page_size: DEFAULT_PAGE_SIZE,
+      ...(severityFilter !== 'all' ? { severity: severityFilter } : {}),
+      ...(debouncedQuery ? { search: debouncedQuery } : {}),
+      is_kev: isKevOnly,
+    }),
+    [riskAssessmentId, severityFilter, currentPage, isKevOnly, debouncedQuery]
+  );
 
-  // Use the ID from the pipeline result OR fallback to the persisted ID from Redux
-  const assessmentId = latestData?.risk_assessment?.assessment?.id || riskAssessmentId;
-  const riskStatistics = latestData?.risk_assessment?.statistics;
-
-  // 2. Fetch vulnerabilities for that ID
-  const { data: vulnResponse, isFetching } =
-    useGetAssessmentVulnerabilitiesQuery(
-      {
-        assessmentId: assessmentId || '',
-        page: currentPage,
-        page_size: pageSize,
-        severity: severityFilter === 'all' ? undefined : severityFilter,
-        search: debouncedQuery || undefined,
-        is_kev: isKevOnly,
-      } as any,
-      { skip: !assessmentId }
-    );
+  const {
+    data: vulnResponse,
+    isFetching,
+    isLoading,
+    isError,
+  } = useGetAssessmentVulnerabilitiesQuery(
+    riskAssessmentId ? (queryArgs as any) : skipToken
+  );
 
   // Apply visual fetching when isFetching changes
   useEffect(() => {
@@ -72,49 +72,22 @@ export default function useVulnerabilitiesPage() {
     (Array.isArray(vulnResponse)
       ? vulnResponse
       : (vulnResponse as any)?.data) || [];
-      
+
   const pagination = (vulnResponse as any)?.pagination;
 
   const isFiltered = debouncedQuery || severityFilter !== 'all' || isKevOnly;
-
-  const VULNERABILITY_STATS = useMemo(
-    () => [
-      {
-        title: 'CRITICAL',
-        value: riskStatistics?.severity_breakdown.critical || 0,
-        icon: ShieldAlert,
-        iconColorClass: 'text-red-500',
-      },
-      {
-        title: 'HIGH',
-        value: riskStatistics?.severity_breakdown.high || 0,
-        icon: AlertTriangle,
-        iconColorClass: 'text-orange-500',
-      },
-      {
-        title: 'MEDIUM',
-        value: riskStatistics?.severity_breakdown.medium || 0,
-        icon: Info,
-        iconColorClass: 'text-yellow-500',
-      },
-      {
-        title: 'CLEAN',
-        value: riskStatistics?.severity_breakdown.low || 0,
-        icon: ShieldCheck,
-        iconColorClass: 'text-blue-500',
-      },
-    ],
-    [riskStatistics]
-  );
+  const isEmptyResult = !isLoading && vulnerabilities.length === 0;
 
   return {
     // Data
     vulnerabilities,
     pagination,
-    vulnerabilityStats: VULNERABILITY_STATS,
 
-    // Loading states
+    // Loading and error states
+    isLoading,
     isVisualFetching,
+    isError,
+    isEmptyResult,
 
     // Search and filters
     searchTerm,
@@ -128,7 +101,7 @@ export default function useVulnerabilitiesPage() {
     // Pagination
     currentPage,
     setCurrentPage,
-    pageSize,
+    pageSize: DEFAULT_PAGE_SIZE,
 
     // Expansion
     expandedVulnId,

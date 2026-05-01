@@ -2,8 +2,12 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import { useGetComplianceResultsQuery } from '@/apis';
-import { useDebouncedSearch } from '@/hooks';
-import { COMPLIANCE_RESULTS_PAGE_SIZE } from '@/components/compliance/utils/constants';
+import { useDebouncedSearch, useVisualFetching } from '@/hooks';
+import { 
+  DEFAULT_PAGE_SIZE, 
+  DEFAULT_DEBOUNCE_MS, 
+  MIN_VISIBLE_LOADING_TIME_MS, 
+} from '@/constants';
 import type { RootState } from '@/store';
 import type { ComplianceFramework } from '@/types';
 
@@ -21,44 +25,55 @@ function categorySearchPlaceholder(framework: ComplianceFramework): string {
 }
 
 export default function useComplianceResultsPage() {
-  const complianceId = useSelector(
-    (state: RootState) => state.activeIds.complianceId
-  );
+  const { complianceId } = useSelector((s: RootState) => s.activeIds);
 
   const [framework, setFramework] = useState<ComplianceFramework>('iso27001');
   const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [currentPage, setCurrentPage] = useState(1);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const {
     searchQuery: categoryInput,
     setSearchQuery: setCategoryInput,
     debouncedQuery: debouncedCategory,
-  } = useDebouncedSearch({ initialValue: '' });
+  } = useDebouncedSearch({ initialValue: '', debounceMs: DEFAULT_DEBOUNCE_MS });
 
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [framework, statusFilter, debouncedCategory]);
+  const { isVisualFetching, handleFetchingChange } = useVisualFetching({
+    minVisibleTime: MIN_VISIBLE_LOADING_TIME_MS,
+  });
 
   const queryArgs = useMemo(
     () => ({
       id: complianceId as string,
       framework,
       page: currentPage,
-      page_size: COMPLIANCE_RESULTS_PAGE_SIZE,
+      page_size: DEFAULT_PAGE_SIZE,
       ...(statusFilter !== 'all' ? { status: statusFilter } : {}),
       ...(debouncedCategory ? { category: debouncedCategory } : {}),
     }),
     [complianceId, framework, currentPage, statusFilter, debouncedCategory]
   );
 
-  const { data: response, isLoading, isFetching, isError } = useGetComplianceResultsQuery(
+  const { data: response, isFetching, isLoading, isError } = useGetComplianceResultsQuery(
     complianceId ? queryArgs : skipToken
   );
+
+  // Apply visual fetching when isFetching changes
+  useEffect(() => {
+    handleFetchingChange(isFetching);
+  }, [isFetching, handleFetchingChange]);
 
   const placeholder = useMemo(
     () => categorySearchPlaceholder(framework), [framework]
   );
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [framework, statusFilter, debouncedCategory]);
+
+  const results = response?.data ?? [];
+  const isEmptyResult = !isLoading && results.length === 0;
+  const isFiltered = statusFilter !== 'all' || categoryInput || framework !== 'iso27001';
 
   return {
     complianceId,
@@ -74,12 +89,13 @@ export default function useComplianceResultsPage() {
     toggleExpanded: (id: string) =>
       setExpandedId((prev) => (prev === id ? null : id)),
     placeholder,
-    results: response?.data ?? [],
+    results,
     pagination: response?.pagination,
     isLoading,
-    isFetching,
+    isVisualFetching,
     isError,
-    hasResponse: Boolean(response),
-    pageSize: COMPLIANCE_RESULTS_PAGE_SIZE,
+    isEmptyResult,
+    isFiltered,
+    pageSize: DEFAULT_PAGE_SIZE,
   };
 }
