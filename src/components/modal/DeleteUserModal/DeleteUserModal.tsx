@@ -1,5 +1,11 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  Button,
+} from '@/components/ui';
 import { Trash2 } from 'lucide-react';
 import styles from './DeleteUserModal.module.css';
 
@@ -9,7 +15,11 @@ interface DeleteUserModalProps {
   onConfirm: () => void;
 }
 
-export default function DeleteUserModal({ open, onOpenChange, onConfirm }: DeleteUserModalProps) {
+export default function DeleteUserModal({
+  open,
+  onOpenChange,
+  onConfirm,
+}: DeleteUserModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className={`${styles.dialogContent} sm:max-w-md`}>
@@ -27,7 +37,8 @@ export default function DeleteUserModal({ open, onOpenChange, onConfirm }: Delet
                 Confirm User Deletion
               </h3>
               <p className={styles.confirmationText}>
-                This action cannot be undone. The user will be permanently removed from the system.
+                This action cannot be undone. The user will be permanently
+                removed from the system.
               </p>
             </div>
           </div>

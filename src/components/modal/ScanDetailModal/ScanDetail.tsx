@@ -2,9 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useGenerateScanReportMutation } from '@/apis';
 import { formatDateTime, formatDuration } from '@/utils/formatUtils';
 import { getStatusColor } from '@/utils/scan';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, Button, Badge } from '@/components/ui';
 import type { Scan } from '@/types';
 import {
   FileText,
@@ -19,7 +17,7 @@ import {
   Loader2,
 } from 'lucide-react';
 import { toast } from 'sonner';
-import styles from './styles/ScanDetail.module.css';
+import styles from './ScanDetail.module.css';
 
 interface ScanDetailModalProps {
   selectedScan: Scan;
@@ -161,8 +159,7 @@ export default function ScanDetailModal({
             >
               {isGeneratingReport ? (
                 <>
-                  <Loader2 className={styles.spinnerIcon} />{' '}
-                  GENERATING...
+                  <Loader2 className={styles.spinnerIcon} /> GENERATING...
                 </>
               ) : (
                 <>

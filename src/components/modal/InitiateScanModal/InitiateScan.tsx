@@ -3,16 +3,19 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { scanReset } from '@/store/slices/scanSessionSlice';
 import { RadarScanner } from '@/components/custom';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import {
+  Label,
+  Input,
+  Button,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+  Dialog,
+  DialogContent,
+  DialogTitle,
+} from '@/components/ui';
 import {
   Globe,
   Shield,
@@ -22,9 +25,8 @@ import {
   AlertTriangle,
   ScanLine,
 } from 'lucide-react';
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { toast } from 'sonner';
-import styles from './styles/InitiateScan.module.css';
+import styles from './InitiateScan.module.css';
 
 const CIDR_RE = /^(\d{1,3}\.){3}\d{1,3}(\/\d{1,2})?$/;
 
@@ -66,7 +68,9 @@ export default function InitiateScanModal({
   } = useSelector((s: RootState) => s.scanSession);
 
   const [ipRange, setIpRange] = useState<string>('');
-  const [scanType, setScanType] = useState<'standard' | 'comprehensive'>('standard');
+  const [scanType, setScanType] = useState<'standard' | 'comprehensive'>(
+    'standard'
+  );
 
   useEffect(() => {
     if (!isOpen) {

@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Button,
+  Input,
+  Label,
+} from '@/components/ui';
 import { AlertTriangle, Server, Box, Save } from 'lucide-react';
 import type { Port } from '@/types';
-import styles from './styles/PortEdit.module.css';
+import styles from './PortEdit.module.css';
 
 interface PortEditModalProps {
   selectedPort: Port | null;
@@ -48,9 +52,12 @@ export default function PortEditModal({
 
   const getProtocolClass = (protocol: string) => {
     switch (protocol.toLowerCase()) {
-      case 'tcp': return styles.protocolTcp;
-      case 'udp': return styles.protocolUdp;
-      default: return styles.protocolOther;
+      case 'tcp':
+        return styles.protocolTcp;
+      case 'udp':
+        return styles.protocolUdp;
+      default:
+        return styles.protocolOther;
     }
   };
 
@@ -62,7 +69,9 @@ export default function PortEditModal({
             <span className={styles.title}>
               PORT {selectedPort.port_number}
             </span>
-            <span className={`${styles.protocolBadge} ${getProtocolClass(selectedPort.protocol)}`}>
+            <span
+              className={`${styles.protocolBadge} ${getProtocolClass(selectedPort.protocol)}`}
+            >
               {selectedPort.protocol}
             </span>
           </div>
@@ -72,7 +81,9 @@ export default function PortEditModal({
           <div className={styles.formStack}>
             {/* Service Input */}
             <div className={styles.inputGroup}>
-              <Label htmlFor="service" className={styles.label}>Service Name</Label>
+              <Label htmlFor="service" className={styles.label}>
+                Service Name
+              </Label>
               <div className={styles.inputWrapper}>
                 <Server className={styles.inputIcon} />
                 <Input
@@ -87,7 +98,9 @@ export default function PortEditModal({
 
             {/* Product Input */}
             <div className={styles.inputGroup}>
-              <Label htmlFor="product" className={styles.label}>Product / Application</Label>
+              <Label htmlFor="product" className={styles.label}>
+                Product / Application
+              </Label>
               <div className={styles.inputWrapper}>
                 <Box className={styles.inputIcon} />
                 <Input
@@ -102,7 +115,9 @@ export default function PortEditModal({
 
             {/* Version Input */}
             <div className={styles.inputGroup}>
-              <Label htmlFor="version" className={styles.label}>Version Detected</Label>
+              <Label htmlFor="version" className={styles.label}>
+                Version Detected
+              </Label>
               <div className={styles.inputWrapper}>
                 <AlertTriangle className={styles.inputIcon} />
                 <Input

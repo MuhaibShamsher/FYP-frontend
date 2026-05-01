@@ -1,10 +1,25 @@
 import { useState } from 'react';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import type { User, UserRole, CreateUserRequest, UpdateUserRequest } from '@/types/auth';
+import {
+  Label,
+  Input,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui';
+import type {
+  User,
+  UserRole,
+  CreateUserRequest,
+  UpdateUserRequest,
+} from '@/types/auth';
 import styles from './UserForm.module.css';
 
 interface UserFormProps {
@@ -15,8 +30,11 @@ interface UserFormProps {
   mode: 'create' | 'edit';
 }
 
-
-function FieldGroup({ label, error, children }: {
+function FieldGroup({
+  label,
+  error,
+  children,
+}: {
   label: string;
   error?: string;
   children: React.ReactNode;
@@ -30,8 +48,16 @@ function FieldGroup({ label, error, children }: {
   );
 }
 
-export default function UserForm({ open, onOpenChange, onSubmit, user, mode }: UserFormProps) {
-  const [formData, setFormData] = useState<CreateUserRequest | UpdateUserRequest>(() => {
+export default function UserForm({
+  open,
+  onOpenChange,
+  onSubmit,
+  user,
+  mode,
+}: UserFormProps) {
+  const [formData, setFormData] = useState<
+    CreateUserRequest | UpdateUserRequest
+  >(() => {
     if (mode === 'create' || !user) {
       return {
         email: '',
@@ -48,7 +74,9 @@ export default function UserForm({ open, onOpenChange, onSubmit, user, mode }: U
     }
   });
 
-  const [errors, setErrors] = useState<Partial<Record<keyof CreateUserRequest, string>>>({});
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof CreateUserRequest, string>>
+  >({});
 
   const validate = () => {
     const e: Partial<Record<keyof CreateUserRequest, string>> = {};
@@ -58,7 +86,8 @@ export default function UserForm({ open, onOpenChange, onSubmit, user, mode }: U
       if (!createData.name?.trim()) e.name = 'Name is required';
       if (!createData.email?.trim()) e.email = 'Email is required';
       if (!createData.password) e.password = 'Password is required';
-      else if (createData.password.length < 8) e.password = 'Minimum 8 characters';
+      else if (createData.password.length < 8)
+        e.password = 'Minimum 8 characters';
     } else {
       const editData = formData as UpdateUserRequest;
       if (!editData.name?.trim()) e.name = 'Name is required';
