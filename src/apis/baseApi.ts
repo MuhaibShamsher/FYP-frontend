@@ -147,6 +147,7 @@ export const baseApi = createApi({
     'Users',
     'RiskAssessments',
     'ComplianceResults',
+    'Organization'
   ],
   endpoints: () => ({}),
 });

@@ -52,6 +52,12 @@ export function canAccessUsers(role: string | null | undefined): boolean {
   return normalizeUserRole(role) === 'admin';
 }
 
+export function canManageOrganization(
+  role: string | null | undefined
+): boolean {
+  return normalizeUserRole(role) === 'admin';
+}
+
 export function hasPermission(
   role: string | null | undefined,
   permission:

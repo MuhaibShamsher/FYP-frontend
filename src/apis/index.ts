@@ -7,4 +7,3 @@ export * from './complianceApi';
 export * from './feedApis';
 export * from './reports';
 export * from './sharedApi';
-export * from './organizationApi';

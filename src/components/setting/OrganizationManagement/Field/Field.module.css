@@ -1,0 +1,25 @@
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.fieldLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: rgb(234, 88, 12);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+.labelIcon {
+  display: inline-flex;
+  align-items: center;
+}

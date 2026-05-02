@@ -1,5 +1,9 @@
 import { baseApi } from './baseApi';
-import type { User } from '@/types/auth';
+import type {
+  User,
+  Organization,
+  UpdateOrganizationRequest,
+} from '@/types/auth';
 
 export interface LoginResponse {
   email: string;
@@ -88,6 +92,26 @@ export const authApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['Users'],
     }),
+
+    getOrganization: builder.query<Organization, void>({
+      query: () => ({
+        url: 'auth/organization/',
+        method: 'GET',
+      }),
+      providesTags: ['Organization'],
+    }),
+
+    patchOrganization: builder.mutation<
+      Organization,
+      UpdateOrganizationRequest
+    >({
+      query: (data) => ({
+        url: 'auth/organization/',
+        method: 'PATCH',
+        body: data,
+      }),
+      invalidatesTags: ['Organization'],
+    }),
   }),
 });
 
@@ -101,4 +125,6 @@ export const {
   useGetUsersQuery,
   useUpdateUserMutation,
   useDeleteUserMutation,
+  useGetOrganizationQuery,
+  usePatchOrganizationMutation,
 } = authApi;

@@ -23,7 +23,7 @@ interface PasswordStrength {
   isValid: boolean;
 }
 
-interface UseSettingsPageReturn {
+interface UseChangePasswordReturn {
   // Form data
   passwordData: PasswordFormData;
   passwordVisibility: PasswordVisibility;
@@ -40,13 +40,9 @@ interface UseSettingsPageReturn {
   setShowNewPassword: (show: boolean) => void;
   setShowConfirmPassword: (show: boolean) => void;
   handleChangePassword: (e: React.FormEvent) => Promise<void>;
-
-  // Validation
-  validatePasswordStrength: (password: string) => PasswordStrength;
-  validateForm: () => { isValid: boolean; errors: string[] };
 }
 
-export default function useSettingsPage(): UseSettingsPageReturn {
+export default function useChangePassword(): UseChangePasswordReturn {
   const { handleError, handleAsyncError } = useErrorHandler({
     showToast: true,
     logToConsole: true,
@@ -207,9 +203,5 @@ export default function useSettingsPage(): UseSettingsPageReturn {
     setShowNewPassword,
     setShowConfirmPassword,
     handleChangePassword,
-
-    // Validation
-    validatePasswordStrength,
-    validateForm,
   };
 }
