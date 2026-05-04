@@ -1,18 +1,8 @@
-import { useEffect } from 'react';
-import {
-  ShieldAlert,
-  Server,
-  Activity,
-  FileText,
-  ChevronDown,
-  AlertTriangle,
-  HardDrive,
-  Search,
-} from 'lucide-react';
-import { LoadingState, ErrorState } from '@/components/custom';
-import useComplianceViolationsPage from '@/hooks/useComplianceViolationsPage';
-import useVisualFetching from '@/hooks/useVisualFetching';
-import type { RootCause } from '@/types';
+import { useComplianceViolationsPage } from '@/hooks';
+import { LoadingState, ErrorState, EmptyState } from '@/components/custom';
+import { ComplianceViolationCard } from '@/components/compliance';
+import { Card } from '@/components/ui';
+import { ShieldAlert, ShieldCheck, Search } from 'lucide-react';
 import styles from './ComplianceViolations.module.css';
 
 export default function ComplianceViolationsPage() {
@@ -20,21 +10,13 @@ export default function ComplianceViolationsPage() {
     assets,
     isLoading,
     isError,
+    isEmptyResult,
     searchQuery,
     setSearchQuery,
     expandedAsset,
     toggleAsset,
     getSeverityClass,
   } = useComplianceViolationsPage();
-
-  const { isVisualFetching, handleFetchingChange } = useVisualFetching({
-    minVisibleTime: 400,
-  });
-
-  // Apply visual fetching when loading changes
-  useEffect(() => {
-    handleFetchingChange(isLoading);
-  }, [isLoading, handleFetchingChange]);
 
   if (isLoading) {
     return <LoadingState text="LOADING VIOLATIONS..." />;
@@ -77,162 +59,32 @@ export default function ComplianceViolationsPage() {
         </div>
       </div>
 
-      {assets.length === 0 ? (
-        <div className={styles.centerContent}>
-          <ShieldAlert
-            size={48}
-            style={{ color: '#22c55e', marginBottom: '1rem' }}
+      <Card className={styles.mainCard}>
+        {isEmptyResult ? (
+          <EmptyState
+            icon={ShieldCheck}
+            title="NO VIOLATIONS FOUND"
+            message={
+              searchQuery
+                ? 'Adjust your search term to discover other violations.'
+                : 'All assets are fully compliant with the assessed frameworks.'
+            }
+            actionLabel={searchQuery ? 'RESET SEARCH' : undefined}
+            onAction={() => setSearchQuery('')}
           />
-          <h2 style={{ color: 'white', fontSize: '1.25rem' }}>
-            No Violations Found
-          </h2>
-          <p>All assets are fully compliant with the assessed frameworks.</p>
-        </div>
-      ) : (
-        <div className={styles.mainCard}>
-          <div
-            className={`${styles.assetsList} ${isVisualFetching ? styles.updating : ''}`}
-          >
-            {assets.map((asset, index) => {
-              const isExpanded = expandedAsset === asset.ip_address;
-              return (
-                <div
-                  key={asset.ip_address}
-                  className={styles.assetItem}
-                  style={{ animationDelay: `${index * 30}ms` }}
-                >
-                  {/* Asset Header */}
-                  <div
-                    className={styles.assetHeader}
-                    onClick={() => toggleAsset(asset.ip_address)}
-                  >
-                    <div className={styles.assetIdent}>
-                      <div className={styles.serverIconWrapper}>
-                        <Server size={20} />
-                      </div>
-
-                      <div className={styles.assetMeta}>
-                        <div className={styles.headlineRow}>
-                          <span className={styles.hostname}>
-                            {asset.hostname || 'Unknown Hostname'}
-                          </span>
-                          <span className={styles.ipAddressTag}>
-                            {asset.ip_address}
-                          </span>
-                        </div>
-                        <div className={styles.deviceInfo}>
-                          {asset.device_type && (
-                            <span className={styles.tag}>
-                              <HardDrive
-                                size={12}
-                                style={{ marginRight: '6px' }}
-                              />
-                              {asset.device_type}
-                            </span>
-                          )}
-                          {asset.os_name && (
-                            <span className={styles.tag}>
-                              <Activity
-                                size={12}
-                                style={{ marginRight: '6px' }}
-                              />
-                              {asset.os_name}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className={styles.violationInfo}>
-                      <div className={styles.countBadge}>
-                        <AlertTriangle size={14} />
-                        {asset.violation_count} Violations
-                      </div>
-                      <ChevronDown
-                        className={`${styles.chevron} ${isExpanded ? styles.chevronExpanded : ''}`}
-                        size={20}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Expanded Content */}
-                  {isExpanded && (
-                    <div className={styles.expandedContent}>
-                      {/* Controls Violated Overview */}
-                      <h4 className={styles.sectionTitle}>
-                        <FileText className={styles.sectionIcon} />
-                        Controls Violated Overview
-                      </h4>
-                      <div className={styles.controlsList}>
-                        {asset.controls_violated.map((control) => (
-                          <span key={control} className={styles.controlBadge}>
-                            {control}
-                          </span>
-                        ))}
-                      </div>
-
-                      {/* Root Causes */}
-                      <h4 className={styles.sectionTitle}>
-                        <AlertTriangle className={styles.sectionIcon} />
-                        Root Causes
-                      </h4>
-                      <div className={styles.rootCausesGrid}>
-                        {asset.root_causes.map(
-                          (cause: RootCause, idx: number) => (
-                            <div key={idx} className={styles.causeCard}>
-                              <div className={styles.causeHeader}>
-                                <div className={styles.causeTitleGroup}>
-                                  <span className={styles.causeTitle}>
-                                    {cause.vuln_type
-                                      ? cause.vuln_type.replace(/_/g, ' ')
-                                      : 'Unknown vulnerability'}
-                                  </span>
-                                  <span className={styles.causeService}>
-                                    {cause.service
-                                      ? `Service: ${cause.service.toUpperCase()}`
-                                      : ''}
-                                    {cause.port ? ` (Port ${cause.port})` : ''}
-                                  </span>
-                                </div>
-                                <span
-                                  className={`${styles.severityBadge} ${styles[getSeverityClass(cause.severity)]}`}
-                                >
-                                  {(cause.severity || 'info').toUpperCase()}
-                                </span>
-                              </div>
-
-                              <p className={styles.causeDescription}>
-                                {cause.description ||
-                                  'No description available for this finding.'}
-                              </p>
-
-                              <div className={styles.causeFooter}>
-                                <span className={styles.causeFooterLabel}>
-                                  Controls Triggered
-                                </span>
-                                <div className={styles.miniControlsList}>
-                                  {cause.controls_violated.map((cv) => (
-                                    <span
-                                      key={`${idx}-${cv}`}
-                                      className={styles.miniControlBadge}
-                                    >
-                                      {cv}
-                                    </span>
-                                  ))}
-                                </div>
-                              </div>
-                            </div>
-                          )
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
+        ) : (
+          assets.map((asset, index) => (
+            <ComplianceViolationCard
+              key={asset.ip_address}
+              asset={asset}
+              index={index}
+              isExpanded={expandedAsset === asset.ip_address}
+              onToggle={() => toggleAsset(asset.ip_address)}
+              getSeverityClass={getSeverityClass}
+            />
+          ))
+        )}
+      </Card>
     </div>
   );
 }

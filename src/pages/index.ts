@@ -9,3 +9,4 @@ export { default as VulnerabilitiesPage } from './Vulnerabilities/Vulnerabilitie
 export { default as ComplianceViolationsPage } from './ComplianceViolations/ComplianceViolations';
 export { default as ComplianceResultsPage } from './ComplianceResults/ComplianceResults';
 export { default as FeedManagementPage } from './FeedManagement/FeedManagement';
+export { default as UsersPage } from './Users/Users';

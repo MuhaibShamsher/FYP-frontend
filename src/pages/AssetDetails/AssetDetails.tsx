@@ -1,16 +1,16 @@
 import { useState } from 'react';
+import { useAssetDetailsPage } from '@/hooks';
+import { PortEditModal } from '@/components/modal';
+import { LoadingState, ErrorState, EmptyState } from '@/components/custom';
+import { Button } from '@/components/ui';
 import {
   SystemIdentity,
   RiskProfile,
   PortAnalytics,
   VulnerabilityDetails,
 } from '@/components/asset';
-import { PortEditModal } from '@/components/models';
-import { LoadingState, ErrorState, EmptyState } from '@/components/custom';
-import { Button } from '@/components/ui/button';
 import { ArrowLeft, Server } from 'lucide-react';
 import type { Port } from '@/types';
-import useAssetDetailsPage from '@/hooks/useAssetDetailsPage';
 import styles from './AssetDetails.module.css';
 
 export default function AssetDetailsPage() {

@@ -1,10 +1,7 @@
 import { useEffect, useRef } from 'react';
 import styles from './RadarScanner.module.css';
 
-export default function RadarScanner({
-  progress,
-  isActive = false,
-}: {
+export default function RadarScanner({ progress, isActive = false }: {
   progress: number;
   isActive?: boolean;
 }) {
@@ -118,11 +115,7 @@ export default function RadarScanner({
           <div className={styles.overlayContent}>
             <span className={styles.progressText}>{Math.round(progress)}%</span>
             <span className={styles.statusText}>
-              {progress === 100
-                ? 'COMPLETE'
-                : isActive
-                  ? 'SCANNING'
-                  : 'STANDBY'}
+              {progress === 100 ? 'COMPLETE' : isActive ? 'SCANNING' : 'STANDBY'}
             </span>
           </div>
         </div>

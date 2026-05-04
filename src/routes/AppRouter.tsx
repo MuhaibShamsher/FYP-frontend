@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoutes';
-import RootLayout from '@/Layout';
+import RootLayout from '@/layout/Layout';
 import {
   LoginPage,
   DashboardPage,
@@ -12,6 +12,7 @@ import {
   ComplianceViolationsPage,
   ComplianceResultsPage,
   FeedManagementPage,
+  UsersPage,
 } from '@/pages';
 
 export const router = createBrowserRouter([
@@ -32,12 +33,16 @@ export const router = createBrowserRouter([
           { path: 'assets/:assetId', element: <AssetDetailsPage /> },
           { path: 'scans', element: <ScansPage /> },
           { path: 'vulnerabilities', element: <VulnerabilitiesPage /> },
-          {
-            path: 'compliance/violations',
-            element: <ComplianceViolationsPage />,
-          },
+          { path: 'compliance/violations', element: <ComplianceViolationsPage /> },
           { path: 'compliance/results', element: <ComplianceResultsPage /> },
-          { path: 'feeds', element: <FeedManagementPage /> },
+          { 
+            element: <ProtectedRoute allowedRoles={['admin', "risk_analyzer"]} />,
+            children: [{ path: 'feeds', element: <FeedManagementPage /> }],
+          },
+          {
+            element: <ProtectedRoute allowedRoles={['admin']} />,
+            children: [{ path: 'users', element: <UsersPage /> }],
+          },
           { path: 'settings', element: <SettingsPage /> },
         ],
       },

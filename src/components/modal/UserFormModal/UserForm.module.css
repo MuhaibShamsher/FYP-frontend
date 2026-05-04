@@ -1,0 +1,103 @@
+.dialogContent {
+  max-width: 28rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.dialogTitle {
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #ea580c;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.input {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+.inputDisabled {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.05);
+  color: #737373;
+  cursor: not-allowed;
+}
+
+.selectTrigger {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+.selectContent {
+  background-color: rgba(23, 23, 23, 0.9);
+  backdrop-filter: blur(24px);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.checkbox {
+  height: 1rem;
+  width: 1rem;
+  accent-color: #ea580c;
+  cursor: pointer;
+}
+
+.checkboxLabel {
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: normal;
+  color: #d4d4d4;
+}
+
+.dialogFooter {
+  padding-top: 0.5rem;
+}
+
+.cancelButton {
+  color: #a3a3a3;
+}
+
+.cancelButton:hover {
+  color: white;
+}
+
+.submitButton {
+  background-color: #dc2626;
+}
+
+.submitButton:hover {
+  background-color: #f97316;
+  color: white;
+}
+
+.fieldGroupLabel {
+  font-size: 0.65rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #a3a3a3;
+}
+
+.errorMessage {
+  font-size: 0.75rem;
+  color: #ef4444;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}

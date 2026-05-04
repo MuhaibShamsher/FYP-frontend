@@ -1,14 +1,14 @@
+import { useScansPage } from '@/hooks';
 import { formatDateTime, formatDuration } from '@/utils/formatUtils';
 import { getStatusColor } from '@/utils/scan';
+import { ScanDetailModal } from '@/components/modal';
+import { Card, CardContent, CardHeader, CardTitle, Badge } from '@/components/ui';
 import {
   LoadingState,
   ErrorState,
   EmptyState,
   StatCard,
 } from '@/components/custom';
-import { ScanDetailModal } from '@/components/models';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import {
   Activity,
   Server,
@@ -17,7 +17,6 @@ import {
   Globe,
   Hourglass,
 } from 'lucide-react';
-import useScansPage from '@/hooks/useScansPage';
 import styles from './Scans.module.css';
 
 export default function ScansPage() {
@@ -25,15 +24,16 @@ export default function ScansPage() {
     scans,
     selectedScan,
     SCAN_STATISTICS,
-    isError: scanError,
     selectScan,
+    isLoading,
+    isError,
   } = useScansPage();
 
-  if (scans === null) {
+  if (isLoading) {
     return <LoadingState text="LOADING SCANS..." />;
   }
 
-  if (scanError) {
+  if (isError) {
     return (
       <ErrorState
         title="ERROR LOADING SCANS"

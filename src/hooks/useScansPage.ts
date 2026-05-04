@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useGetScansQuery } from '@/store/apis/scanApi';
+import { useGetScansQuery } from '@/apis';
 import { Target, CheckCircle, Hourglass, AlertTriangle } from 'lucide-react';
 import type { Scan, ScanStatistics } from '@/types';
 

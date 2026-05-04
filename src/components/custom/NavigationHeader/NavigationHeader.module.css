@@ -5,7 +5,12 @@
   left: 0;
   right: 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  background: linear-gradient(90deg, rgba(10, 10, 15, 0.8) 0%, rgba(20, 20, 25, 0.9) 50%, rgba(10, 10, 15, 0.8) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(10, 10, 15, 0.8) 0%,
+    rgba(20, 20, 25, 0.9) 50%,
+    rgba(10, 10, 15, 0.8) 100%
+  );
   backdrop-filter: blur(40px);
   z-index: 40;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
@@ -44,7 +49,11 @@
 
 .navButtonActive {
   color: var(--ui-text-primary);
-  background: linear-gradient(180deg, rgba(var(--ui-accent-blue), 0.15) 0%, rgba(var(--ui-accent-blue), 0.05) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(var(--ui-accent-blue), 0.15) 0%,
+    rgba(var(--ui-accent-blue), 0.05) 100%
+  );
   border: 1px solid rgba(var(--ui-accent-blue), 0.3);
   box-shadow: 0 4px 15px rgba(var(--ui-accent-blue), 0.1);
 }

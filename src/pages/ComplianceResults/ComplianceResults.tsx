@@ -1,6 +1,5 @@
-import { useEffect } from 'react';
-import useComplianceResultsPage from '@/hooks/useComplianceResultsPage';
-import useVisualFetching from '@/hooks/useVisualFetching';
+import { useComplianceResultsPage } from '@/hooks';
+import { ComplianceResultRow } from '@/components/compliance';
 import {
   LoadingState,
   ErrorState,
@@ -8,8 +7,7 @@ import {
   EmptyState,
   SearchFilterBar,
 } from '@/components/custom';
-import { ComplianceResultRow } from '@/components/compliance';
-import { Card } from '@/components/ui/card';
+import { Card } from '@/components/ui';
 import { ShieldCheck } from 'lucide-react';
 import type { ComplianceFramework } from '@/types';
 import styles from './ComplianceResults.module.css';
@@ -30,26 +28,18 @@ export default function ComplianceResultsPage() {
     results,
     pagination,
     isLoading,
-    isFetching,
+    isVisualFetching,
     isError,
-    hasResponse,
+    isEmptyResult,
+    isFiltered,
     pageSize,
   } = useComplianceResultsPage();
-
-  const { isVisualFetching, handleFetchingChange } = useVisualFetching({
-    minVisibleTime: 400,
-  });
-
-  // Apply visual fetching when isFetching changes
-  useEffect(() => {
-    handleFetchingChange(isFetching);
-  }, [isFetching, handleFetchingChange]);
 
   if (isLoading) {
     return <LoadingState text="LOADING COMPLIANCE RESULTS..." />;
   }
 
-  if (isError || !hasResponse) {
+  if (isError) {
     return (
       <ErrorState
         title="FAILED TO LOAD RESULTS"
@@ -108,11 +98,21 @@ export default function ComplianceResultsPage() {
 
       <Card className={styles.mainCard}>
         <div className={isVisualFetching ? styles.updating : ''}>
-          {results.length === 0 ? (
+          {isEmptyResult ? (
             <EmptyState
               icon={ShieldCheck}
-              title="NO COMPLIANCE RESULTS"
-              message="No compliance controls were found for the current assessment."
+              title="NO RESULTS FOUND"
+              message={
+                isFiltered
+                  ? 'Adjust your filters or search term to discover other violations.'
+                  : 'No compliance controls were found for the current assessment.'
+              }
+              actionLabel={isFiltered ? 'RESET ALL FILTERS' : undefined}
+              onAction={() => {
+                setFramework('iso27001'),
+                setStatusFilter('all'),
+                setCategoryInput('')
+              }}
             />
           ) : (
             results.map((row, index) => (
@@ -136,7 +136,7 @@ export default function ComplianceResultsPage() {
               totalItems={pagination.count}
               itemsPerPage={pagination.page_size || pageSize}
               onPageChange={setCurrentPage}
-              isFetching={isFetching}
+              isFetching={isVisualFetching}
               itemLabel="controls"
             />
           )}

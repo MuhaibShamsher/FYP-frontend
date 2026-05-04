@@ -1,9 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import type { RootState } from '@/store';
 import {
   useGetScanAssetsQuery,
   useGetLastScanAssetsQuery,
-} from '@/store/apis/scanApi';
+} from '@/apis';
+import { usePipelineStatus } from '@/hooks';
 import { CalculateAssetStatistics } from '@/utils/asset';
 import {
   Shield,
@@ -36,18 +39,18 @@ interface UseAssetsPageReturn {
 
 export default function useAssetsPage(): UseAssetsPageReturn {
   const [assets, setAssets] = useState<Asset[]>([]);
-  const [scanId, setScanId] = useState<string | null>(null);
   const [assetStatistics, setAssetStatistics] =
     useState<AssetStatistics | null>(null);
 
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  // Extract scanId from URL params
-  useEffect(() => {
-    const paramScanId = searchParams.get('scanID');
-    setScanId(paramScanId);
-  }, [searchParams]);
+  // 1. Determine the effective scan ID
+  const paramScanId = searchParams.get('scanID');
+  const { latestData, isLoading: isPipelineLoading } = usePipelineStatus();
+  const { scanId: persistedScanId } = useSelector((s: RootState) => s.activeIds);
+
+  const effectiveScanId = paramScanId || latestData?.asset_scan?.scan?.id || persistedScanId;
 
   // API queries
   const {
@@ -56,7 +59,7 @@ export default function useAssetsPage(): UseAssetsPageReturn {
     error: lastScanError,
     refetch: refetchLastScan,
   } = useGetLastScanAssetsQuery(undefined, {
-    skip: Boolean(scanId),
+    skip: Boolean(effectiveScanId),
   });
 
   const {
@@ -64,18 +67,18 @@ export default function useAssetsPage(): UseAssetsPageReturn {
     isLoading: scanLoading,
     error: scanError,
     refetch: refetchScan,
-  } = useGetScanAssetsQuery(scanId || '', {
-    skip: !scanId,
+  } = useGetScanAssetsQuery(effectiveScanId || '', {
+    skip: !effectiveScanId,
   });
 
   // Update assets data when API results change
   useEffect(() => {
-    if (scanId && scanAssetsResult) {
+    if (effectiveScanId && scanAssetsResult) {
       setAssets(scanAssetsResult.assets || []);
-    } else if (!scanId && lastScanAssetsResult) {
+    } else if (!effectiveScanId && lastScanAssetsResult) {
       setAssets(lastScanAssetsResult.assets || []);
     }
-  }, [scanId, scanAssetsResult, lastScanAssetsResult]);
+  }, [effectiveScanId, scanAssetsResult, lastScanAssetsResult]);
 
   // Calculate statistics when assets change
   useEffect(() => {
@@ -131,15 +134,15 @@ export default function useAssetsPage(): UseAssetsPageReturn {
 
   // Refresh action
   const refreshAssets = useCallback(() => {
-    if (scanId) {
+    if (effectiveScanId) {
       refetchScan();
     } else {
       refetchLastScan();
     }
-  }, [scanId, refetchScan, refetchLastScan]);
+  }, [effectiveScanId, refetchScan, refetchLastScan]);
 
   // Loading state
-  const isLoading = scanId ? scanLoading : lastScanLoading;
+  const isLoading = effectiveScanId ? (scanLoading || isPipelineLoading) : lastScanLoading;
   const isLastScanLoading = lastScanLoading;
   const isScanLoading = scanLoading;
 
@@ -149,7 +152,7 @@ export default function useAssetsPage(): UseAssetsPageReturn {
   return {
     assets,
     assetStatistics,
-    scanId,
+    scanId: effectiveScanId,
     isLoading,
     isError,
     isLastScanLoading,

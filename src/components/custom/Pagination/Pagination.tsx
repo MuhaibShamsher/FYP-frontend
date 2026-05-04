@@ -88,23 +88,21 @@ export default function TerminalPagination({
           onClick={() => onPageChange(currentPage - 1)}
         >
           <ChevronLeft
-            className={`w-4 h-4 ${styles.arrowIcon} ${styles.arrowIconPrev}`}
+            className={`${styles.iconSmall} ${styles.arrowIcon} ${styles.arrowIconPrev}`}
           />{' '}
           PREV
         </button>
 
-        <div className="flex gap-1">
+        <div className={styles.pageNumbersContainer}>
           {getPageNumbers().map((pageNum, idx) => (
             <React.Fragment key={idx}>
               {pageNum === '...' ? (
-                <span className="px-2 text-slate-600 font-mono text-xs flex items-center">
-                  ...
-                </span>
+                <span className={styles.ellipsisSpan}>...</span>
               ) : (
                 <button
-                  className={`${styles.pageButton} ${
+                  className={`${styles.pageNumberButton} ${
                     currentPage === pageNum ? styles.pageButtonActive : ''
-                  } p-0! w-9 h-9 flex items-center justify-center font-mono`}
+                  }`}
                   onClick={() => onPageChange(pageNum as number)}
                   disabled={isFetching}
                 >
@@ -122,7 +120,7 @@ export default function TerminalPagination({
         >
           NEXT{' '}
           <ChevronRight
-            className={`w-4 h-4 ${styles.arrowIcon} ${styles.arrowIconNext}`}
+            className={`${styles.iconSmall} ${styles.arrowIcon} ${styles.arrowIconNext}`}
           />
         </button>
       </div>

@@ -1,20 +1,28 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import authReducer from './slices/authSlice';
-import headerReducer from './slices/headerSlice';
-import scanSessionReducer from './slices/scanSessionSlice';
-import { baseApi } from './apis/baseApi';
-import { apiErrorMiddleware } from './middleware/apiErrorMiddleware';
-import { scanSocketMiddleware } from './middleware/scanSocketMiddleware';
+import { persistStore, persistReducer } from 'redux-persist';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { baseApi } from '@/apis';
+import {
+  activeIdsReducer,
+  authReducer,
+  headerReducer,
+  scanSessionReducer,
+} from './slices';
+import { 
+  apiErrorMiddleware,
+  scanSocketMiddleware,
+  riskSocketMiddleware,
+  complianceSocketMiddleware, 
+} from './middleware';
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth', 'header', 'scanSession'],
+  whitelist: ['auth', 'header', 'scanSession', 'activeIds'],
 };
 
 const rootReducer = combineReducers({
+  activeIds: activeIdsReducer,
   auth: authReducer,
   header: headerReducer,
   scanSession: scanSessionReducer,
@@ -30,7 +38,13 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
       },
-    }).concat(baseApi.middleware, apiErrorMiddleware, scanSocketMiddleware),
+    }).concat(
+      baseApi.middleware,
+      apiErrorMiddleware,
+      scanSocketMiddleware,
+      riskSocketMiddleware,
+      complianceSocketMiddleware,
+    ),
 });
 
 export const persistor = persistStore(store);

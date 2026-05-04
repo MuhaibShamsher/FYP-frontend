@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setActiveSection } from '@/store/slices/headerSlice';
+import { canAccessUsers } from '@/utils/rbac';
 import {
   LayoutDashboard,
   Server,
@@ -9,9 +10,11 @@ import {
   Database,
   Settings,
   FileText,
+  Users as UsersIcon,
   type LucideIcon,
 } from 'lucide-react';
 import type { SectionKey } from '@/types';
+import type { RootState } from '@/store';
 import styles from './NavigationHeader.module.css';
 
 export default function NavigationHeader() {
@@ -49,6 +52,7 @@ export default function NavigationHeader() {
       path: '/compliance/results',
     },
     { id: 'feeds', icon: Database, label: 'Feeds', path: '/feeds' },
+    { id: 'users', icon: UsersIcon, label: 'Users', path: '/users' },
     { id: 'scans', icon: Radar, label: 'Scans', path: '/scans' },
     { id: 'settings', icon: Settings, label: 'Settings', path: '/settings' },
   ];
@@ -56,6 +60,11 @@ export default function NavigationHeader() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const userRole = useSelector((state: RootState) => state.auth.user?.role);
+
+  const visibleNavItems = navItems.filter(
+    (item) => item.id !== 'users' || canAccessUsers(userRole)
+  );
 
   const handleNavigation = (item: NavItem) => {
     dispatch(setActiveSection(item.id));
@@ -65,7 +74,7 @@ export default function NavigationHeader() {
   return (
     <div className={styles.navigationHeader}>
       <div className={styles.navigationContainer}>
-        {navItems.map((item) => {
+        {visibleNavItems.map((item) => {
           const isActive = location.pathname === item.path;
           const Icon = item.icon;
 

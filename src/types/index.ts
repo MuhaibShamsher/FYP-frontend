@@ -94,6 +94,7 @@ export type SectionKey =
   | 'dashboard'
   | 'reports'
   | 'settings'
+  | 'users'
   | 'vulnerabilities'
   | 'compliance-violations'
   | 'compliance-results'
