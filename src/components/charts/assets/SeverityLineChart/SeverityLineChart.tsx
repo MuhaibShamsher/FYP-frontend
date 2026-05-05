@@ -9,6 +9,7 @@ import {
 } from 'recharts';
 import type { Asset } from '@/types';
 import { transformAssetsToLineChartData } from '@/constants';
+import { getSeverityColorFallback } from '@/utils/chartColors';
 import styles from './SeverityLineChart.module.css';
 
 const CustomDot = (props: any) => {
@@ -52,11 +53,12 @@ export default function AssetSeverityLineChart({
     4: 'Critical',
   };
 
+  // Map severity numeric values to design token colors
   const severityColors: Record<number, string> = {
-    1: '#4dffb8',
-    2: '#4da6ff',
-    3: '#ff944d',
-    4: '#ff4d4d',
+    1: getSeverityColorFallback('low'),
+    2: getSeverityColorFallback('medium'),
+    3: getSeverityColorFallback('high'),
+    4: getSeverityColorFallback('critical'),
   };
 
   const CustomTooltip = ({ active, payload, label }: any) => {
@@ -155,74 +157,90 @@ export default function AssetSeverityLineChart({
 
   return (
     <div className={styles.chartScrollContainer}>
-      <div className={styles.chartContainer}>
-        <ResponsiveContainer width="100%" height="100%" minHeight={450}>
-          <AreaChart
-            data={chartData}
-            margin={{ top: 30, right: 30, left: 45, bottom: 80 }}
-          >
-            <defs>
-              <linearGradient id="severityGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#ff944d" stopOpacity={0.4} />
-                <stop offset="100%" stopColor="#ff944d" stopOpacity={0} />
-              </linearGradient>
-              <filter
-                id="lineChartGlow"
-                x="-20%"
-                y="-20%"
-                width="140%"
-                height="140%"
-              >
-                <feGaussianBlur stdDeviation="5" result="blur" />
-                <feComposite in="SourceGraphic" in2="blur" operator="over" />
-              </filter>
-            </defs>
-            <CartesianGrid
-              strokeDasharray="8 8"
-              stroke="#ffffff"
-              strokeOpacity={0.03}
-              vertical={false}
-            />
-            <XAxis
-              dataKey="name"
-              tick={<CustomXAxisTick />}
-              stroke="#1e293b"
-              axisLine={false}
-              tickLine={false}
-            />
-            <YAxis
-              domain={[0.5, 4.5]}
-              ticks={[1, 2, 3, 4]}
-              tick={<CustomYAxisTick />}
-              stroke="#1e293b"
-              axisLine={false}
-              tickLine={false}
-            />
-            <Tooltip
-              content={<CustomTooltip />}
-              cursor={{ stroke: '#ffffff', strokeOpacity: 0.1, strokeWidth: 1 }}
-            />
-            <Area
-              type="monotone"
-              dataKey="severity"
-              stroke="#ff944d"
-              strokeWidth={4}
-              fill="url(#severityGradient)"
-              dot={<CustomDot />}
-              activeDot={{
-                r: 6,
-                fill: '#ffffff',
-                stroke: '#ff944d',
-                strokeWidth: 3,
-              }}
-              animationBegin={0}
-              animationDuration={2500}
-              animationEasing="ease-in-out"
-              filter="url(#lineChartGlow)"
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
+      {chartData.length === 0 ? (
+        <div className={styles.noDataContainer}>
+          <p className={styles.noDataText}>No severity data available</p>
+        </div>
+      ) : (
+        <div className={styles.chartContainer}>
+          <ResponsiveContainer width="100%" height="100%" minHeight={450}>
+            <AreaChart
+              data={chartData}
+              margin={{ top: 30, right: 30, left: 45, bottom: 80 }}
+            >
+              <defs>
+                <linearGradient
+                  id="severityGradient"
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
+                >
+                  <stop offset="0%" stopColor="#f59e0b" stopOpacity={0.4} />
+                  <stop offset="100%" stopColor="#f59e0b" stopOpacity={0} />
+                </linearGradient>
+                <filter
+                  id="lineChartGlow"
+                  x="-20%"
+                  y="-20%"
+                  width="140%"
+                  height="140%"
+                >
+                  <feGaussianBlur stdDeviation="5" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+              </defs>
+              <CartesianGrid
+                strokeDasharray="8 8"
+                stroke="#ffffff"
+                strokeOpacity={0.03}
+                vertical={false}
+              />
+              <XAxis
+                dataKey="name"
+                tick={<CustomXAxisTick />}
+                stroke="#1e293b"
+                axisLine={false}
+                tickLine={false}
+              />
+              <YAxis
+                domain={[0.5, 4.5]}
+                ticks={[1, 2, 3, 4]}
+                tick={<CustomYAxisTick />}
+                stroke="#1e293b"
+                axisLine={false}
+                tickLine={false}
+              />
+              <Tooltip
+                content={<CustomTooltip />}
+                cursor={{
+                  stroke: '#ffffff',
+                  strokeOpacity: 0.1,
+                  strokeWidth: 1,
+                }}
+              />
+              <Area
+                type="monotone"
+                dataKey="severity"
+                stroke="#f59e0b"
+                strokeWidth={4}
+                fill="url(#severityGradient)"
+                dot={<CustomDot />}
+                activeDot={{
+                  r: 6,
+                  fill: '#ffffff',
+                  stroke: '#f59e0b',
+                  strokeWidth: 3,
+                }}
+                animationBegin={0}
+                animationDuration={800}
+                animationEasing="ease-in-out"
+                filter="url(#lineChartGlow)"
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      )}
     </div>
   );
 }

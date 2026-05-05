@@ -10,6 +10,7 @@ import {
 } from 'recharts';
 
 import { transformAssetsToDeviceTypeData } from '@/constants';
+import { getPaletteColorFallback, getGlowColor } from '@/utils/chartColors';
 import type { Asset } from '@/types';
 import styles from './DeviceTypePieChart.module.css';
 
@@ -66,7 +67,7 @@ const renderActiveShape = (props: any) => {
         x={cx}
         y={cy + 22}
         textAnchor="middle"
-        fill="#00d2ff"
+        fill="#cbd5e1"
         className={styles.activeShapeTextLabel}
       >
         {payload.name}
@@ -85,22 +86,14 @@ export default function DeviceTypePieChart({
     [assets]
   );
 
-  const cyberCyanPalette = [
-    '#00d2ff', // Cyber Cyan
-    '#00b4db', // Deep Cyan
-    '#00a2ff', // Brighter Blue
-    '#00d2ff', // Light Blue
-    '#0575e6', // Royal Blue
-    '#00f260', // Neon Green (Accent)
-    '#00d2ff', // Back to Cyan
-    '#3a7bd5', // Electric Blue
-  ];
-
-  const data = chartDataRaw.map((item, index) => ({
-    ...item,
-    color: cyberCyanPalette[index % cyberCyanPalette.length],
-    glowColor: `${cyberCyanPalette[index % cyberCyanPalette.length]}66`,
-  }));
+  const data = chartDataRaw.map((item, index) => {
+    const color = getPaletteColorFallback(index);
+    return {
+      ...item,
+      color: color,
+      glowColor: getGlowColor(color, 0.4),
+    };
+  });
 
   const totalDevices = useMemo(
     () => data.reduce((acc, curr) => acc + curr.value, 0),
@@ -166,78 +159,85 @@ export default function DeviceTypePieChart({
 
   return (
     <div className={styles.chartContainer}>
-      <ResponsiveContainer width="100%" height="100%" minHeight={420}>
-        <PieChart>
-          <defs />
-          <Pie
-            {...({
-              activeIndex: activeIndex,
-              activeShape: renderActiveShape,
-              data: data,
-              cx: '50%',
-              cy: '50%',
-              outerRadius: activeIndex !== -1 ? 140 : 130,
-              innerRadius: activeIndex !== -1 ? 85 : 95,
-              paddingAngle: activeIndex !== -1 ? 10 : 4,
-              cornerRadius: activeIndex !== -1 ? 12 : 8,
-              dataKey: 'value',
-              stroke: 'none',
-              onMouseEnter: onPieEnter,
-              onMouseLeave: onPieLeave,
-              animationBegin: 0,
-              animationDuration: 1800,
-              animationEasing: 'ease-out',
-            } as any)}
-          >
-            {data.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={entry.color}
-                className={styles.cell}
-                style={{
-                  filter:
-                    activeIndex === index
-                      ? `drop-shadow(0 0 20px ${entry.glowColor})`
-                      : 'none',
-                  opacity: activeIndex === -1 || activeIndex === index ? 1 : 0.4,
-                }}
-              />
-            ))}
-          </Pie>
-          {activeIndex === -1 && (
-            <g>
-              <text
-                x="50%"
-                y="50%"
-                textAnchor="middle"
-                dominantBaseline="middle"
-              >
-                <tspan x="50%" dy="-10" className={styles.centerTextValue}>
-                  {totalDevices}
-                </tspan>
-                <tspan x="50%" dy="28" className={styles.centerTextLabel}>
-                  NET_SCAN
-                </tspan>
-              </text>
-            </g>
-          )}
-          <Tooltip
-            content={<CustomTooltip />}
-            cursor={{ fill: 'transparent' }}
-          />
-          <Legend
-            verticalAlign="bottom"
-            height={40}
-            iconType="rect"
-            wrapperStyle={{
-              paddingTop: '60px',
-            }}
-            formatter={(_value: any, entry: any) => (
-              <span className={styles.legendLabel}>{entry.payload.name}</span>
+      {data.length === 0 ? (
+        <div className={styles.noDataContainer}>
+          <p className={styles.noDataText}>No device data available</p>
+        </div>
+      ) : (
+        <ResponsiveContainer width="100%" height="100%" minHeight={420}>
+          <PieChart>
+            <defs />
+            <Pie
+              {...({
+                activeIndex: activeIndex,
+                activeShape: renderActiveShape,
+                data: data,
+                cx: '50%',
+                cy: '50%',
+                outerRadius: activeIndex !== -1 ? 140 : 130,
+                innerRadius: activeIndex !== -1 ? 85 : 95,
+                paddingAngle: activeIndex !== -1 ? 10 : 4,
+                cornerRadius: activeIndex !== -1 ? 12 : 8,
+                dataKey: 'value',
+                stroke: 'none',
+                onMouseEnter: onPieEnter,
+                onMouseLeave: onPieLeave,
+                animationBegin: 0,
+                animationDuration: 800,
+                animationEasing: 'ease-out',
+              } as any)}
+            >
+              {data.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={entry.color}
+                  className={styles.cell}
+                  style={{
+                    filter:
+                      activeIndex === index
+                        ? `drop-shadow(0 0 20px ${entry.glowColor})`
+                        : 'none',
+                    opacity:
+                      activeIndex === -1 || activeIndex === index ? 1 : 0.4,
+                  }}
+                />
+              ))}
+            </Pie>
+            {activeIndex === -1 && (
+              <g>
+                <text
+                  x="50%"
+                  y="50%"
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                >
+                  <tspan x="50%" dy="-10" className={styles.centerTextValue}>
+                    {totalDevices}
+                  </tspan>
+                  <tspan x="50%" dy="28" className={styles.centerTextLabel}>
+                    NET_SCAN
+                  </tspan>
+                </text>
+              </g>
             )}
-          />
-        </PieChart>
-      </ResponsiveContainer>
+            <Tooltip
+              content={<CustomTooltip />}
+              cursor={{ fill: 'transparent' }}
+            />
+            <Legend
+              verticalAlign="bottom"
+              height={40}
+              iconType="rect"
+              wrapperStyle={{
+                paddingTop: '60px',
+              }}
+              formatter={(_value: any, entry: any) => (
+                <span className={styles.legendLabel}>{entry.payload.name}</span>
+              )}
+            />
+          </PieChart>
+        </ResponsiveContainer>
+      )}
     </div>
   );
 }

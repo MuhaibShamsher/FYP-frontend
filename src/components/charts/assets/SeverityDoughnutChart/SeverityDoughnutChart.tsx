@@ -7,9 +7,11 @@ import {
   Tooltip,
   Legend,
   Sector,
+  Label,
 } from 'recharts';
 
 import { CalculateAssetStatistics } from '@/utils/asset';
+import { getSeverityColorFallback, getGlowColor } from '@/utils/chartColors';
 import type { Asset } from '@/types';
 import styles from './SeverityDoughnutChart.module.css';
 
@@ -67,6 +69,32 @@ const renderActiveShape = (props: any) => {
   );
 };
 
+const renderCenterLabel = (props: any) => {
+  const { viewBox, payload } = props;
+  if (!viewBox || !payload || !payload.length) return null;
+
+  const total = payload.reduce((sum: number, item: any) => sum + item.value, 0);
+  if (total <= 0) return null;
+
+  const percent = Math.round((payload[0].value / total) * 100);
+
+  return (
+    <text
+      x={viewBox.cx}
+      y={viewBox.cy}
+      textAnchor="middle"
+      dominantBaseline="middle"
+    >
+      <tspan x={viewBox.cx} dy="-8" className={styles.centerTextValue}>
+        {percent}%
+      </tspan>
+      <tspan x={viewBox.cx} dy="22" className={styles.centerTextLabel}>
+        TOP SHARE
+      </tspan>
+    </text>
+  );
+};
+
 export default function DoughnutChart({ assets }: { assets: Asset[] }) {
   const [activeIndex, setActiveIndex] = useState(-1);
 
@@ -76,26 +104,26 @@ export default function DoughnutChart({ assets }: { assets: Asset[] }) {
     {
       name: 'Critical',
       value: stats.critical,
-      color: '#ff4d4d',
-      glowColor: 'rgba(255, 77, 77, 0.6)',
+      color: getSeverityColorFallback('critical'),
+      glowColor: getGlowColor(getSeverityColorFallback('critical'), 0.6),
     },
     {
       name: 'High',
       value: stats.high,
-      color: '#ff944d',
-      glowColor: 'rgba(255, 148, 77, 0.6)',
+      color: getSeverityColorFallback('high'),
+      glowColor: getGlowColor(getSeverityColorFallback('high'), 0.6),
     },
     {
       name: 'Medium',
       value: stats.medium,
-      color: '#4da6ff',
-      glowColor: 'rgba(77, 166, 255, 0.6)',
+      color: getSeverityColorFallback('medium'),
+      glowColor: getGlowColor(getSeverityColorFallback('medium'), 0.6),
     },
     {
       name: 'Low',
       value: stats.low,
-      color: '#4dffb8',
-      glowColor: 'rgba(77, 255, 184, 0.6)',
+      color: getSeverityColorFallback('low'),
+      glowColor: getGlowColor(getSeverityColorFallback('low'), 0.6),
     },
   ].filter((item) => item.value > 0);
 
@@ -114,8 +142,9 @@ export default function DoughnutChart({ assets }: { assets: Asset[] }) {
 
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
-      const data = payload[0].payload;
-      const percentage = ((data.value / totalAssets) * 100).toFixed(1);
+      const item = payload[0].payload;
+      const percentage =
+        totalAssets > 0 ? ((item.value / totalAssets) * 100).toFixed(1) : '0.0';
 
       return (
         <div className={styles.tooltipContainer}>
@@ -123,17 +152,17 @@ export default function DoughnutChart({ assets }: { assets: Asset[] }) {
             <div
               className={styles.tooltipDot}
               style={{
-                backgroundColor: data.color,
-                boxShadow: `0 0 15px ${data.glowColor}`,
+                backgroundColor: item.color,
+                boxShadow: `0 0 15px ${item.glowColor}`,
               }}
             />
-            <div className={styles.tooltipTitle}>{data.name} Severity</div>
+            <div className={styles.tooltipTitle}>{item.name} Severity</div>
           </div>
 
           <div className={styles.tooltipBody}>
             <div className={styles.tooltipDataRow}>
               <div className={styles.tooltipMetric}>
-                <span className={styles.tooltipValueLarge}>{data.value}</span>
+                <span className={styles.tooltipValueLarge}>{item.value}</span>
                 <span className={styles.tooltipLabelSmall}>Assets Count</span>
               </div>
               <div className={styles.tooltipShareGroup}>
@@ -147,8 +176,8 @@ export default function DoughnutChart({ assets }: { assets: Asset[] }) {
                 className={styles.progressBar}
                 style={{
                   width: `${percentage}%`,
-                  backgroundColor: data.color,
-                  boxShadow: `0 0 10px ${data.glowColor}`,
+                  backgroundColor: item.color,
+                  boxShadow: `0 0 10px ${item.glowColor}`,
                 }}
               />
             </div>
@@ -161,73 +190,64 @@ export default function DoughnutChart({ assets }: { assets: Asset[] }) {
 
   return (
     <div className={styles.chartContainer}>
-      <ResponsiveContainer width="100%" height="100%" minHeight={400}>
-        <PieChart>
-          <Pie
-            {...({
-              activeIndex: activeIndex,
-              activeShape: renderActiveShape,
-              data: data,
-              cx: '50%',
-              cy: '50%',
-              innerRadius: 100,
-              outerRadius: 135,
-              paddingAngle: activeIndex !== -1 ? 8 : 4,
-              dataKey: 'value',
-              stroke: 'none',
-              onMouseEnter: onPieEnter,
-              onMouseLeave: onPieLeave,
-              animationBegin: 0,
-              animationDuration: 1500,
-              animationEasing: 'ease-out',
-            } as any)}
-          >
-            {data.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={entry.color}
-                className={styles.cell}
-                style={{
-                  filter: `drop-shadow(0 0 12px ${entry.glowColor})`,
-                  opacity: activeIndex === -1 || activeIndex === index ? 1 : 0.4,
-                }}
-              />
-            ))}
-          </Pie>
-          {activeIndex === -1 && (
-            <g>
-              <text
-                x="50%"
-                y="50%"
-                textAnchor="middle"
-                dominantBaseline="middle"
-              >
-                <tspan x="50%" dy="-10" className={styles.centerTextValue}>
-                  {totalAssets}
-                </tspan>
-                <tspan x="50%" dy="25" className={styles.centerTextLabel}>
-                  TOTAL ASSETS
-                </tspan>
-              </text>
-            </g>
-          )}
-          <Tooltip
-            content={<CustomTooltip />}
-            cursor={{ fill: 'transparent' }}
-          />
-          <Legend
-            verticalAlign="bottom"
-            height={40}
-            iconType="circle"
-            wrapperStyle={{
-              paddingTop: '40px',
-            }}
-            formatter={(_value: any, entry: any) => (
-              <span className={styles.legendLabel}>{entry.payload.name}</span>
-            )}
-          />
-        </PieChart>
-      </ResponsiveContainer>
+      {data.length === 0 ? (
+        <div className={styles.noDataContainer}>
+          <p className={styles.noDataText}>No severity data available</p>
+        </div>
+      ) : (
+        <ResponsiveContainer width="100%" height="100%" minHeight={400}>
+          <PieChart>
+            <Pie
+              {...({
+                activeIndex: activeIndex,
+                activeShape: renderActiveShape,
+                data: data,
+                cx: '50%',
+                cy: '50%',
+                innerRadius: 100,
+                outerRadius: 135,
+                paddingAngle: activeIndex !== -1 ? 8 : 4,
+                dataKey: 'value',
+                stroke: 'none',
+                onMouseEnter: onPieEnter,
+                onMouseLeave: onPieLeave,
+                animationBegin: 0,
+                animationDuration: 800,
+                animationEasing: 'ease-out',
+              } as any)}
+            >
+              <Label content={renderCenterLabel} position="center" />
+              {data.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={entry.color}
+                  className={styles.cell}
+                  style={{
+                    filter: `drop-shadow(0 0 12px ${entry.glowColor})`,
+                    opacity:
+                      activeIndex === -1 || activeIndex === index ? 1 : 0.4,
+                  }}
+                />
+              ))}
+            </Pie>
+            <Tooltip
+              content={<CustomTooltip />}
+              cursor={{ fill: 'transparent' }}
+            />
+            <Legend
+              verticalAlign="bottom"
+              height={40}
+              iconType="circle"
+              wrapperStyle={{
+                paddingTop: '40px',
+              }}
+              formatter={(_value: any, entry: any) => (
+                <span className={styles.legendLabel}>{entry.payload.name}</span>
+              )}
+            />
+          </PieChart>
+        </ResponsiveContainer>
+      )}
     </div>
   );
 }
