@@ -109,17 +109,16 @@ export default function ComplianceResultsPage() {
               }
               actionLabel={isFiltered ? 'RESET ALL FILTERS' : undefined}
               onAction={() => {
-                setFramework('iso27001'),
-                setStatusFilter('all'),
+                setFramework('iso27001');
+                setStatusFilter('all');
                 setCategoryInput('')
               }}
             />
           ) : (
-            results.map((row, index) => (
+            results.map((row) => (
               <ComplianceResultRow
                 key={row.id}
                 row={row}
-                index={index}
                 isOpen={expandedId === row.id}
                 onToggle={() => toggleExpanded(row.id)}
               />

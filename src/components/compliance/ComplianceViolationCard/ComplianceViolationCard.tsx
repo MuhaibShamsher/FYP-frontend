@@ -9,8 +9,8 @@ import {
 import type { RootCause } from '@/types';
 import styles from './ComplianceViolationCard.module.css';
 
-interface AssetProps {
-  asset: any;
+interface ComplianceViolationCardProps {
+  nonCompliantAsset: any;
   index: number;
   isExpanded: boolean;
   onToggle: () => void;
@@ -18,21 +18,17 @@ interface AssetProps {
 }
 
 export default function ComplianceViolationCard({
-  asset,
+  nonCompliantAsset,
   index,
   isExpanded,
   onToggle,
   getSeverityClass,
-}: AssetProps) {
-  const controlsViolated = asset.controls_violated ?? [];
-  const rootCauses = asset.root_causes ?? [];
-  const topCause = rootCauses[0];
+}: ComplianceViolationCardProps) {
+  const controlsViolated = nonCompliantAsset.controls_violated ?? [];
+  const rootCauses = nonCompliantAsset.root_causes ?? [];
 
   return (
-    <div
-      className={styles.assetItem}
-      style={{ animationDelay: `${index * 30}ms` }}
-    >
+    <div className={styles.assetItem} style={{ animationDelay: `${index * 30}ms` }}>
       <div className={styles.assetHeader} onClick={onToggle}>
         <div className={styles.assetIdent}>
           <div className={styles.serverIconWrapper}>
@@ -42,24 +38,21 @@ export default function ComplianceViolationCard({
           <div className={styles.assetMeta}>
             <div className={styles.headlineRow}>
               <span className={styles.hostname}>
-                {asset.hostname || 'Unknown Hostname'}
+                {nonCompliantAsset.hostname || 'Unknown Hostname'}
               </span>
-              <span className={styles.ipAddressTag}>{asset.ip_address}</span>
+              <span className={styles.ipAddressTag}>{nonCompliantAsset.ip_address}</span>
             </div>
             <div className={styles.deviceInfo}>
-              <span className={styles.assetLabel}>
-                Compliance violation summary
-              </span>
-              {asset.device_type && (
+              {nonCompliantAsset.device_type && (
                 <span className={styles.tag}>
                   <HardDrive size={12} style={{ marginRight: '6px' }} />
-                  {asset.device_type}
+                  {nonCompliantAsset.device_type}
                 </span>
               )}
-              {asset.os_name && (
+              {nonCompliantAsset.os_name && (
                 <span className={styles.tag}>
                   <Activity size={12} style={{ marginRight: '6px' }} />
-                  {asset.os_name}
+                  {nonCompliantAsset.os_name}
                 </span>
               )}
             </div>
@@ -69,7 +62,7 @@ export default function ComplianceViolationCard({
         <div className={styles.violationInfo}>
           <div className={styles.countBadge}>
             <AlertTriangle size={14} />
-            {asset.violation_count} Violations
+            {nonCompliantAsset.violation_count} Violations
           </div>
           <ChevronDown
             className={`${styles.chevron} ${isExpanded ? styles.chevronExpanded : ''}`}
@@ -125,16 +118,13 @@ export default function ComplianceViolationCard({
                           {cause.port ? ` · Port ${cause.port}` : ''}
                         </span>
                       </div>
-                      <span
-                        className={`${styles.severityBadge} ${styles[severityClass]}`}
-                      >
+                      <span className={`${styles.severityBadge} ${styles[severityClass]}`} >
                         {(cause.severity || 'info').toUpperCase()}
                       </span>
                     </div>
 
                     <p className={styles.causeDescription}>
-                      {cause.description ||
-                        'No description available for this finding.'}
+                      {cause.description || 'No description available for this finding.'}
                     </p>
 
                     <div className={styles.causeFooter}>
@@ -144,10 +134,7 @@ export default function ComplianceViolationCard({
                       <div className={styles.miniControlsList}>
                         {triggeredControls.length > 0 ? (
                           triggeredControls.map((cv) => (
-                            <span
-                              key={`${idx}-${cv}`}
-                              className={styles.miniControlBadge}
-                            >
+                            <span key={`${idx}-${cv}`} className={styles.miniControlBadge}>
                               {cv}
                             </span>
                           ))
@@ -173,31 +160,6 @@ export default function ComplianceViolationCard({
               </div>
             )}
           </div>
-
-          {topCause && (
-            <div className={styles.summaryStrip}>
-              <div className={styles.summaryItem}>
-                <span className={styles.summaryLabel}>Top issue</span>
-                <span className={styles.summaryValue}>
-                  {topCause.vuln_type
-                    ? topCause.vuln_type.replace(/_/g, ' ')
-                    : 'Unknown vulnerability'}
-                </span>
-              </div>
-              <div className={styles.summaryItem}>
-                <span className={styles.summaryLabel}>Primary service</span>
-                <span className={styles.summaryValue}>
-                  {topCause.service ? topCause.service.toUpperCase() : 'N/A'}
-                </span>
-              </div>
-              <div className={styles.summaryItem}>
-                <span className={styles.summaryLabel}>Severity</span>
-                <span className={styles.summaryValue}>
-                  {(topCause.severity || 'info').toUpperCase()}
-                </span>
-              </div>
-            </div>
-          )}
         </div>
       )}
     </div>

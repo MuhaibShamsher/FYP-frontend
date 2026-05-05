@@ -9,6 +9,7 @@ import {
 import { VulnerabilityRow } from '@/components/vulnerability';
 import { Card } from '@/components/ui';
 import { ShieldAlert, ShieldCheck, Zap } from 'lucide-react';
+import type { Vulnerability } from '@/types';
 import styles from './Vulnerabilities.module.css';
 
 export default function VulnerabilitiesPage() {
@@ -114,11 +115,10 @@ export default function VulnerabilitiesPage() {
               }}
             />
           ) : (
-            vulnerabilities.map((vuln: any, index: number) => (
+            vulnerabilities.map((vuln: Vulnerability) => (
               <VulnerabilityRow
                 key={vuln.id}
                 vuln={vuln}
-                index={index}
                 isOpen={expandedVulnId === vuln.id}
                 onToggle={() => toggleVulnExpansion(vuln.id)}
               />

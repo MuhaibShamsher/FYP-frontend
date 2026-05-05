@@ -1,11 +1,18 @@
+
 .assetItem {
-  opacity: 0;
   animation: slide-in-fade 400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--dashboard-border);
   border-radius: 0.5rem;
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--dashboard-surface);
   overflow: hidden;
   margin-bottom: 1rem;
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease;
+}
+
+.assetItem:hover {
+  border-color: var(--dashboard-border-strong);
 }
 
 .assetHeader {
@@ -19,8 +26,8 @@
 }
 
 .assetHeader:hover {
-  background-color: rgba(255, 255, 255, 0.03);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  background-color: var(--dashboard-surface);
+  box-shadow: none;
 }
 
 .assetIdent {
@@ -32,16 +39,16 @@
 }
 
 .serverIconWrapper {
-  background-color: rgba(var(--ui-accent-blue), 0.1);
-  color: rgb(var(--ui-accent-blue));
-  border: 1px solid rgba(var(--ui-accent-blue), 0.2);
+  background-color: color-mix(in srgb, var(--dashboard-accent) 18%, transparent);
+  color: var(--dashboard-accent);
+  border: 1px solid color-mix(in srgb, var(--dashboard-accent) 40%, var(--dashboard-border));
   border-radius: 0.5rem;
   padding: 0.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.05);
+  box-shadow: none;
 }
 
 .assetMeta {
@@ -59,26 +66,22 @@
 }
 
 .hostname {
-  color: var(--ui-text-primary);
-  font-size: 1.15rem;
+  color: var(--dashboard-text);
+  font-size: 1.05rem;
   font-weight: 700;
   letter-spacing: -0.01em;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  text-shadow: none;
 }
 
 .ipAddressTag {
   font-family: ui-monospace, monospace;
   font-size: 0.75rem;
-  color: var(--ui-text-secondary);
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.08) 0%,
-    rgba(255, 255, 255, 0.03) 100%
-  );
+  color: var(--dashboard-text-soft);
+  background: var(--dashboard-surface-2);
   padding: 0.2rem 0.6rem;
   border-radius: 0.375rem;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--dashboard-border);
+  box-shadow: none;
 }
 
 .deviceInfo {
@@ -87,20 +90,12 @@
   flex-wrap: wrap;
   gap: 0.5rem;
   font-size: 0.75rem;
-  color: var(--ui-text-muted);
-}
-
-.assetLabel {
-  font-size: 0.7rem;
-  color: var(--ui-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-weight: 600;
+  color: var(--dashboard-text-muted);
 }
 
 .tag {
   background-color: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--dashboard-border);
   padding: 0.125rem 0.5rem;
   border-radius: 0.25rem;
   text-transform: capitalize;
@@ -110,8 +105,7 @@
 
 .violationInfo {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
   gap: 0.5rem;
   text-align: right;
   flex-shrink: 0;
@@ -119,11 +113,12 @@
 }
 
 .statusLabel {
-  font-size: 0.65rem;
-  color: var(--ui-text-muted);
+  font-size: 0.68rem;
+  color: var(--dashboard-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-weight: 600;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  font-family: monospace;
 }
 
 .countBadge {
@@ -141,41 +136,41 @@
   display: flex;
   align-items: center;
   gap: 0.375rem;
-  box-shadow: 0 2px 4px rgba(var(--ui-status-fail), 0.1);
+  box-shadow: none;
 }
 
 .chevron {
-  color: var(--ui-text-muted);
+  color: var(--dashboard-text-muted);
   transition: transform 200ms;
 }
 
 .chevronExpanded {
   transform: rotate(180deg);
-  color: var(--ui-text-primary);
+  color: var(--dashboard-text);
 }
 
 .expandedContent {
   padding: 1.25rem 1.5rem 1.5rem;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: var(--dashboard-bg-2);
+  border-top: 1px solid var(--dashboard-border);
   animation: slide-down 300ms ease-out;
-  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: none;
 }
 
 .sectionTitle {
-  font-size: 0.875rem;
+  font-size: 0.925rem;
   font-weight: 700;
-  color: var(--ui-text-primary);
+  color: var(--dashboard-text);
   margin-bottom: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
 .sectionIcon {
-  color: var(--ui-text-muted);
+  color: var(--dashboard-text-muted);
   width: 1.25rem;
   height: 1.25rem;
 }
@@ -189,22 +184,24 @@
 
 .emptyText {
   font-size: 0.8rem;
-  color: var(--ui-text-muted);
+  color: var(--dashboard-text-muted);
   font-style: italic;
 }
 
 .controlBadge {
-  background: linear-gradient(
-    180deg,
-    rgba(var(--ui-accent-blue), 0.15) 0%,
-    rgba(var(--ui-accent-blue), 0.05) 100%
-  );
-  color: var(--ui-accent-blue-light);
-  border: 1px solid rgba(var(--ui-accent-blue), 0.3);
+  background: color-mix(in srgb, var(--dashboard-accent) 20%, transparent);
+  color: var(--dashboard-text);
+  border: 1px solid color-mix(in srgb, var(--dashboard-accent) 45%, var(--dashboard-border));
   padding: 0.25rem 0.75rem;
   border-radius: 0.375rem;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-family: ui-monospace, monospace;
+  transition: all 180ms ease;
+}
+
+.controlBadge:hover {
+  border-color: var(--dashboard-accent);
+  background: color-mix(in srgb, var(--dashboard-accent) 28%, transparent);
 }
 
 .rootCausesGrid {
@@ -220,12 +217,8 @@
 }
 
 .causeCard {
-  background: linear-gradient(
-    145deg,
-    rgba(255, 255, 255, 0.03) 0%,
-    rgba(0, 0, 0, 0.2) 100%
-  );
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--dashboard-surface);
+  border: 1px solid var(--dashboard-border);
   border-radius: 0.75rem;
   padding: 1.25rem;
   transition: all 0.2s ease;
@@ -233,13 +226,8 @@
 
 .causeCard:hover {
   transform: translateY(-2px);
-  border-color: rgba(255, 255, 255, 0.15);
-  background: linear-gradient(
-    145deg,
-    rgba(255, 255, 255, 0.05) 0%,
-    rgba(0, 0, 0, 0.3) 100%
-  );
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border-color: var(--dashboard-border-strong);
+  box-shadow: var(--dashboard-shadow);
 }
 
 .causeHeader {
@@ -248,7 +236,7 @@
   align-items: flex-start;
   margin-bottom: 0.75rem;
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--dashboard-border);
 }
 
 .causeTitleGroup {
@@ -260,21 +248,21 @@
 .causeTitle {
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--ui-text-primary);
+  color: var(--dashboard-text);
   text-transform: capitalize;
   line-height: 1.35;
 }
 
 .causeService {
   font-family: ui-monospace, monospace;
-  color: var(--ui-text-muted);
-  font-size: 0.75rem;
+  color: var(--dashboard-text-muted);
+  font-size: 0.72rem;
   line-height: 1.4;
 }
 
 .causeDescription {
   font-size: 0.875rem;
-  color: var(--ui-text-secondary);
+  color: var(--dashboard-text-soft);
   margin-bottom: 1rem;
   line-height: 1.5;
 }
@@ -286,10 +274,11 @@
 }
 
 .causeFooterLabel {
-  font-size: 0.7rem;
-  color: var(--ui-text-muted);
+  font-size: 0.68rem;
+  color: var(--dashboard-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.12em;
+  font-family: monospace;
 }
 
 .miniControlsList {
@@ -299,32 +288,33 @@
 }
 
 .miniControlBadge {
-  background-color: rgba(255, 255, 255, 0.08);
-  color: var(--ui-text-secondary);
+  background-color: var(--dashboard-surface-2);
+  color: var(--dashboard-text);
   padding: 0.125rem 0.375rem;
   border-radius: 0.25rem;
-  font-size: 0.65rem;
+  font-size: 0.68rem;
   font-family: ui-monospace, monospace;
+  border: 1px solid var(--dashboard-border);
 }
 
 .emptyStateCard {
-  border: 1px dashed rgba(255, 255, 255, 0.12);
+  border: 1px dashed var(--dashboard-border);
   border-radius: 0.75rem;
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--dashboard-surface-2);
 }
 
 .emptyStateTitle {
   display: block;
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--ui-text-primary);
+  color: var(--dashboard-text);
   margin-bottom: 0.25rem;
 }
 
 .emptyStateText {
   margin: 0;
-  color: var(--ui-text-muted);
+  color: var(--dashboard-text-muted);
   font-size: 0.8rem;
   line-height: 1.5;
 }
@@ -335,37 +325,47 @@
   gap: 0.75rem;
   margin-top: 1.25rem;
   padding-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid var(--dashboard-border);
 }
 
 .summaryItem {
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--dashboard-border);
   border-radius: 0.5rem;
   padding: 0.75rem;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--dashboard-surface-2);
 }
 
 .summaryLabel {
   display: block;
-  font-size: 0.65rem;
-  color: var(--ui-text-muted);
+  font-size: 0.68rem;
+  color: var(--dashboard-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   margin-bottom: 0.25rem;
+  font-family: monospace;
 }
 
 .summaryValue {
   display: block;
-  color: var(--ui-text-primary);
+  color: var(--dashboard-text);
   font-size: 0.875rem;
   font-weight: 600;
   line-height: 1.4;
 }
 
 @media (max-width: 768px) {
+  .assetItem {
+    margin-bottom: 0.75rem;
+  }
+
   .assetHeader {
     flex-direction: column;
     gap: 0.875rem;
+    padding: 1rem 1rem 0.875rem;
+  }
+
+  .expandedContent {
+    padding: 1rem;
   }
 
   .violationInfo {

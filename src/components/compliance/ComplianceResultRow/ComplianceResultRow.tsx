@@ -2,20 +2,13 @@ import { ComplianceEvidencePanel } from '@/components/compliance';
 import { ExpandableRow } from '@/components/custom';
 import { Badge } from '@/components/ui';
 import {
-  formatDate,
-  getSeverityImpactVariant,
   createIgData,
   hasAnyIg,
   createKeydownHandler,
   getStatusText,
   getStatusVariant,
 } from '../utils/helpers';
-import {
-  ANIMATION_DELAYS,
-  EVIDENCE_LABELS,
-  IG_TAG_LABELS,
-  META_LABELS,
-} from '../utils/constants';
+import { EVIDENCE_LABELS, IG_TAG_LABELS } from '../utils/constants';
 import { isRecord } from '@/utils/guards';
 import { CheckCircle2, XCircle, AlertTriangle } from 'lucide-react';
 import type { ComplianceResult, ComplianceResultStatus } from '@/types';
@@ -45,17 +38,13 @@ const IgTagsRow = ({ ig1, ig2, ig3 }: IgTagsRowProps) => {
   );
 };
 
-export default function ComplianceResultRow({
-  row,
-  index,
-  isOpen,
-  onToggle,
-}: {
+interface ComplianceResultRowProps {
   row: ComplianceResult;
-  index: number;
   isOpen: boolean;
   onToggle: () => void;
-}) {
+}
+
+export default function ComplianceResultRow({row, isOpen, onToggle}: ComplianceResultRowProps) {
   const evidence = isRecord(row.evidence) ? row.evidence : {};
   const handleKeyDown = createKeydownHandler(onToggle);
 
@@ -71,7 +60,7 @@ export default function ComplianceResultRow({
   };
 
   const headerContent = (
-    <div className={styles.resultIdent}>
+    <>
       <Badge variant={getStatusVariant(row.status)} className="gap-1">
         {getStatusIcon(row.status)}
         {getStatusText(row.status)}
@@ -85,23 +74,9 @@ export default function ComplianceResultRow({
           <Badge variant="outline">{row.framework}</Badge>
           <Badge variant="outline">{row.category}</Badge>
           <Badge variant="outline">{row.automation_tier}</Badge>
-          {row.severity_impact && (
-            <Badge variant={getSeverityImpactVariant(row.severity_impact)}>
-              {META_LABELS.IMPACT}: {row.severity_impact}
-            </Badge>
-          )}
-        </div>
-        <div className={styles.metaTags}>
-          <Badge variant="outline" className="text-xs">
-            {META_LABELS.SCORED}:{' '}
-            {row.is_scored ? IG_TAG_LABELS.YES : IG_TAG_LABELS.NO}
-          </Badge>
-          <Badge variant="outline" className="text-xs">
-            {formatDate(row.created_at)}
-          </Badge>
         </div>
       </div>
-    </div>
+    </>
   );
 
   const expandedContent = (
@@ -114,18 +89,15 @@ export default function ComplianceResultRow({
           <p className={styles.notesText}>{row.notes}</p>
         </div>
       )}
+
       <IgTagsRow ig1={row.ig1} ig2={row.ig2} ig3={row.ig3} />
     </>
   );
 
   return (
     <ExpandableRow
-      index={index}
       isOpen={isOpen}
       onToggle={onToggle}
-      className={styles.resultItem}
-      animationDelay={ANIMATION_DELAYS.RESULT_ITEM}
-      theme="light"
       headerContent={headerContent}
       expandedContent={expandedContent}
       onKeyDown={handleKeyDown}

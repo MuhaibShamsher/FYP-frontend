@@ -4,6 +4,16 @@
   animation: fade-in 500ms;
 }
 
+.mainCard {
+  padding: 0;
+  border: none;
+  background: none;
+  box-shadow: none;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
 .headerRow {
   display: flex;
   justify-content: space-between;

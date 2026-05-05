@@ -7,12 +7,12 @@ import styles from './ComplianceViolations.module.css';
 
 export default function ComplianceViolationsPage() {
   const {
-    assets,
+    nonCompliantAssets,
+    searchQuery,
+    setSearchQuery,
     isLoading,
     isError,
     isEmptyResult,
-    searchQuery,
-    setSearchQuery,
     expandedAsset,
     toggleAsset,
     getSeverityClass,
@@ -40,7 +40,7 @@ export default function ComplianceViolationsPage() {
             Compliance Violations
           </h1>
           <p className={styles.subtitle}>
-            Assets that failed one or more compliance controls, sorted by
+            nonCompliantAssets that failed one or more compliance controls, sorted by
             violation count.
           </p>
         </div>
@@ -67,16 +67,16 @@ export default function ComplianceViolationsPage() {
             message={
               searchQuery
                 ? 'Adjust your search term to discover other violations.'
-                : 'All assets are fully compliant with the assessed frameworks.'
+                : 'All nonCompliantAssets are fully compliant with the assessed frameworks.'
             }
             actionLabel={searchQuery ? 'RESET SEARCH' : undefined}
             onAction={() => setSearchQuery('')}
           />
         ) : (
-          assets.map((asset, index) => (
+          nonCompliantAssets.map((asset, index) => (
             <ComplianceViolationCard
               key={asset.ip_address}
-              asset={asset}
+              nonCompliantAsset={asset}
               index={index}
               isExpanded={expandedAsset === asset.ip_address}
               onToggle={() => toggleAsset(asset.ip_address)}

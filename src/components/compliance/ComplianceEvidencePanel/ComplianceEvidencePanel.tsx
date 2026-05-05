@@ -64,7 +64,7 @@ export default function ComplianceEvidencePanel({evidence}: {evidence: Evidence}
   const showRawFallback = !hasRenderable && Object.keys(evidence).length > 0;
 
   return (
-    <div className={styles.evidenceBox}>
+    <div>
       <h4 className={styles.sectionTitle}>
         <FileText className={styles.sectionIcon} aria-hidden />
         {EVIDENCE_LABELS.EVIDENCE}
