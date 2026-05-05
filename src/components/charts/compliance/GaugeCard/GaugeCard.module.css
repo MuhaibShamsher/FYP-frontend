@@ -1,0 +1,95 @@
+.container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  border: 1px solid var(--dashboard-border);
+  background: var(--dashboard-surface);
+  padding: 1rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.32);
+  transition: all 300ms ease;
+}
+
+.container:hover {
+  transform: translateY(-0.25rem);
+  border-color: var(--dashboard-border-strong);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.42);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: var(--dashboard-text-muted);
+}
+
+.subtitle {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--dashboard-text-soft);
+}
+
+.statusBadge {
+  border-radius: 9999px;
+  border-style: solid;
+  border-width: 1px;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+}
+
+.chartContainer {
+  position: relative;
+  margin-top: 1rem;
+  height: 11rem;
+}
+
+.chartOverlay {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.centerContent {
+  text-align: center;
+}
+
+.valueDisplay {
+  font-size: 1.5rem;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  color: var(--dashboard-text);
+}
+
+.percentSign {
+  margin-left: 0.25rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--dashboard-text-muted);
+}
+
+.centerLabel {
+  margin-top: 0.25rem;
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: var(--dashboard-text-soft);
+}
