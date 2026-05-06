@@ -1,16 +1,18 @@
 .organizationCard {
-  background-color: rgba(0, 0, 0, 0.4);
+  background: var(--dashboard-surface);
   backdrop-filter: blur(40px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--dashboard-border);
+  box-shadow: var(--dashboard-shadow);
   transition: all 300ms;
 }
 
 .organizationCard:hover {
-  border-color: rgba(234, 88, 12, 0.2);
+  border-color: var(--dashboard-border-strong);
+  transform: translateY(-2px);
 }
 
 .cardHeader {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--dashboard-border);
   padding-bottom: 1rem;
 }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './Pagination.module.css';
 
@@ -27,6 +27,10 @@ export default function TerminalPagination({
   const endRange = totalItems
     ? Math.min(currentPage * itemsPerPage, totalItems)
     : currentPage * itemsPerPage;
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentPage, isFetching]);
 
   // Generate page numbers with ellipsis logic
   const getPageNumbers = () => {
@@ -62,9 +66,7 @@ export default function TerminalPagination({
   };
 
   return (
-    <div
-      className={`${styles.paginationFooter} ${isFetching ? styles.isFetching : ''}`}
-    >
+    <div className={`${styles.paginationFooter} ${isFetching ? styles.isFetching : ''}`}>
       <div className={styles.paginationInfo}>
         {totalItems !== undefined ? (
           <>
