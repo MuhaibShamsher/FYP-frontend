@@ -1,0 +1,306 @@
+.section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 0 0;
+}
+
+.sectionHeader,
+.container {
+  position: relative;
+  z-index: 1;
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+@media (min-width: 1024px) {
+  .sectionHeader {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+}
+
+.sectionEyebrow {
+  margin-bottom: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-info);
+  font-family: monospace;
+}
+
+.sectionTitle {
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  line-height: 1.1;
+  color: var(--dashboard-text);
+  letter-spacing: -0.04em;
+}
+
+.sectionDescription {
+  margin-top: 0.5rem;
+  max-width: 68ch;
+  color: var(--dashboard-text-muted);
+  font-size: 0.875rem;
+}
+
+.filterPanel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
+  padding: 0.95rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid var(--dashboard-border);
+  background: var(--dashboard-surface-2);
+  transition: all 200ms ease;
+}
+
+.filterPanel:hover {
+  background: var(--dashboard-surface-2);
+  border-color: var(--dashboard-border-strong);
+}
+
+@media (min-width: 1024px) {
+  .filterPanel {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+  }
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filterLabel {
+  color: var(--dashboard-text-muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-family: monospace;
+}
+
+.sectionStats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.statChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 9999px;
+  background: var(--dashboard-surface-2);
+  border: 1px solid var(--dashboard-border-strong);
+  color: var(--dashboard-text-soft);
+  font-size: 0.8rem;
+  font-weight: 600;
+  backdrop-filter: blur(24px);
+  transition: all 200ms ease;
+}
+
+.statChip:hover {
+  background: var(--dashboard-surface-2);
+  border-color: var(--color-info);
+  color: var(--color-info);
+}
+
+.statIconCritical,
+.statIconPrimary {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.statIconCritical {
+  color: var(--color-critical);
+}
+
+.statIconPrimary {
+  color: var(--color-info);
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 1280px) {
+  .container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.panelCard {
+  position: relative;
+  overflow: hidden;
+  background: var(--dashboard-surface);
+  backdrop-filter: blur(40px);
+  border: 1px solid var(--dashboard-border);
+  box-shadow: var(--dashboard-shadow);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.panelCard:hover {
+  transform: translateY(-2px);
+  border-color: var(--dashboard-border-strong);
+  box-shadow: var(--dashboard-shadow);
+}
+
+.panelCard::after {
+  content: '';
+  position: absolute;
+  inset: auto -18% -35% auto;
+  width: 9rem;
+  height: 9rem;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--dashboard-accent) 16%, transparent),
+    transparent 68%
+  );
+  pointer-events: none;
+}
+
+.panelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.15rem 1.25rem 1rem;
+  border-bottom: 1px solid var(--dashboard-border);
+  background: var(--dashboard-surface-2);
+}
+
+.panelTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--dashboard-text);
+  font-size: 0.925rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.panelTitleIcon,
+.panelTitleIconAsset {
+  width: 1rem;
+  height: 1rem;
+}
+
+.panelTitleIcon {
+  color: var(--color-info);
+}
+
+.panelTitleIconAsset {
+  color: var(--color-info);
+}
+
+.panelDescription {
+  margin-top: 0.45rem;
+  max-width: 52ch;
+  color: var(--dashboard-text-muted);
+  font-size: 0.78rem;
+}
+
+.panelContent {
+  padding: 1rem 1.15rem 1.2rem;
+}
+
+.inlineState {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  align-items: flex-start;
+  min-height: 16rem;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.stateTitle {
+  color: var(--dashboard-text);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.stateText {
+  color: var(--dashboard-text-muted);
+  font-size: 0.875rem;
+  max-width: 35ch;
+}
+
+.retryButton {
+  margin-top: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: 0.5rem;
+  background: color-mix(in srgb, var(--dashboard-accent) 20%, transparent);
+  border: 1px solid var(--dashboard-accent);
+  color: var(--dashboard-accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 200ms ease;
+  cursor: pointer;
+}
+
+.retryButton:hover {
+  background: color-mix(in srgb, var(--dashboard-accent) 30%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--dashboard-accent) 25%, transparent);
+}
+
+.retryIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.skeletonList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.skeletonRow {
+  height: 4.5rem;
+  border-radius: 0.9rem;
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--dashboard-surface-2) 85%, var(--dashboard-text) 15%) 25%,
+      color-mix(in srgb, var(--dashboard-surface-2) 75%, var(--dashboard-text) 25%) 37%,
+      color-mix(in srgb, var(--dashboard-surface-2) 85%, var(--dashboard-text) 15%) 63%
+    ),
+    var(--dashboard-surface-2);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+  border: 1px solid var(--dashboard-border);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+/* List-specific item styles moved to TopAssetsList.module.css and TopVulnerabilitiesList.module.css */
