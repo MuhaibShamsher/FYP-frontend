@@ -1,25 +1,21 @@
 import { useSelector } from 'react-redux';
-import type { RootState } from '@/store';
 import {
   usePipelineStatus,
   useAssetIntelligence,
   useScanActions,
+  useDashboardViewModel,
 } from '@/hooks';
 import {
-  AssetSeverityDoughnutChart,
-  AssetSeverityLineChart,
-  AssetDeviceTypePieChart,
-  AssetOpenPortsBarChart,
-} from '@/components/charts';
-import {
-  LoadingState,
-  ErrorState,
-  EmptyState,
-  DashboardSummary,
-} from '@/components/custom';
+  DashboardTopItems,
+  DashboardExecutiveKpis,
+  DashboardOperationalAnalytics,
+  DashboardCompliancePosture,
+} from '@/components/dashboard';
+import { LoadingState, ErrorState, EmptyState } from '@/components/custom';
 import { InitiateScanModal } from '@/components/modal';
-import { Card, CardContent, CardTitle, Button } from '@/components/ui';
+import { Button } from '@/components/ui';
 import { Server } from 'lucide-react';
+import type { RootState } from '@/store';
 import styles from './Dashboard.module.css';
 
 export default function DashboardPage() {
@@ -27,6 +23,7 @@ export default function DashboardPage() {
     latestData,
     isLoading: isPipelineLoading,
     isError: isPipelineError,
+    refetch: refetchPipeline,
   } = usePipelineStatus();
 
   const {
@@ -46,25 +43,24 @@ export default function DashboardPage() {
   } = useScanActions();
 
   const { isScanning } = useSelector((s: RootState) => s.scanSession);
+  const dashboardModel = useDashboardViewModel(latestData, assets);
 
-  // Unified loading and error handling
   const isInitialLoading = isPipelineLoading || isAssetsLoading;
   const hasError = isPipelineError || isAssetsError;
 
   if (isInitialLoading) {
-    return <LoadingState text="SYNCHRONIZING INTELLIGENCE BRIEFING..." />;
+    return <LoadingState text="LOADING DASHBOARD..." />;
   }
 
   if (hasError) {
     return (
       <ErrorState
-        title="Intelligence Sync Failure"
-        message="Unable to establish a secure connection to the threat intelligence pipeline."
+        title="Data Sync Failure"
+        message="Unable to fetch results from threat intelligence pipeline."
       />
     );
   }
 
-  // Use latestData to determine if system is empty
   if (!latestData && assets.length === 0) {
     return (
       <EmptyState
@@ -79,7 +75,6 @@ export default function DashboardPage() {
 
   return (
     <div className={styles.pageContainer}>
-      {/* Header Section */}
       <div className={styles.headerSection}>
         <div>
           <div className={styles.systemOverviewLabel}>
@@ -89,84 +84,33 @@ export default function DashboardPage() {
           <h1 className={styles.pageTitle}>DASHBOARD</h1>
         </div>
 
-        <Button
-          onClick={openNewScanModal}
-          className={styles.initiateScanButton}
-        >
+        <Button onClick={openNewScanModal} className={styles.initiateScanButton}>
           {isScanning ? (
             <>
-              <span className="animate-spin mr-2">⟳</span> SYSTEM SCANNING...
+              <span className={`${styles.scanSpinner} animate-spin`}>⟳</span>
+              SYSTEM SCANNING...
             </>
           ) : (
             <>
-              <span className="mr-2 text-xl font-light">+</span>
+              <span className={styles.plusIcon}>+</span>
               INITIATE NEW SCAN
             </>
           )}
         </Button>
       </div>
 
-      {/* Synchronized Mission & Compliance Briefing */}
-      <DashboardSummary latestData={latestData} isLoading={isPipelineLoading} />
+      <div className={styles.sectionStack}>
+        <DashboardExecutiveKpis model={dashboardModel} />
+        <DashboardOperationalAnalytics model={dashboardModel} assets={assets} />
 
-      <div className={styles.chartsGrid}>
-        {/* Asset Severity Line Chart */}
-        <Card className={`${styles.chartCard} ${styles.mainChartCard}`}>
-          <div className={styles.cardHeader}>
-            <CardTitle className={styles.cardTitle}>
-              <div
-                className={`${styles.indicatorDot} ${styles.dotPrimary}`}
-              ></div>
-              ASSET SEVERITY TIMELINE
-            </CardTitle>
-          </div>
-          <CardContent className={styles.cardContent}>
-            <AssetSeverityLineChart assets={assets} />
-          </CardContent>
-        </Card>
+        <DashboardTopItems
+          latestData={latestData}
+          isLoading={isPipelineLoading}
+          isError={isPipelineError}
+          onRetry={refetchPipeline}
+        />
 
-        {/* Severity Distribution Doughnut Chart */}
-        <Card className={`${styles.chartCard} ${styles.secondaryChartCard}`}>
-          <div className={styles.cardHeader}>
-            <CardTitle className={styles.cardTitle}>
-              <div className={`${styles.indicatorDot} ${styles.dotBlue}`}></div>
-              SEVERITY DISTRIBUTION
-            </CardTitle>
-          </div>
-          <CardContent className={styles.centeredCardContent}>
-            <AssetSeverityDoughnutChart assets={assets} />
-          </CardContent>
-        </Card>
-
-        {/* Open Ports Bar Chart */}
-        <Card className={`${styles.chartCard} ${styles.mainChartCard}`}>
-          <div className={styles.cardHeader}>
-            <CardTitle className={styles.cardTitle}>
-              <div
-                className={`${styles.indicatorDot} ${styles.dotPurple}`}
-              ></div>
-              OPEN PORTS ANALYSIS
-            </CardTitle>
-          </div>
-          <CardContent className={styles.cardContent}>
-            <AssetOpenPortsBarChart assets={assets} />
-          </CardContent>
-        </Card>
-
-        {/* Assets by Type Pie Chart */}
-        <Card className={`${styles.chartCard} ${styles.secondaryChartCard}`}>
-          <div className={styles.cardHeader}>
-            <CardTitle className={styles.cardTitle}>
-              <div
-                className={`${styles.indicatorDot} ${styles.dotEmerald}`}
-              ></div>
-              DEVICE CLASSIFICATION
-            </CardTitle>
-          </div>
-          <CardContent className={styles.centeredCardContent}>
-            <AssetDeviceTypePieChart assets={assets} />
-          </CardContent>
-        </Card>
+        <DashboardCompliancePosture model={dashboardModel} />
       </div>
 
       <InitiateScanModal
