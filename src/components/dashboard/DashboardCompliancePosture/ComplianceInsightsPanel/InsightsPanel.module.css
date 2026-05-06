@@ -1,0 +1,205 @@
+.emptyState {
+  border-radius: 1rem;
+  border: 1px solid var(--dashboard-border);
+  background: var(--dashboard-surface);
+  padding: 1.5rem;
+  font-size: 0.875rem;
+  color: var(--dashboard-text-muted);
+}
+
+.panel {
+  border-radius: 1rem;
+  border: 1px solid var(--dashboard-border);
+  background: var(--dashboard-surface);
+  padding: 1rem;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--dashboard-border);
+  padding-bottom: 1rem;
+}
+
+@media (min-width: 640px) {
+  .header {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+}
+
+.headerTitle {
+  font-size: 1.1rem;
+  font-weight: 850;
+  color: var(--dashboard-text);
+}
+
+@media (min-width: 640px) {
+  .headerTitle {
+    font-size: 1.25rem;
+  }
+}
+
+.riskBadge {
+  border-radius: 1rem;
+  border: 1px solid var(--dashboard-border);
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.5rem 1rem;
+  text-align: center;
+  box-shadow: 0 0 0 1px rgba(217, 119, 6, 0.04);
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.25rem;
+  font-weight: 800;
+  color: var(--dashboard-text);
+}
+
+.riskLabel {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--dashboard-text-muted);
+}
+
+.riskScoreValue {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.riskLevel {
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.cardsGrid {
+  position: relative;
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 1024px) {
+  .cardsGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.card {
+  border-radius: 1rem;
+  border: 1px solid var(--dashboard-border);
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--dashboard-text-muted);
+}
+
+.cardHeaderIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.cardTitle {
+  margin-top: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--dashboard-text);
+}
+
+.cardContent {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--dashboard-text-soft);
+}
+
+.cardContentBold {
+  font-weight: 700;
+}
+
+.cardContentBoldSuccess {
+  font-weight: 700;
+  color: var(--dashboard-text);
+}
+
+.cardContentBoldRed {
+  font-weight: 700;
+  color: rgb(248, 113, 113);
+}
+
+.cardContentBoldGreen {
+  font-weight: 700;
+  color: rgb(134, 239, 172);
+}
+
+.cardFooter {
+  margin-top: 1rem;
+  border-top: 1px solid var(--dashboard-border);
+  padding-top: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--dashboard-text-muted);
+}
+
+.cardTag {
+  display: inline-block;
+  border-radius: 0.375rem;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.25rem 0.5rem;
+  color: var(--dashboard-text-soft);
+}
+
+.recommendationContent {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--dashboard-text-soft);
+}
+
+.statsGrid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  font-size: 0.75rem;
+}
+
+.statItem {
+  border-radius: 0.75rem;
+  border: 1px solid var(--dashboard-border);
+  background: var(--dashboard-surface);
+  padding: 0.75rem;
+}
+
+.statLabel {
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--dashboard-text-muted);
+}
+
+.statValue {
+  margin-top: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.statValueRed {
+  color: rgb(248, 113, 113);
+}
+
+.statValueAmber {
+  color: rgb(251, 191, 36);
+}
