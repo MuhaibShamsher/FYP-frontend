@@ -37,10 +37,10 @@ interface FeedCardProps {
 
 export default function FeedCard({ feed, onSync }: FeedCardProps) {
   const config = FEED_CONFIGS[feed.feed_type];
-  const isRunning = feed.is_running;
+  const isRunning = feed.status?.toLowerCase() === 'running';
   const hasErrors = feed.records_errors > 0;
 
-  const lastSyncDate = new Date(feed.last_successful_run);
+  const lastSyncDate = new Date(feed.finished_at);
   const formattedDate = lastSyncDate.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
@@ -136,15 +136,6 @@ export default function FeedCard({ feed, onSync }: FeedCardProps) {
           <div className={styles.infoRow}>
             <span className={styles.infoLabel}>Source</span>
             <span className={styles.infoValue}>{feed.source_name}</span>
-          </div>
-
-          <div className={styles.infoRow}>
-            <span className={styles.infoLabel}>Since</span>
-            <span className={styles.infoValue}>
-              {feed.metadata.since
-                ? new Date(feed.metadata.since).toLocaleDateString()
-                : 'N/A'}
-            </span>
           </div>
         </div>
 

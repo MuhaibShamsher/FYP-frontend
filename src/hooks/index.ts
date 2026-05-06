@@ -15,3 +15,4 @@ export { default as usePipelineStatus } from './usePipelineStatus';
 export { default as useErrorHandler } from './useErrorHandler';
 export { default as useUserManagement } from './useUserManagement';
 export { default as useOrganization } from './useOrganization';
+export { default as useDashboardViewModel } from './useDashboardViewModel'

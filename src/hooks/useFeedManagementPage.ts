@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useGetFeedStatusQuery, useSyncFeedMutation } from '@/apis';
+import { THIRTY_MINUTES_IN_MS } from '@/constants';
 import type { FeedStatus, FeedType } from '@/types';
 import { toast } from 'sonner';
 
@@ -26,13 +27,28 @@ export default function useFeedManagementPage(): UseFeedManagementPageReturn {
   const [feeds, setFeeds] = useState<FeedStatus[]>([]);
 
   // API queries and mutations
+  const shouldPoll = feeds.some((feed) => {
+    if (feed.status?.toLowerCase() !== 'running') return false;
+    
+    const startedAt = feed.started_at;
+    if (startedAt) {
+      const startTime = new Date(startedAt).getTime();
+      const thirtyMinutesAgo = Date.now() - THIRTY_MINUTES_IN_MS;
+      return startTime > thirtyMinutesAgo;
+    }
+    
+    return false;
+  });
+
   const {
     data: feedsData,
     isLoading: feedsLoading,
     isError: feedsError,
     error: feedsErrorData,
     refetch: refetchFeeds,
-  } = useGetFeedStatusQuery();
+  } = useGetFeedStatusQuery(undefined, {
+    pollingInterval: shouldPoll ? 10000 : 0, // Poll every 10 seconds
+  });
 
   const [syncFeedMutation, { isLoading: isUpdating }] = useSyncFeedMutation();
 

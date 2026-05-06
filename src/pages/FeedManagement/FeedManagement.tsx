@@ -23,32 +23,27 @@ export default function FeedManagement() {
 
   return (
     <div className={feedStyles.pageContainer}>
-      <div className="space-y-8">
-        {/* Simplified Header Section */}
-        <div className={feedStyles.headerSection}>
-          <div className={feedStyles.headerContent}>
-            <div className={feedStyles.headerTitleContainer}>
-              <h1 className={feedStyles.headerTitle}>Feed Management</h1>
-            </div>
-            <p className={feedStyles.headerDescription}>
-              Monitor and synchronize external threat intelligence feeds
-            </p>
+      <div className={feedStyles.headerSection}>
+        <div>
+          <div className={feedStyles.systemOverviewLabel}>
+            <div className={feedStyles.statusDotActive} />
+            Feed Synchronization
           </div>
-
-          <Button
-            onClick={() => refreshFeeds()}
-            variant="outline"
-            className={feedStyles.refreshButton}
-            disabled={isUpdating}
-          >
-            <RefreshCw
-              className={`w-4 h-4 mr-2 ${isUpdating ? 'animate-spin' : ''}`}
-            />
-            {isUpdating ? 'Refreshing...' : 'Refresh Status'}
-          </Button>
+          <h1 className={feedStyles.pageTitle}>FEED MANAGEMENT</h1>
         </div>
 
-        {/* Feed Cards Grid */}
+        <Button
+          onClick={() => refreshFeeds()}
+          className={feedStyles.refreshButton}
+          disabled={isUpdating}
+        >
+          <RefreshCw
+            className={`${feedStyles.refreshIcon} ${isUpdating ? 'animate-spin' : ''}`}
+          />
+          {isUpdating ? 'REFRESHING...' : 'REFRESH STATUS'}
+        </Button>
+      </div>
+
         <div className={feedStyles.feedCardsGrid}>
           {feeds.map((feed) => (
             <FeedCard
@@ -57,7 +52,6 @@ export default function FeedManagement() {
               onSync={() => syncFeed(feed.feed_type)}
             />
           ))}
-        </div>
       </div>
     </div>
   );

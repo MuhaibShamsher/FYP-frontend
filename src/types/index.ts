@@ -427,14 +427,13 @@ export interface FeedMetadata {
 
 export interface FeedStatus {
   feed_type: FeedType;
-  last_successful_run: string;
+  started_at?: string;
+  finished_at: string;
   records_processed: number;
   records_errors: number;
   source_name: string;
   mode: 'incremental' | 'full';
-  task_id: string;
-  metadata: FeedMetadata;
-  is_running: boolean;
+  status: string;
   is_stale: boolean;
 }
 
