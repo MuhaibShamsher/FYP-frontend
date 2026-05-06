@@ -87,9 +87,7 @@ export default function TerminalPagination({
           disabled={currentPage <= 1 || isFetching}
           onClick={() => onPageChange(currentPage - 1)}
         >
-          <ChevronLeft
-            className={`${styles.iconSmall} ${styles.arrowIcon} ${styles.arrowIconPrev}`}
-          />{' '}
+          <ChevronLeft className={styles.iconSmall} />
           PREV
         </button>
 
@@ -118,10 +116,7 @@ export default function TerminalPagination({
           disabled={currentPage >= totalPages || isFetching}
           onClick={() => onPageChange(currentPage + 1)}
         >
-          NEXT{' '}
-          <ChevronRight
-            className={`${styles.iconSmall} ${styles.arrowIcon} ${styles.arrowIconNext}`}
-          />
+          NEXT <ChevronRight className={styles.iconSmall} />
         </button>
       </div>
     </div>
