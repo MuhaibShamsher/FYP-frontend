@@ -1,7 +1,7 @@
 import { toast } from 'sonner';
 import { baseApi } from '@/apis';
 import { scanStarted, scanProgressUpdated, scanReset } from '@/store/slices/scanSessionSlice';
-import { clearActiveIds } from '@/store/slices/activeIdsSlice';
+import { clearActiveIds, riskStarted } from '@/store/slices/activeIdsSlice';
 import { createSocketMiddleware } from './createSocketMiddleware';
 
 export const scanSocketMiddleware = createSocketMiddleware({
@@ -31,12 +31,19 @@ export const scanSocketMiddleware = createSocketMiddleware({
     dispatch(scanProgressUpdated(msg.data));
 
     switch (msg.data.status) {
-      case 'completed':
-        toast.success(`Scan completed`);
+      case 'completed': {
+        toast.success(`Network Scan completed`);
         dispatch(
           baseApi.util.invalidateTags(['Assets', 'Scans', 'Statistics']),
         );
+        // Auto-transition: extract risk_assessment_id from pipeline_meta and open risk stage
+        const riskAssessmentId = msg.data?.pipeline_meta?.risk_assessment_id;
+        if (riskAssessmentId) {
+          console.debug('[WS-SCAN] Transitioning to risk stage:', riskAssessmentId);
+          dispatch(riskStarted(riskAssessmentId));
+        }
         return 'close';
+      }
 
       case 'failed':
         toast.error(`Scan failed: ${msg.data.error ?? 'Unknown error'}`);

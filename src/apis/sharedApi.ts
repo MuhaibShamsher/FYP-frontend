@@ -34,7 +34,7 @@ export const sharedApi = baseApi.injectEndpoints({
     // Starts the full pipeline: Asset Scan -> Risk Assessment -> Compliance Inspection
     startPipeline: builder.mutation<
       PipelineStartResponse,
-      { ip_range: string; scan_type: string; frameworks?: string[] }
+      { network_range: string; scan_type: string; frameworks?: string[] }
     >({
       query: (body) => ({
         url: 'shared/scan/',

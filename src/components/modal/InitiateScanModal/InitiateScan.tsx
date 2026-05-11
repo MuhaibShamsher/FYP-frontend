@@ -30,12 +30,19 @@ import styles from './InitiateScan.module.css';
 
 const CIDR_RE = /^(\d{1,3}\.){3}\d{1,3}(\/\d{1,2})?$/;
 
+const FRAMEWORK_OPTIONS = [
+  { id: 'iso-27001', label: 'ISO 27001 2022' },
+  { id: 'nist-800-53', label: 'NIST SP 800-53 Rev 5' },
+  { id: 'cis-controls', label: 'CIS Controls' },
+] as const;
+
 interface Props {
   isOpen: boolean;
   onClose: () => void;
   onStart: (
-    ip_range: string,
-    scan_type: 'standard' | 'comprehensive'
+    network_range: string,
+    scan_type: 'standard' | 'comprehensive',
+    frameworks?: string[]
   ) => Promise<void> | void;
   onCancel: () => Promise<void> | void;
   isCreating?: boolean;
@@ -71,11 +78,13 @@ export default function InitiateScanModal({
   const [scanType, setScanType] = useState<'standard' | 'comprehensive'>(
     'standard'
   );
+  const [selectedFrameworks, setSelectedFrameworks] = useState<string[]>([]);
 
   useEffect(() => {
     if (!isOpen) {
       setIpRange('');
       setScanType('standard');
+      setSelectedFrameworks([]);
     }
   }, [isOpen]);
 
@@ -90,7 +99,21 @@ export default function InitiateScanModal({
       toast.error('Invalid format. Use CIDR notation, e.g. 192.168.1.0/24.');
       return;
     }
-    await onStart(trimmed, scanType);
+    await onStart(
+      trimmed,
+      scanType,
+      selectedFrameworks.length > 0 ? selectedFrameworks : undefined
+    );
+  };
+
+  const toggleFramework = (framework: string) => {
+    setSelectedFrameworks((previousFrameworks) =>
+      previousFrameworks.includes(framework)
+        ? previousFrameworks.filter(
+            (existingFramework) => existingFramework !== framework
+          )
+        : [...previousFrameworks, framework]
+    );
   };
 
   const isActive = isScanning;
@@ -113,17 +136,8 @@ export default function InitiateScanModal({
       onOpenChange={(open) => {
         if (!open) onClose();
       }}
-      // onOpenChange={(open) => {
-      //   if (!open) {
-      //     if (isActive) {
-      //       toast.warning('Scan in progress. Use ABORT SEQUENCE to stop it.');
-      //     } else {
-      //       onClose();
-      //     }
-      //   }
-      // }}
     >
-      <DialogContent className={styles.modalContent}>
+      <DialogContent className={`${styles.modalContent}`} >
         {/* Modal Header */}
         <div className={styles.header}>
           <div className={styles.headerIconContainer}>
@@ -266,6 +280,36 @@ export default function InitiateScanModal({
                       {scanType === 'standard'
                         ? 'Quick network scanning.'
                         : 'Intensive network scanning. Expect higher latency.'}
+                    </p>
+                  </div>
+
+                  <div className={styles.fieldGroup}>
+                    <Label className={styles.fieldLabel}>
+                      Compliance Frameworks
+                    </Label>
+                    <div className={styles.frameworksContainer}>
+                      {FRAMEWORK_OPTIONS.map(({ id, label }) => (
+                        <div key={id} className={styles.frameworkCheckbox}>
+                          <input
+                            type="checkbox"
+                            id={`framework-${id}`}
+                            checked={selectedFrameworks.includes(label)}
+                            onChange={() => toggleFramework(label)}
+                            className={styles.checkboxInput}
+                          />
+                          <label
+                            htmlFor={`framework-${id}`}
+                            className={styles.checkboxLabel}
+                          >
+                            <span>{label}</span>
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                    <p className={styles.helperText}>
+                      <AlertTriangle className={styles.warningIcon} />
+                      Select one or more frameworks to validate against
+                      compliance standards.
                     </p>
                   </div>
                 </div>

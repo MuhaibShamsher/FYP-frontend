@@ -1,9 +1,15 @@
 import { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { scanStarted, scanReset } from '@/store/slices/scanSessionSlice';
-import { useCreateScanMutation, useCancelScanMutation } from '@/apis';
+import { useStartPipelineMutation, useCancelScanMutation } from '@/apis';
 import { toast } from 'sonner';
 import type { RootState } from '@/store';
+
+const FRAMEWORK_MAP: Record<string, string> = {
+  'ISO 27001 2022': 'iso27001',
+  'NIST SP 800-53 Rev 5': 'nist',
+  'CIS Controls': 'cis',
+};
 
 interface UseScanActionsReturn {
   isNewScanModalOpen: boolean;
@@ -11,26 +17,34 @@ interface UseScanActionsReturn {
   isCancellingScan: boolean;
   openNewScanModal: () => void;
   closeNewScanModal: () => void;
-  createNewScan: (ip_range: string, scan_type: 'standard' | 'comprehensive') => Promise<void>;
+  createNewScan: (network_range: string, scan_type: 'standard' | 'comprehensive', frameworks?: string[]) => Promise<void>;
   cancelCurrentScan: () => Promise<void>;
 }
 
-// Hook to manage scan-related UI states and mutations.
 export default function useScanActions(): UseScanActionsReturn {
   const dispatch = useDispatch();
   const { scanId } = useSelector((s: RootState) => s.scanSession);
   const [isNewScanModalOpen, setIsNewScanModalOpen] = useState(false);
 
-  const [createScan, { isLoading: isCreatingScan }] = useCreateScanMutation();
+  const [startPipeline, { isLoading: isCreatingScan }] = useStartPipelineMutation();
   const [cancelScan, { isLoading: isCancellingScan }] = useCancelScanMutation();
 
   const openNewScanModal = useCallback(() => setIsNewScanModalOpen(true), []);
   const closeNewScanModal = useCallback(() => setIsNewScanModalOpen(false), []);
 
   const createNewScan = useCallback(
-    async (ip_range: string, scan_type: 'standard' | 'comprehensive') => {
+    async (network_range: string, scan_type: 'standard' | 'comprehensive', frameworks?: string[]) => {
       try {
-        const result = await createScan({ ip_range, scan_type }).unwrap();
+        // Transform framework display names to API IDs
+        const frameworkIds = frameworks
+          ? frameworks.map(fw => FRAMEWORK_MAP[fw]).filter(Boolean)
+          : undefined;
+
+        const result = await startPipeline({ 
+          network_range,
+          scan_type,
+          frameworks: frameworkIds && frameworkIds.length > 0 ? frameworkIds : undefined,
+        }).unwrap();
         if (result?.scan_id) {
           dispatch(scanStarted(result.scan_id));
           toast.success('Scan initiated successfully!');
@@ -40,7 +54,7 @@ export default function useScanActions(): UseScanActionsReturn {
         toast.error(error?.data?.message || 'Failed to initiate scan');
       }
     },
-    [createScan, dispatch, closeNewScanModal]
+    [startPipeline, dispatch, closeNewScanModal]
   );
 
   const cancelCurrentScan = useCallback(async () => {
