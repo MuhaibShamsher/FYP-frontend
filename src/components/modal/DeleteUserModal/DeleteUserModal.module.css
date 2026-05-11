@@ -1,0 +1,74 @@
+.dialogContent {
+  max-width: 28rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.dialogTitle {
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #ef4444;
+}
+
+.content {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.iconContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.iconWrapper {
+  height: 3rem;
+  width: 3rem;
+  border-radius: 9999px;
+  background-color: rgba(239, 68, 68, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  height: 1.5rem;
+  width: 1.5rem;
+  color: #ef4444;
+}
+
+.confirmationTitle {
+  color: white;
+  font-weight: 600;
+}
+
+.confirmationText {
+  color: #a3a3a3;
+  font-size: 0.875rem;
+}
+
+.dialogFooter {
+  padding-top: 0.5rem;
+}
+
+.cancelButton {
+  color: #a3a3a3;
+}
+
+.cancelButton:hover {
+  color: white;
+}
+
+.deleteButton {
+  background-color: #dc2626;
+}
+
+.deleteButton:hover {
+  background-color: #ef4444;
+  color: white;
+}

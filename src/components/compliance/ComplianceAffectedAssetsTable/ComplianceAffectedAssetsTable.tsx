@@ -1,6 +1,5 @@
 import { Fragment } from 'react';
 import { isRecord } from '@/utils/guards';
-import { Badge } from '@/components/ui/badge';
 import {
   Table,
   TableBody,
@@ -8,7 +7,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+  Badge,
+} from '@/components/ui';
 import {
   getSeverityVariant,
   formatVulnType,
@@ -22,11 +22,7 @@ import {
 } from '../utils/constants';
 import styles from './ComplianceAffectedAssetsTable.module.css';
 
-export default function ComplianceAffectedAssetsTable({
-  assets,
-}: {
-  assets: unknown[];
-}) {
+export default function ComplianceAffectedAssetsTable({assets}: {assets: unknown[]}) {
   if (!assets || assets.length === 0) {
     return (
       <div className={styles.evidenceRow}>

@@ -1,0 +1,142 @@
+.chartScrollContainer {
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.chartContainer {
+  min-width: 600px;
+  height: 100%;
+}
+
+.noDataContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 450px;
+  background: var(--dashboard-surface-2);
+  border-radius: 0.75rem;
+  border: 1px dashed var(--dashboard-border);
+}
+
+.noDataText {
+  color: var(--dashboard-text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+@media (min-width: 1024px) {
+  .chartContainer {
+    min-width: 0;
+  }
+}
+
+.tooltipContainer {
+  background-color: var(--dashboard-surface);
+  backdrop-filter: blur(24px);
+  border: 1px solid var(--dashboard-border);
+  border-radius: 0.75rem;
+  box-shadow: var(--dashboard-shadow);
+  padding: 1.25rem;
+  min-width: 240px;
+  position: relative;
+  overflow: hidden;
+}
+
+.tooltipHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 10;
+}
+
+.tooltipDot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 9999px;
+}
+
+.tooltipTitle {
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: var(--dashboard-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tooltipBody {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 10;
+}
+
+.tooltipMetric {
+  display: flex;
+  flex-direction: column;
+}
+
+.tooltipValueLarge {
+  font-size: 1.875rem;
+  line-height: 1;
+  font-weight: 900;
+  color: var(--dashboard-text);
+}
+
+.tooltipLabelSmall {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--dashboard-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 0.25rem;
+}
+
+.riskBadge {
+  padding: 0.125rem 0.625rem;
+  border-radius: 0.25rem;
+  font-size: 10px;
+  font-weight: 900;
+  color: var(--dashboard-text);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--dashboard-border);
+}
+
+.tooltipFooter {
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--dashboard-border);
+  position: relative;
+  z-index: 10;
+}
+
+.riskDescription {
+  font-size: 10px;
+  color: var(--dashboard-text-muted);
+  font-weight: 500;
+  line-height: 1.625;
+}
+
+.xAxisTick {
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.yAxisTick {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.barCell {
+  transition: opacity 0.3s;
+  cursor: pointer;
+}
+
+.barCell:hover {
+  opacity: 1;
+}

@@ -10,6 +10,6 @@ export { default as FeedCard } from './FeedCard/FeedCard';
 export { default as CyberGrid } from './CyberGrid/CyberGrid';
 export { default as RadarScanner } from './RadarScanner/RadarScanner';
 export { default as TypingText } from './TypingText/TypingText';
-export { default as DashboardSummary } from './DashboardSummary/DashboardSummary';
 export { default as ExpandableRow } from './ExpandableRow/ExpandableRow';
 export { default as SearchFilterBar } from './SearchFilterBar/SearchFilterBar';
+export { default as FrameworkGauge } from './FrameworkGauge/FrameworkGauge';

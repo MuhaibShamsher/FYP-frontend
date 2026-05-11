@@ -1,111 +1,60 @@
-import type { Middleware } from '@reduxjs/toolkit';
-import { baseApi } from '../apis/baseApi';
-import {
-  scanStarted,
-  scanProgressUpdated,
-  scanReset,
-} from '../slices/scanSessionSlice';
 import { toast } from 'sonner';
+import { baseApi } from '@/apis';
+import { scanStarted, scanProgressUpdated, scanReset } from '@/store/slices/scanSessionSlice';
+import { clearActiveIds, riskStarted } from '@/store/slices/activeIdsSlice';
+import { createSocketMiddleware } from './createSocketMiddleware';
 
-let socket: WebSocket | null = null;
-let reconnectTimeout: ReturnType<typeof setTimeout> | null = null;
-const RECONNECT_DELAY = 3000;
+export const scanSocketMiddleware = createSocketMiddleware({
+  logPrefix: '[WS-SCAN]',
 
-const WS_BASE_URL = import.meta.env.VITE_WS_BASE_URL as string;
+  openAction: scanStarted,
 
-const closeSocket = () => {
-  if (reconnectTimeout) {
-    clearTimeout(reconnectTimeout);
-    reconnectTimeout = null;
-  }
-  if (socket) {
-    socket.close();
-    socket = null;
-  }
-};
+  closeActions: [scanReset, clearActiveIds],
 
-const openSocket = (scanId: string, dispatch: any, getState: () => any) => {
-  if (socket || !scanId) return;
+  buildPath: (id) => `/ws/scans/${id}/`,
 
-  const url = `${WS_BASE_URL}/ws/scans/${scanId}/`;
-  socket = new WebSocket(url);
+  shouldReconnect: (state, id) =>
+    state.scanSession?.isScanning === true &&
+    state.scanSession?.scanId === id,
 
-  socket.onopen = () => {
-    console.debug('[WS] Global Socket Connected:', scanId);
-  };
+  onAuthFailure: (dispatch) => dispatch(scanReset()),
 
-  socket.onmessage = (event) => {
-    try {
-      const msg = JSON.parse(event.data);
-      if (msg?.type === 'scan_update' && msg.data) {
-        dispatch(scanProgressUpdated(msg.data));
+  getPersistedId: (state) =>
+    state.scanSession?.isScanning && state.scanSession?.scanId
+      ? state.scanSession.scanId
+      : null,
 
-        // Handle global notifications
-        if (msg.data.status === 'completed') {
-          toast.success(`Scan ${scanId} completed successfully`);
-          dispatch(baseApi.util.invalidateTags(['Assets', 'Scans', 'Statistics']));
-          closeSocket();
-        } else if (msg.data.status === 'failed') {
-          toast.error(`Scan ${scanId} failed: ${msg.data.error || 'Unknown error'}`);
-          closeSocket();
+  onMessage: (msg, dispatch, _id) => {
+    if (msg?.type !== 'scan_update' || !msg.data) return 'keep';
+
+    // Always forward progress to the slice so UI can render a live progress bar
+    dispatch(scanProgressUpdated(msg.data));
+
+    switch (msg.data.status) {
+      case 'completed': {
+        toast.success(`Network Scan completed`);
+        dispatch(
+          baseApi.util.invalidateTags(['Assets', 'Scans', 'Statistics']),
+        );
+        // Auto-transition: extract risk_assessment_id from pipeline_meta and open risk stage
+        const riskAssessmentId = msg.data?.pipeline_meta?.risk_assessment_id;
+        if (riskAssessmentId) {
+          console.debug('[WS-SCAN] Transitioning to risk stage:', riskAssessmentId);
+          dispatch(riskStarted(riskAssessmentId));
         }
+        return 'close';
       }
-    } catch (err) {
-      console.error('[WS] Parse error:', err);
+
+      case 'failed':
+        toast.error(`Scan failed: ${msg.data.error ?? 'Unknown error'}`);
+        return 'close';
+
+      case 'cancelled':
+        toast.info(`Scan cancelled`);
+        return 'close';
+
+      default:
+        return 'keep';
     }
-  };
-
-  socket.onclose = () => {
-    console.debug('[WS] Global Socket Closed');
-    socket = null;
-    
-    // Auto-reconnect if scan is still supposed to be running
-    const state = getState();
-    if (state.scanSession.isScanning && state.scanSession.scanId === scanId && !reconnectTimeout) {
-      reconnectTimeout = setTimeout(() => {
-        reconnectTimeout = null;
-        openSocket(scanId, dispatch, getState);
-      }, RECONNECT_DELAY);
-    }
-  };
-
-  socket.onerror = (err) => {
-    console.error('[WS] Global Socket Error:', err);
-    toast.error('Real-time connection failed. Try restarting the scan.');
-    socket?.close();
-  };
-};
-
-export const scanSocketMiddleware: Middleware =
-  ({ dispatch, getState }) =>
-  (next) =>
-  (action: any) => {
-    const result = next(action);
-
-    // Handle scan progression
-    if (scanStarted.match(action)) {
-      closeSocket();
-      openSocket(action.payload, dispatch, getState as any);
-    }
-
-    if (scanReset.match(action)) {
-      closeSocket();
-    }
-
-    // Handle Rehydration (Redux Persist)
-    if (action.type === 'persist/REHYDRATE') {
-      // Use a timeout to ensure state is fully merged before checking
-      setTimeout(() => {
-        const state = getState() as any;
-        if (state.scanSession?.isScanning && state.scanSession?.scanId) {
-          console.debug(
-            '[WS] Reconnecting to persisted scan:',
-            state.scanSession.scanId
-          );
-          openSocket(state.scanSession.scanId, dispatch, getState as any);
-        }
-      }, 200);
-    }
-
-    return result;
-  };
+  },
+});

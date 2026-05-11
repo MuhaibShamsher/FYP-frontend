@@ -344,64 +344,6 @@
   color: rgb(156, 163, 175);
 }
 
-/* Pagination Footer */
-.paginationFooter {
-  padding: 1.25rem 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.paginationInfo {
-  font-size: 0.8125rem;
-  color: rgb(156, 163, 175);
-}
-
-.pageHighlight {
-  color: white;
-  font-weight: 700;
-}
-
-.paginationControls {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.pageButton {
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  font-size: 0.8125rem;
-  font-weight: 700;
-  transition: all 200ms;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
-  color: white;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.pageButton:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
-}
-
-.pageButton:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-  filter: grayscale(1);
-}
-
-.pageButtonActive {
-  background: rgb(234, 88, 12);
-  color: white;
-  border-color: rgb(234, 88, 12);
-  box-shadow: 0 0 20px rgba(234, 88, 12, 0.2);
-}
-
 /* KEV Toggle Button */
 .kevToggle {
   display: flex;

@@ -1,4 +1,5 @@
-import { Button } from '@/components/ui/button';
+import { useLoginPage } from '@/hooks';
+import { Button } from '@/components/ui';
 import { CyberGrid, TypingText } from '@/components/custom';
 import {
   Lock,
@@ -10,7 +11,6 @@ import {
   Shield,
   Activity,
 } from 'lucide-react';
-import useLoginPage from '@/hooks/useLoginPage';
 import ArmorLogo from '@/assets/armor_logo.png';
 import styles from './Login.module.css';
 

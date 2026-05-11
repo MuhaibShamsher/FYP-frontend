@@ -4,6 +4,16 @@
   animation: fade-in 500ms;
 }
 
+.mainCard {
+  padding: 0;
+  border: none;
+  background: none;
+  box-shadow: none;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
 .headerRow {
   display: flex;
   justify-content: space-between;
@@ -61,12 +71,14 @@
   padding: 0.75rem 1.25rem;
   width: 100%;
   transition: all 300ms ease;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .searchContainer:focus-within {
   border-color: rgba(var(--ui-accent-blue), 0.5);
-  box-shadow: 0 0 0 2px rgba(var(--ui-accent-blue), 0.2), inset 0 2px 4px rgba(0,0,0,0.5);
+  box-shadow:
+    0 0 0 2px rgba(var(--ui-accent-blue), 0.2),
+    inset 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .searchIcon {
@@ -90,345 +102,30 @@
 .mainCard {
   display: flex;
   flex-direction: column;
+  gap: 0;
 }
-
-/* Asset List */
-.assetsList {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.assetItem {
-  opacity: 0;
-  animation: slide-in-fade 400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 0.5rem;
-  background: rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-}
-
-.assetHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.25rem 1.5rem;
-  background-color: transparent;
-  cursor: pointer;
-  transition: all 200ms;
-}
-
-.assetHeader:hover {
-  background-color: rgba(255, 255, 255, 0.03);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-}
-
-.assetIdent {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-}
-
-.serverIconWrapper {
-  background-color: rgba(var(--ui-accent-blue), 0.1);
-  color: rgb(var(--ui-accent-blue));
-  border: 1px solid rgba(var(--ui-accent-blue), 0.2);
-  border-radius: 0.5rem;
-  padding: 0.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.05);
-}
-
-.assetMeta {
-  display: flex;
-  flex-direction: column;
-  gap: 0.375rem;
-}
-
-.headlineRow {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.hostname {
-  color: var(--ui-text-primary);
-  font-size: 1.15rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-}
-
-.ipAddressTag {
-  font-family: ui-monospace, monospace;
-  font-size: 0.75rem;
-  color: var(--ui-text-secondary);
-  background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%);
-  padding: 0.2rem 0.6rem;
-  border-radius: 0.375rem;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-}
-
-.deviceInfo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.75rem;
-  color: var(--ui-text-muted);
-}
-
-.tag {
-  background-color: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0.125rem 0.5rem;
-  border-radius: 0.25rem;
-  text-transform: capitalize;
-  display: flex;
-  align-items: center;
-}
-
-.violationInfo {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.countBadge {
-  background: linear-gradient(180deg, rgba(var(--ui-status-fail), 0.15) 0%, rgba(var(--ui-status-fail), 0.05) 100%);
-  color: rgb(var(--ui-status-fail));
-  padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
-  font-size: 0.875rem;
-  font-weight: 700;
-  border: 1px solid rgba(var(--ui-status-fail), 0.3);
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
-  box-shadow: 0 2px 4px rgba(var(--ui-status-fail), 0.1);
-}
-
-.chevron {
-  color: var(--ui-text-muted);
-  transition: transform 200ms;
-}
-
-.chevronExpanded {
-  transform: rotate(180deg);
-  color: var(--ui-text-primary);
-}
-
-/* Expanded Content */
-.expandedContent {
-  padding: 1.5rem;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  animation: slide-down 300ms ease-out;
-  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-.sectionTitle {
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: var(--ui-text-primary);
-  margin-bottom: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.sectionIcon {
-  color: var(--ui-text-muted);
-  width: 1.25rem;
-  height: 1.25rem;
-}
-
-.controlsList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 2rem;
-}
-
-.controlBadge {
-  background: linear-gradient(180deg, rgba(var(--ui-accent-blue), 0.15) 0%, rgba(var(--ui-accent-blue), 0.05) 100%);
-  color: var(--ui-accent-blue-light);
-  border: 1px solid rgba(var(--ui-accent-blue), 0.3);
-  padding: 0.25rem 0.75rem;
-  border-radius: 0.375rem;
-  font-size: 0.75rem;
-  font-family: ui-monospace, monospace;
-}
-
-/* Root Causes */
-.rootCausesGrid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-}
-
-@media (min-width: 1024px) {
-  .rootCausesGrid {
-    grid-template-columns: repeat(2, 1fr);
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 
-.causeCard {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.03) 0%, rgba(0, 0, 0, 0.2) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 0.75rem;
-  padding: 1.25rem;
-  transition: all 0.2s ease;
-}
-
-.causeCard:hover {
-  transform: translateY(-2px);
-  border-color: rgba(255, 255, 255, 0.15);
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0.3) 100%);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-
-.causeHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 0.75rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.causeTitleGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.causeTitle {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--ui-text-primary);
-  text-transform: capitalize;
-}
-
-.causeService {
-  font-family: ui-monospace, monospace;
-  color: var(--ui-text-muted);
-  font-size: 0.75rem;
-}
-
-.causeDescription {
-  font-size: 0.875rem;
-  color: var(--ui-text-secondary);
-  margin-bottom: 1rem;
-  line-height: 1.5;
-}
-
-.causeFooter {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.causeFooterLabel {
-  font-size: 0.7rem;
-  color: var(--ui-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.miniControlsList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.375rem;
-}
-
-.miniControlBadge {
-  background-color: rgba(255, 255, 255, 0.08);
-  color: var(--ui-text-secondary);
-  padding: 0.125rem 0.375rem;
-  border-radius: 0.25rem;
-  font-size: 0.65rem;
-  font-family: ui-monospace, monospace;
-}
-
-/* Severity Indicators */
-.severityBadge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.125rem 0.5rem;
-  border-radius: 0.25rem;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  font-weight: 700;
-  border-width: 1px;
-  border-style: solid;
-}
-
-.severityHigh {
-  color: rgb(var(--ui-status-fail));
-  background-color: rgba(var(--ui-status-fail), 0.1);
-  border-color: rgba(var(--ui-status-fail), 0.2);
-}
-
-.severityMedium {
-  color: rgb(var(--ui-status-high));
-  background-color: rgba(var(--ui-status-high), 0.1);
-  border-color: rgba(var(--ui-status-high), 0.2);
-}
-
-.severityLow {
-  color: rgb(var(--ui-status-partial));
-  background-color: rgba(var(--ui-status-partial), 0.1);
-  border-color: rgba(var(--ui-status-partial), 0.2);
-}
-
-/* Utils */
-.centerContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 400px;
-  color: var(--ui-text-muted);
-  text-align: center;
-}
-
-.spinner {
-  animation: spin 1s linear infinite;
-  margin-bottom: 1rem;
-  color: rgb(var(--ui-accent-blue));
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slide-down {
   from {
     opacity: 0;
     transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slide-in-fade {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
   }
   to {
     opacity: 1;

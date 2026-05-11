@@ -1,4 +1,5 @@
-import { Card, CardContent } from '@/components/ui/card';
+import { memo } from 'react';
+import { Card, CardContent } from '@/components/ui';
 import styles from './StatCard.module.css';
 
 interface StatCardProps {
@@ -7,14 +8,16 @@ interface StatCardProps {
   icon: React.ElementType;
   valueColorClass?: string;
   iconColorClass?: string;
+  subtitle?: string;
 }
 
-export default function StatCard({
+const StatCard = memo(function StatCard({
   title,
   value,
   icon: Icon,
   valueColorClass = 'text-white',
   iconColorClass,
+  subtitle,
 }: StatCardProps) {
   const iconBgClass = iconColorClass
     ? iconColorClass.replace('text-', 'bg-').replace('500', '500/10')
@@ -29,6 +32,7 @@ export default function StatCard({
           <div className={styles.textColumn}>
             <p className={styles.title}>{title}</p>
             <p className={`${styles.value} ${valueColorClass}`}>{value}</p>
+            {subtitle ? <p className={styles.subtitle}>{subtitle}</p> : null}
           </div>
 
           <div className={`${styles.iconBox} ${iconBgClass}`}>
@@ -40,4 +44,6 @@ export default function StatCard({
       </CardContent>
     </Card>
   );
-}
+});
+
+export default StatCard;

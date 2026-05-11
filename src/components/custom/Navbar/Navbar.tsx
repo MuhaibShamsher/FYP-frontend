@@ -1,13 +1,18 @@
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logout } from '@/store/slices/authSlice';
+import { clearActiveIds } from '@/store/slices/activeIdsSlice';
 import { LogOut } from 'lucide-react';
 import armorLogo from '@/assets/armor_logo.png';
 import styles from './Navbar.module.css';
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
-    localStorage.removeItem('authToken');
+    dispatch(logout());
+    dispatch(clearActiveIds());
     navigate('/login');
   };
 

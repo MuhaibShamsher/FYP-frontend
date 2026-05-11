@@ -1,0 +1,129 @@
+.itemList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.priorityRow {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.85rem;
+  align-items: center;
+  padding: 1.05rem;
+  border-radius: 1rem;
+  border: 1px solid var(--dashboard-border);
+  background: var(--dashboard-surface);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.priorityRow:hover {
+  transform: translateX(3px);
+  border-color: var(--dashboard-border-strong);
+  background: var(--dashboard-surface-2);
+}
+
+.rankBadge {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: color-mix(in srgb, var(--dashboard-accent) 20%, transparent);
+  border: 1px solid var(--dashboard-accent);
+  color: var(--dashboard-text);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.priorityBody {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.itemTitle {
+  color: var(--dashboard-text);
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+.itemSubline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.priorityMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+}
+
+.monoBadge,
+.mutedText,
+.scoreBadge,
+.kevBadge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.monoBadge {
+  padding: 0.2rem 0.5rem;
+  background: var(--dashboard-surface-2);
+  border: 1px solid var(--dashboard-border);
+  color: var(--dashboard-text-soft);
+  font-family: monospace;
+}
+
+.mutedText {
+  color: var(--dashboard-text-muted);
+  font-weight: 600;
+}
+
+.scoreBadge {
+  min-width: 3rem;
+  justify-content: center;
+  padding: 0.3rem 0.55rem;
+  background: color-mix(in srgb, var(--dashboard-accent) 20%, transparent);
+  border: 1px solid var(--dashboard-accent);
+  color: var(--dashboard-text);
+}
+
+.kevBadge {
+  padding: 0.2rem 0.5rem;
+  background: color-mix(in srgb, var(--color-success) 20%, transparent);
+  border: 1px solid var(--color-success);
+  color: rgb(167, 243, 208);
+}
+
+.emptyState {
+  padding: 1rem 0.25rem 0.25rem;
+  color: var(--dashboard-text-muted);
+  font-size: 0.875rem;
+}
+
+@media (max-width: 640px) {
+  .priorityRow {
+    grid-template-columns: auto 1fr;
+  }
+
+  .priorityMeta {
+    grid-column: 2 / -1;
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}

@@ -1,6 +1,4 @@
-import { SearchInput } from '@/components/ui/search-input';
-import { FilterSelect, SelectItem } from '@/components/ui/filter-select';
-import { Button } from '@/components/ui/button';
+import { Button, SearchInput, FilterSelect, SelectItem } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import styles from './SearchFilterBar.module.css';
 

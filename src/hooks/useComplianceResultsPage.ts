@@ -1,18 +1,20 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useGetComplianceResultsQuery } from '@/store/apis/complianceApi';
-import useDebouncedSearch from './useDebouncedSearch';
-import {
-  COMPLIANCE_RESULTS_PAGE_SIZE,
-  FALLBACK_COMPLIANCE_ASSESSMENT_ID,
-} from '@/components/compliance/utils/constants';
+import { skipToken } from '@reduxjs/toolkit/query/react';
+import { useGetComplianceResultsQuery } from '@/apis';
+import { useDebouncedSearch, useVisualFetching } from '@/hooks';
+import { 
+  DEFAULT_PAGE_SIZE, 
+  DEFAULT_DEBOUNCE_MS, 
+  MIN_VISIBLE_LOADING_TIME_MS, 
+} from '@/constants';
 import type { RootState } from '@/store';
 import type { ComplianceFramework } from '@/types';
 
 function categorySearchPlaceholder(framework: ComplianceFramework): string {
   switch (framework) {
     case 'iso27001':
-      return 'Filter by category (Organizational Controls)...';
+      return 'Filter by category (Org Controls)...';
     case 'nist':
       return 'Filter by family code (RA, SC, CM)...';
     case 'cis':
@@ -23,52 +25,58 @@ function categorySearchPlaceholder(framework: ComplianceFramework): string {
 }
 
 export default function useComplianceResultsPage() {
-  const complianceId = useSelector(
-    (state: RootState) => state.activeIds.complianceId
-  );
-  const assessmentId = complianceId ?? FALLBACK_COMPLIANCE_ASSESSMENT_ID;
+  const { complianceId } = useSelector((s: RootState) => s.activeIds);
 
   const [framework, setFramework] = useState<ComplianceFramework>('iso27001');
   const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [currentPage, setCurrentPage] = useState(1);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const {
     searchQuery: categoryInput,
     setSearchQuery: setCategoryInput,
     debouncedQuery: debouncedCategory,
-  } = useDebouncedSearch({ initialValue: '' });
+  } = useDebouncedSearch({ initialValue: '', debounceMs: DEFAULT_DEBOUNCE_MS });
+
+  const { isVisualFetching, handleFetchingChange } = useVisualFetching({
+    minVisibleTime: MIN_VISIBLE_LOADING_TIME_MS,
+  });
+
+  const queryArgs = useMemo(
+    () => ({
+      id: complianceId as string,
+      framework,
+      page: currentPage,
+      page_size: DEFAULT_PAGE_SIZE,
+      ...(statusFilter !== 'all' ? { status: statusFilter } : {}),
+      ...(debouncedCategory ? { category: debouncedCategory } : {}),
+    }),
+    [complianceId, framework, currentPage, statusFilter, debouncedCategory]
+  );
+
+  const { data: response, isFetching, isLoading, isError } = useGetComplianceResultsQuery(
+    complianceId ? queryArgs : skipToken
+  );
+
+  // Apply visual fetching when isFetching changes
+  useEffect(() => {
+    handleFetchingChange(isFetching);
+  }, [isFetching, handleFetchingChange]);
+
+  const placeholder = useMemo(
+    () => categorySearchPlaceholder(framework), [framework]
+  );
 
   useEffect(() => {
     setCurrentPage(1);
   }, [framework, statusFilter, debouncedCategory]);
 
-  const queryArgs = useMemo(
-    () => ({
-      id: assessmentId,
-      framework,
-      page: currentPage,
-      page_size: COMPLIANCE_RESULTS_PAGE_SIZE,
-      ...(statusFilter !== 'all' ? { status: statusFilter } : {}),
-      ...(debouncedCategory ? { category: debouncedCategory } : {}),
-    }),
-    [assessmentId, framework, currentPage, statusFilter, debouncedCategory]
-  );
-
-  const {
-    data: response,
-    isLoading,
-    isFetching,
-    isError,
-  } = useGetComplianceResultsQuery(queryArgs, { skip: !assessmentId });
-
-  const placeholder = useMemo(
-    () => categorySearchPlaceholder(framework),
-    [framework]
-  );
+  const results = response?.data ?? [];
+  const isEmptyResult = !isLoading && results.length === 0;
+  const isFiltered = statusFilter !== 'all' || categoryInput || framework !== 'iso27001';
 
   return {
-    assessmentId,
+    complianceId,
     framework,
     setFramework,
     statusFilter,
@@ -81,12 +89,13 @@ export default function useComplianceResultsPage() {
     toggleExpanded: (id: string) =>
       setExpandedId((prev) => (prev === id ? null : id)),
     placeholder,
-    results: response?.data ?? [],
+    results,
     pagination: response?.pagination,
     isLoading,
-    isFetching,
+    isVisualFetching,
     isError,
-    hasResponse: Boolean(response),
-    pageSize: COMPLIANCE_RESULTS_PAGE_SIZE,
+    isEmptyResult,
+    isFiltered,
+    pageSize: DEFAULT_PAGE_SIZE,
   };
 }

@@ -1,0 +1,34 @@
+.fieldIcon {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.inputField,
+.textareaField {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.05);
+  color: white;
+  transition: all 300ms;
+}
+
+.inputField::placeholder,
+.textareaField::placeholder {
+  color: rgb(82, 82, 82);
+}
+
+.inputField:focus,
+.textareaField:focus {
+  outline: none;
+  border-color: rgba(234, 88, 12, 0.5);
+  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px rgba(234, 88, 12, 0.08);
+}
+
+.textareaField {
+  resize: vertical;
+  min-height: 7rem;
+  border-radius: 0.75rem;
+  padding: 0.9rem 1rem;
+  font-size: 0.875rem;
+}

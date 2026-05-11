@@ -1,51 +1,67 @@
+import { useSelector } from 'react-redux';
 import {
-  DoughnutChart,
-  AssetSeverityLineChart,
-  DeviceTypePieChart,
-  PortsBarChart,
-} from '@/components/charts';
-import { InitiateScanModal } from '@/components/models';
+  usePipelineStatus,
+  useAssetIntelligence,
+  useScanActions,
+  useDashboardViewModel,
+} from '@/hooks';
 import {
-  LoadingState,
-  ErrorState,
-  EmptyState,
-  DashboardSummary,
-} from '@/components/custom';
-import { Card, CardContent, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+  DashboardTopItems,
+  DashboardExecutiveKpis,
+  DashboardOperationalAnalytics,
+  DashboardCompliancePosture,
+} from '@/components/dashboard';
+import { LoadingState, ErrorState, EmptyState } from '@/components/custom';
+import { InitiateScanModal } from '@/components/modal';
+import { Button } from '@/components/ui';
 import { Server } from 'lucide-react';
-import useDashboardPage from '@/hooks/useDashboardPage';
+import type { RootState } from '@/store';
 import styles from './Dashboard.module.css';
 
 export default function DashboardPage() {
   const {
+    latestData,
+    isLoading: isPipelineLoading,
+    isError: isPipelineError,
+    refetch: refetchPipeline,
+  } = usePipelineStatus();
+
+  const {
     assets,
-    isScanning,
+    isLoading: isAssetsLoading,
+    isError: isAssetsError,
+  } = useAssetIntelligence();
+
+  const {
     isNewScanModalOpen,
-    isLoading,
     isCreatingScan,
     isCancellingScan,
-    error,
     openNewScanModal,
     closeNewScanModal,
     createNewScan,
     cancelCurrentScan,
-  } = useDashboardPage();
+  } = useScanActions();
 
-  if (isLoading) {
-    return <LoadingState text="LOADING ASSETS..." />;
+  const { isScanning } = useSelector((s: RootState) => s.scanSession);
+  const dashboardModel = useDashboardViewModel(latestData, assets);
+
+  const isInitialLoading = isPipelineLoading || isAssetsLoading;
+  const hasError = isPipelineError || isAssetsError;
+
+  if (isInitialLoading) {
+    return <LoadingState text="LOADING DASHBOARD..." />;
   }
 
-  if (error) {
+  if (hasError) {
     return (
       <ErrorState
-        title="Error Loading Assets"
-        message="Unable to fetch asset data. Please try again later."
+        title="Data Sync Failure"
+        message="Unable to fetch results from threat intelligence pipeline."
       />
     );
   }
 
-  if (!assets || assets.length === 0) {
+  if (!latestData && assets.length === 0) {
     return (
       <EmptyState
         icon={Server}
@@ -59,7 +75,6 @@ export default function DashboardPage() {
 
   return (
     <div className={styles.pageContainer}>
-      {/* Header Section */}
       <div className={styles.headerSection}>
         <div>
           <div className={styles.systemOverviewLabel}>
@@ -69,84 +84,33 @@ export default function DashboardPage() {
           <h1 className={styles.pageTitle}>DASHBOARD</h1>
         </div>
 
-        <Button
-          onClick={openNewScanModal}
-          className={styles.initiateScanButton}
-        >
+        <Button onClick={openNewScanModal} className={styles.initiateScanButton}>
           {isScanning ? (
             <>
-              <span className="animate-spin mr-2">⟳</span> SYSTEM SCANNING...
+              <span className={`${styles.scanSpinner} animate-spin`}>⟳</span>
+              SYSTEM SCANNING...
             </>
           ) : (
             <>
-              <span className="mr-2 text-xl font-light">+</span>
+              <span className={styles.plusIcon}>+</span>
               INITIATE NEW SCAN
             </>
           )}
         </Button>
       </div>
 
-      {/* Synchronized Mission & Compliance Briefing */}
-      <DashboardSummary />
+      <div className={styles.sectionStack}>
+        <DashboardExecutiveKpis model={dashboardModel} />
+        <DashboardOperationalAnalytics model={dashboardModel} assets={assets} />
 
-      <div className={styles.chartsGrid}>
-        {/* Asset Severity Line Chart */}
-        <Card className={styles.mainChartCard}>
-          <div className={styles.cardHeader}>
-            <CardTitle className={styles.cardTitle}>
-              <div
-                className={`${styles.indicatorDot} ${styles.dotPrimary}`}
-              ></div>
-              ASSET SEVERITY TIMELINE
-            </CardTitle>
-          </div>
-          <CardContent className={styles.cardContent}>
-            <AssetSeverityLineChart assets={assets} />
-          </CardContent>
-        </Card>
+        <DashboardTopItems
+          latestData={latestData}
+          isLoading={isPipelineLoading}
+          isError={isPipelineError}
+          onRetry={refetchPipeline}
+        />
 
-        {/* Severity Distribution Doughnut Chart */}
-        <Card className={styles.secondaryChartCard}>
-          <div className={styles.cardHeader}>
-            <CardTitle className={styles.cardTitle}>
-              <div className={`${styles.indicatorDot} ${styles.dotBlue}`}></div>
-              SEVERITY DISTRIBUTION
-            </CardTitle>
-          </div>
-          <CardContent className={styles.centeredCardContent}>
-            <DoughnutChart assets={assets} />
-          </CardContent>
-        </Card>
-
-        {/* Open Ports Bar Chart */}
-        <Card className={styles.mainChartCard}>
-          <div className={styles.cardHeader}>
-            <CardTitle className={styles.cardTitle}>
-              <div
-                className={`${styles.indicatorDot} ${styles.dotPurple}`}
-              ></div>
-              OPEN PORTS ANALYSIS
-            </CardTitle>
-          </div>
-          <CardContent className={styles.cardContent}>
-            <PortsBarChart assets={assets} />
-          </CardContent>
-        </Card>
-
-        {/* Assets by Type Pie Chart */}
-        <Card className={styles.secondaryChartCard}>
-          <div className={styles.cardHeader}>
-            <CardTitle className={styles.cardTitle}>
-              <div
-                className={`${styles.indicatorDot} ${styles.dotEmerald}`}
-              ></div>
-              DEVICE CLASSIFICATION
-            </CardTitle>
-          </div>
-          <CardContent className={styles.centeredCardContent}>
-            <DeviceTypePieChart assets={assets} />
-          </CardContent>
-        </Card>
+        <DashboardCompliancePosture model={dashboardModel} />
       </div>
 
       <InitiateScanModal

@@ -94,6 +94,7 @@ export type SectionKey =
   | 'dashboard'
   | 'reports'
   | 'settings'
+  | 'users'
   | 'vulnerabilities'
   | 'compliance-violations'
   | 'compliance-results'
@@ -332,6 +333,22 @@ export interface ComplianceAssessmentListItem {
   iso_score: number | null;
   cis_score: number | null;
   nist_score: number | null;
+  iso_pass?: number;
+  iso_fail?: number;
+  iso_partial?: number;
+  iso_not_applicable?: number;
+  iso_needs_review?: number;
+  cis_pass?: number;
+  cis_fail?: number;
+  cis_partial?: number;
+  cis_not_applicable?: number;
+  cis_needs_review?: number;
+  nist_pass?: number;
+  nist_fail?: number;
+  nist_partial?: number;
+  nist_not_applicable?: number;
+  nist_needs_review?: number;
+  frameworks_summary?: Partial<Record<ComplianceFramework, FrameworkSummary>>;
   error_message: string | null;
   started_at: string | null;
   completed_at: string | null;
@@ -410,14 +427,13 @@ export interface FeedMetadata {
 
 export interface FeedStatus {
   feed_type: FeedType;
-  last_successful_run: string;
+  started_at?: string;
+  finished_at: string;
   records_processed: number;
   records_errors: number;
   source_name: string;
   mode: 'incremental' | 'full';
-  task_id: string;
-  metadata: FeedMetadata;
-  is_running: boolean;
+  status: string;
   is_stale: boolean;
 }
 

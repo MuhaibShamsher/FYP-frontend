@@ -1,17 +1,25 @@
-import useVulnerabilitiesPage from '@/hooks/useVulnerabilitiesPage';
-import { TerminalPagination, EmptyState, StatCard, SearchFilterBar } from '@/components/custom';
+import { useVulnerabilitiesPage } from '@/hooks';
+import {
+  TerminalPagination,
+  EmptyState,
+  ErrorState,
+  LoadingState,
+  SearchFilterBar,
+} from '@/components/custom';
 import { VulnerabilityRow } from '@/components/vulnerability';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui';
 import { ShieldAlert, ShieldCheck, Zap } from 'lucide-react';
+import type { Vulnerability } from '@/types';
 import styles from './Vulnerabilities.module.css';
 
 export default function VulnerabilitiesPage() {
   const {
     vulnerabilities,
     pagination,
-    vulnerabilityStats,
+    isLoading,
     isVisualFetching,
+    isError,
+    isEmptyResult,
     searchTerm,
     setSearchTerm,
     severityFilter,
@@ -25,6 +33,19 @@ export default function VulnerabilitiesPage() {
     expandedVulnId,
     toggleVulnExpansion,
   } = useVulnerabilitiesPage();
+
+  if (isLoading) {
+    return <LoadingState text="LOADING VULNERABILITIES..." />;
+  }
+
+  if (isError) {
+    return (
+      <ErrorState
+        title="FAILED TO LOAD RESULTS"
+        message="There was an error fetching vulnerabilities."
+      />
+    );
+  }
 
   return (
     <div className={styles.pageContainer}>
@@ -75,19 +96,9 @@ export default function VulnerabilitiesPage() {
         />
       </div>
 
-      {/* Stats Section */}
-      {/* <div className={styles.statsGrid}>
-        {vulnerabilityStats.map((stat: any, index: number) => (
-          <StatCard key={index} {...stat} />
-        ))}
-      </div> */}
-
-      {/* Main Card Content */}
       <Card className={styles.mainCard}>
-        <div
-          className={`${styles.vulnerabilitiesList} ${isVisualFetching ? styles.updating : ''}`}
-        >
-          {vulnerabilities.length === 0 ? (
+        <div className={`${styles.vulnerabilitiesList} ${isVisualFetching ? styles.updating : ''}`}>
+          {isEmptyResult ? (
             <EmptyState
               icon={ShieldCheck}
               title="NO VULNERABILITIES FOUND"
@@ -104,11 +115,10 @@ export default function VulnerabilitiesPage() {
               }}
             />
           ) : (
-            vulnerabilities.map((vuln: any, index: number) => (
+            vulnerabilities.map((vuln: Vulnerability) => (
               <VulnerabilityRow
                 key={vuln.id}
                 vuln={vuln}
-                index={index}
                 isOpen={expandedVulnId === vuln.id}
                 onToggle={() => toggleVulnExpansion(vuln.id)}
               />

@@ -1,10 +1,5 @@
 import type { ComplianceResultStatus } from "@/types";
 
-// Date formatting utilities
-export const formatDate = (dateString: string): string => {
-  return new Date(dateString).toLocaleString();
-};
-
 
 // Severity badge variant utilities
 export const getSeverityVariant = (
@@ -19,21 +14,6 @@ export const getSeverityVariant = (
       return 'secondary';
   }
 };
-
-
-export const getSeverityImpactVariant = (
-  impact?: string
-): 'destructive' | 'default' | 'secondary' => {
-  switch (impact?.toLowerCase()) {
-    case 'high':
-      return 'destructive';
-    case 'medium':
-      return 'default';
-    default:
-      return 'secondary';
-  }
-};
-
 
 export const getStatusVariant = (status: ComplianceResultStatus) => {
   switch (status) {
@@ -170,14 +150,3 @@ export const createKeydownHandler =
       callback();
     }
   };
-
-// Finding severity class utility
-export const findingSeverityClass = (
-  severity: string | undefined,
-  s: { sevHigh: string; sevMedium: string; sevLow: string }
-): string => {
-  const sev = severity?.toLowerCase() ?? '';
-  if (sev === 'high') return s.sevHigh;
-  if (sev === 'medium') return s.sevMedium;
-  return s.sevLow;
-};

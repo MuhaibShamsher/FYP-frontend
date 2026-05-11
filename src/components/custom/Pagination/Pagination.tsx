@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './Pagination.module.css';
 
@@ -27,6 +27,10 @@ export default function TerminalPagination({
   const endRange = totalItems
     ? Math.min(currentPage * itemsPerPage, totalItems)
     : currentPage * itemsPerPage;
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentPage, isFetching]);
 
   // Generate page numbers with ellipsis logic
   const getPageNumbers = () => {
@@ -62,9 +66,7 @@ export default function TerminalPagination({
   };
 
   return (
-    <div
-      className={`${styles.paginationFooter} ${isFetching ? styles.isFetching : ''}`}
-    >
+    <div className={`${styles.paginationFooter} ${isFetching ? styles.isFetching : ''}`}>
       <div className={styles.paginationInfo}>
         {totalItems !== undefined ? (
           <>
@@ -87,24 +89,20 @@ export default function TerminalPagination({
           disabled={currentPage <= 1 || isFetching}
           onClick={() => onPageChange(currentPage - 1)}
         >
-          <ChevronLeft
-            className={`w-4 h-4 ${styles.arrowIcon} ${styles.arrowIconPrev}`}
-          />{' '}
+          <ChevronLeft className={styles.iconSmall} />
           PREV
         </button>
 
-        <div className="flex gap-1">
+        <div className={styles.pageNumbersContainer}>
           {getPageNumbers().map((pageNum, idx) => (
             <React.Fragment key={idx}>
               {pageNum === '...' ? (
-                <span className="px-2 text-slate-600 font-mono text-xs flex items-center">
-                  ...
-                </span>
+                <span className={styles.ellipsisSpan}>...</span>
               ) : (
                 <button
-                  className={`${styles.pageButton} ${
+                  className={`${styles.pageNumberButton} ${
                     currentPage === pageNum ? styles.pageButtonActive : ''
-                  } p-0! w-9 h-9 flex items-center justify-center font-mono`}
+                  }`}
                   onClick={() => onPageChange(pageNum as number)}
                   disabled={isFetching}
                 >
@@ -120,10 +118,7 @@ export default function TerminalPagination({
           disabled={currentPage >= totalPages || isFetching}
           onClick={() => onPageChange(currentPage + 1)}
         >
-          NEXT{' '}
-          <ChevronRight
-            className={`w-4 h-4 ${styles.arrowIcon} ${styles.arrowIconNext}`}
-          />
+          NEXT <ChevronRight className={styles.iconSmall} />
         </button>
       </div>
     </div>

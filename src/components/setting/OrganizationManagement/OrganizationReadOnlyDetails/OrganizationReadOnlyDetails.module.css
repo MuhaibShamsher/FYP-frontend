@@ -1,0 +1,75 @@
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 0.85rem;
+  grid-auto-rows: 1fr;
+}
+
+@media (min-width: 768px) {
+  .infoGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.descriptionBlock,
+.frameworksBlock {
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  height: 100%;
+  min-height: 100%;
+}
+
+.descriptionBlock {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.fieldLabel {
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: rgb(115, 115, 115);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.descriptionText {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: rgb(245, 245, 245);
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.frameworkChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  align-content: flex-start;
+}
+
+.frameworkChip,
+.emptyChip {
+  border-radius: 9999px;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.frameworkChip {
+  background: rgba(234, 88, 12, 0.12);
+  color: rgb(255, 237, 213);
+  border: 1px solid rgba(234, 88, 12, 0.18);
+}
+
+.emptyChip {
+  background: rgba(255, 255, 255, 0.04);
+  color: rgb(163, 163, 163);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}

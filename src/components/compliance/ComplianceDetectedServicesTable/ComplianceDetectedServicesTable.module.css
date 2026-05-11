@@ -12,7 +12,7 @@
 
 .evidenceLabel {
   font-size: 0.75rem;
-  color: var(--ui-text-muted);
+  color: var(--dashboard-text-muted);
   text-transform: uppercase;
   font-weight: 600;
 }

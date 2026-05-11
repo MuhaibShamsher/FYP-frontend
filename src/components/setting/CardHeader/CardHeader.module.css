@@ -1,0 +1,31 @@
+.cardHeader {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 1rem;
+}
+
+.cardTitle {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: rgb(229, 229, 229);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.statusIndicator {
+  height: 0.5rem;
+  width: 0.5rem;
+  border-radius: 9999px;
+}
+
+.blueIndicator {
+  background-color: rgb(59, 130, 246);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+
+.orangeIndicator {
+  background-color: rgb(249, 115, 22);
+  box-shadow: 0 0 10px rgba(234, 88, 12, 0.5);
+}
