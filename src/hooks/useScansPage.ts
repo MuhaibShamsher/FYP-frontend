@@ -59,25 +59,25 @@ export default function useScansPage(): UseScansPageReturn {
       title: 'TOTAL SCANS',
       value: statistics?.total || 0,
       icon: Target,
-      iconColorClass: 'text-slate-500',
+      iconColorClass: 'text-slate-400',
     },
     {
       title: 'COMPLETED',
       value: statistics?.completed || 0,
       icon: CheckCircle,
-      iconColorClass: 'text-green-500',
+      iconColorClass: 'text-emerald-500',
     },
     {
       title: 'RUNNING',
       value: statistics?.running || 0,
       icon: Hourglass,
-      iconColorClass: 'text-blue-500',
+      iconColorClass: 'text-orange-500',
     },
     {
       title: 'FAILED',
       value: statistics?.failed || 0,
       icon: AlertTriangle,
-      iconColorClass: 'text-red-500',
+      iconColorClass: 'text-rose-500',
     },
   ];
 

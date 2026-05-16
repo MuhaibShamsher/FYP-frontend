@@ -1,7 +1,7 @@
-import { 
-  UserProfileCard, 
-  PasswordChangeCard, 
-  OrganizationDetails, 
+import {
+  UserProfileCard,
+  PasswordChangeCard,
+  OrganizationDetails,
 } from '@/components/setting';
 import styles from './Settings.module.css';
 
@@ -10,11 +10,11 @@ export default function SettingsPage() {
     <div className={styles.pageContainer}>
       <div className={styles.headerSection}>
         <div>
-          <div className={styles.systemOverviewLabel}>
+          <div className={styles.headerLabel}>
             <div className={styles.statusDotActive} />
-            System Configuration
+            GLOBAL CONFIGURATION & SECURITY POLICIES
           </div>
-          <h1 className={styles.pageTitle}>SETTINGS</h1>
+          <h1 className={styles.pageTitle}>Settings</h1>
         </div>
       </div>
 

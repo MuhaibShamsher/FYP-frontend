@@ -46,12 +46,12 @@ export default function UserProfileCard() {
           </div>
         </div>
 
-        <div className={styles.securityStatus}>
+        {/* <div className={styles.securityStatus}>
           <div className={styles.securityStatusContent}>
             <CheckCircle className={styles.securityStatusIcon} />
             <h4 className={styles.securityStatusTitle}>ACCOUNT VERIFIED</h4>
           </div>
-        </div>
+        </div> */}
       </CardContent>
     </Card>
   );

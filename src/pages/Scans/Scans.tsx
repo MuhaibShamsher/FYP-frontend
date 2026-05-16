@@ -79,6 +79,17 @@ export default function ScansPage() {
 
   return (
     <div className={styles.pageContainer}>
+      {/* Header Section */}
+      <div className={styles.headerSection}>
+        <div>
+          <div className={styles.headerLabel}>
+            <div className={styles.statusDotActive}></div>
+            SCAN OPERATIONS CENTER
+          </div>
+          <h1 className={styles.pageTitle}>Vulnerability Scans</h1>
+        </div>
+      </div>
+
       {/* Scan Statistics */}
       <div className={styles.statsGrid}>
         {SCAN_STATISTICS.map((item, idx) => (

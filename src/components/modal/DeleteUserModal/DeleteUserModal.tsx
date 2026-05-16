@@ -32,7 +32,7 @@ export default function DeleteUserModal({
             <div className={styles.iconWrapper}>
               <Trash2 className={styles.icon} />
             </div>
-            <div>
+            <div className={styles.textStack}>
               <h3 className={styles.confirmationTitle}>
                 Confirm User Deletion
               </h3>

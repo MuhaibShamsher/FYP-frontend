@@ -1,23 +1,59 @@
 .pageContainer {
   padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
   animation: fade-in 500ms;
+}
+
+/* Header Section */
+.headerSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.headerLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--dashboard-accent);
+  font-family: monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.statusDotActive {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background-color: var(--dashboard-accent);
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  box-shadow: 0 0 8px var(--dashboard-accent);
+}
+
+.pageTitle {
+  font-size: 1.875rem;
+  font-weight: 900;
+  color: var(--dashboard-text);
+  letter-spacing: -0.04em;
+  filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.04));
 }
 
 .statsGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Default to 2 columns for mobile */
-  gap: 0.75rem; /* Slightly smaller gap for mobile */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
 }
 
 @media (min-width: 768px) {
   .statsGrid {
-    gap: 1rem; /* Larger gap for tablet/desktop */
-  }
-}
-
-@media (min-width: 1280px) {
-  .statsGrid {
-    grid-template-columns: repeat(4, 1fr); /* 4 columns only on large screens */
+    gap: 1.5rem;
   }
 }
 
@@ -25,7 +61,6 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
-  margin-top: 2rem;
 }
 
 @media (min-width: 1024px) {
@@ -42,17 +77,21 @@
 
 /* Scan Card */
 .scanCard {
-  background-color: rgba(0, 0, 0, 0.4);
+  background: var(--dashboard-surface);
   backdrop-filter: blur(40px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: all 300ms;
+  border: 1px solid var(--dashboard-border);
+  box-shadow: var(--dashboard-shadow);
+  border-radius: 1rem;
+  transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .scanCard:hover {
-  border-color: rgba(234, 88, 12, 0.3);
-  background-color: rgba(255, 255, 255, 0.05);
+  border-color: var(--dashboard-border-strong);
+  transform: translateY(-4px);
 }
 
 /* Card Header */
@@ -61,74 +100,90 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--dashboard-border);
+  padding: 1.25rem 1.5rem;
+  background-color: var(--dashboard-surface-2);
 }
 
 .headerContent {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 /* Status Icon Container */
 .statusIconContainer {
-  padding: 0.5rem;
-  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid transparent;
 }
 
 .statusCompleted {
-  background-color: rgba(34, 197, 94, 0.1);
-  color: rgb(34, 197, 94);
+  background-color: rgba(16, 185, 129, 0.1);
+  color: rgb(110, 231, 183);
+  border-color: rgba(16, 185, 129, 0.2);
 }
 
 .statusRunning {
-  background-color: rgba(234, 88, 12, 0.1);
-  color: rgb(234, 88, 12);
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  background-color: rgba(245, 158, 11, 0.1);
+  color: var(--dashboard-accent);
+  border-color: rgba(245, 158, 11, 0.3);
+  animation: border-pulse 2s infinite;
 }
 
 .statusFailed {
   background-color: rgba(239, 68, 68, 0.1);
-  color: rgb(239, 68, 68);
+  color: rgb(252, 165, 165);
+  border-color: rgba(239, 68, 68, 0.2);
 }
 
 .statusPending {
-  background-color: rgba(255, 255, 255, 0.05);
-  color: rgb(163, 163, 163);
+  background-color: var(--dashboard-bg);
+  color: var(--dashboard-text-muted);
+  border-color: var(--dashboard-border);
 }
 
 .statusIcon {
-  width: 1rem;
-  height: 1rem;
+  width: 1.125rem;
+  height: 1.125rem;
 }
 
 /* Header Info */
 .scanTitle {
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: white;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  color: var(--dashboard-text);
   letter-spacing: 0.05em;
 }
 
 .scanIp {
   font-size: 0.75rem;
-  color: rgb(115, 115, 115);
+  color: var(--dashboard-text-muted);
   font-family: monospace;
-  margin-top: 0.125rem;
+  margin-top: 0.25rem;
 }
 
 /* Status Badge */
 .statusBadge {
-  border: none;
+  border-radius: 99px;
+  font-size: 0.625rem;
+  font-weight: 800;
+  padding: 0.25rem 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 /* Card Content */
 .cardContent {
-  padding-top: 1.5rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  flex: 1;
 }
 
 /* Time Grid */
@@ -141,119 +196,135 @@
 .timeField {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.5rem;
 }
 
 .timeLabel {
   font-size: 0.625rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: rgb(115, 115, 115);
-  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--dashboard-text-muted);
+  font-weight: 800;
 }
 
 .timeValue {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.75rem;
-  color: rgb(212, 212, 212);
+  font-size: 0.8125rem;
+  color: var(--dashboard-text);
+  font-family: monospace;
 }
 
 .timeIcon {
-  width: 0.75rem;
-  height: 0.75rem;
-  color: rgba(234, 88, 12, 0.6);
+  width: 0.875rem;
+  height: 0.875rem;
+  color: var(--dashboard-accent);
+  opacity: 0.6;
 }
 
 /* Discovery Section */
 .discoverySection {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--dashboard-border);
 }
 
 .discoveryRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
 }
 
 .discoveryLabel {
-  color: rgb(163, 163, 163);
+  color: var(--dashboard-text-soft);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.625rem;
+  font-weight: 600;
 }
 
 .discoveryIcon {
-  width: 0.75rem;
-  height: 0.75rem;
+  width: 0.875rem;
+  height: 0.875rem;
+  color: var(--dashboard-text-muted);
 }
 
 .discoveryValue {
-  color: white;
+  color: var(--dashboard-text);
   font-family: monospace;
+  font-weight: 700;
 }
 
 /* Progress Section */
 .progressSection {
   display: flex;
   flex-direction: column;
-  gap: 0.375rem;
+  gap: 0.625rem;
 }
 
 .progressHeader {
   display: flex;
   justify-content: space-between;
-  font-size: 0.625rem;
+  font-size: 0.6875rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 600;
+  letter-spacing: 0.08em;
+  font-weight: 800;
 }
 
 .progressLabel {
-  color: rgb(115, 115, 115);
+  color: var(--dashboard-text-muted);
 }
 
 .progressValue {
-  color: rgb(234, 88, 12);
+  color: var(--dashboard-accent);
 }
 
 /* Progress Bar */
 .progressBarContainer {
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 9999px;
-  height: 0.375rem;
+  background-color: var(--dashboard-bg);
+  border: 1px solid var(--dashboard-border);
+  border-radius: 99px;
+  height: 0.5rem;
   overflow: hidden;
 }
 
 .progressBar {
   height: 100%;
-  border-radius: 9999px;
-  transition: all 500ms;
+  border-radius: 99px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .progressBarFailed {
   background-color: rgb(239, 68, 68);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
 }
 
 .progressBarCompleted {
-  background-color: rgb(34, 197, 94);
+  background-color: rgb(16, 185, 129);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
 }
 
 .progressBarRunning {
-  background-color: rgb(234, 88, 12);
+  background-color: var(--dashboard-accent);
   position: relative;
   overflow: hidden;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
 }
 
 .progressBarShimmer {
   position: absolute;
   inset: 0;
-  background-color: rgba(255, 255, 255, 0.2);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
   animation: shimmer 2s infinite;
 }
 
@@ -261,19 +332,22 @@
 @keyframes fade-in {
   from {
     opacity: 0;
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
+@keyframes border-pulse {
+  0%, 100% {
+    border-color: rgba(245, 158, 11, 0.3);
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.2);
   }
   50% {
-    opacity: 0.5;
+    border-color: rgba(245, 158, 11, 0.6);
+    box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1);
   }
 }
 

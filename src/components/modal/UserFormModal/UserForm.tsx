@@ -111,7 +111,7 @@ export default function UserForm({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className={`${styles.dialogContent} sm:max-w-md`}>
-        <DialogHeader>
+        <DialogHeader className={styles.header}>
           <DialogTitle className={styles.dialogTitle}>{title}</DialogTitle>
         </DialogHeader>
 
@@ -182,7 +182,7 @@ export default function UserForm({
           </FieldGroup>
 
           {!isCreateMode && (
-            <div className="flex items-center gap-2">
+            <div className={styles.checkboxContainer}>
               <input
                 type="checkbox"
                 id="is_active"

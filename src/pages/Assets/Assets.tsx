@@ -69,6 +69,15 @@ export default function AssetsPage() {
 
   return (
     <div className={styles.pageContainer}>
+      <div className={styles.headerSection}>
+        <div>
+          <div className={styles.headerLabel}>
+            <div className={styles.statusDotActive}></div>
+            ASSET INVENTORY & NETWORK TOPOLOGY
+          </div>
+          <h1 className={styles.pageTitle}>Network Assets</h1>
+        </div>
+      </div>
       {/* Assets Statistics */}
       <div className={styles.statsGrid}>
         {ASSETS_STATISTICS.map((item, idx) => (

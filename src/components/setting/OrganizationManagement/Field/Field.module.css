@@ -1,7 +1,7 @@
 .fieldGroup {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.625rem;
 }
 
 .fullWidth {
@@ -12,14 +12,16 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.625rem;
-  font-weight: 700;
-  color: rgb(234, 88, 12);
+  font-size: 0.6875rem;
+  font-weight: 800;
+  color: var(--dashboard-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.12em;
+  font-family: monospace;
 }
 
 .labelIcon {
   display: inline-flex;
   align-items: center;
+  color: var(--dashboard-accent);
 }

@@ -3,12 +3,8 @@
 .modalContent {
   width: 100%;
   max-width: 56rem;
-  background: linear-gradient(
-    160deg,
-    color-mix(in srgb, var(--dashboard-surface) 92%, #000 8%),
-    var(--dashboard-bg)
-  );
-  backdrop-filter: blur(24px); /* backdrop-blur-xl */
+  background: var(--dashboard-surface);
+  backdrop-filter: blur(40px);
   border: 1px solid var(--dashboard-border);
   box-shadow: var(--dashboard-shadow);
   max-height: calc(100vh - 2rem);
@@ -16,6 +12,7 @@
   gap: 0;
   overflow: hidden;
   color: var(--dashboard-text-soft);
+  border-radius: 1.5rem;
 }
 
 .modalContent :global(button.absolute.right-4.top-4) {
@@ -269,13 +266,17 @@
 
 .executeButton {
   flex: 1;
-  border: 1px solid rgba(249, 115, 22, 0.4);
-  border-radius: 0.5rem;
   background: rgb(234, 88, 12);
   color: #fff7ed;
-  font-weight: 700;
-  letter-spacing: 0.04em;
+  font-weight: 800;
   text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  padding: 0 1.5rem;
+  height: 2.75rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.25);
+  border: 1px solid rgba(249, 115, 22, 0.4);
 }
 
 .executeButton:hover {

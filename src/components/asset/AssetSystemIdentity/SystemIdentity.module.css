@@ -2,19 +2,22 @@
 
 /* Unified Card Styles */
 .infoCard {
-  background-color: rgba(0, 0, 0, 0.4);
+  background: var(--dashboard-surface);
   backdrop-filter: blur(40px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: all 300ms;
+  border: 1px solid var(--dashboard-border);
+  box-shadow: var(--dashboard-shadow);
+  border-radius: 1rem;
+  transition: all 300ms ease;
+  overflow: hidden;
 }
 
 .infoCard:hover {
-  border-color: rgba(234, 88, 12, 0.2);
+  border-color: var(--dashboard-border-strong);
 }
 
 .cardHeader {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  padding-bottom: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--dashboard-border);
 }
 
 .cardTitle {
@@ -22,26 +25,26 @@
   align-items: center;
   gap: 0.75rem;
   font-size: 1.125rem;
-  font-weight: 700;
-  color: white;
-  letter-spacing: 0.025em;
+  font-weight: 800;
+  color: var(--dashboard-text);
+  letter-spacing: -0.02em;
 }
 
 .titleIcon {
   width: 1.25rem;
   height: 1.25rem;
-  color: rgb(234, 88, 12);
+  color: var(--dashboard-accent);
 }
 
 .cardContent {
-  padding-top: 1.5rem;
+  padding: 1.5rem;
 }
 
 /* Info List Grid */
 .infoList {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
 }
 
 /* Compact Info Field Row */
@@ -49,121 +52,151 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid transparent;
+  padding: 0.875rem 1.125rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--dashboard-border);
   transition: all 300ms;
   background-color: rgba(255, 255, 255, 0.02);
 }
 
 .infoField:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.04);
+  border-color: var(--dashboard-accent);
+  transform: translateY(-2px);
 }
 
 .infoLabelBox {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  color: rgb(163, 163, 163);
+  gap: 0.625rem;
+  color: var(--dashboard-text-muted);
   transition: color 300ms;
 }
 
 .infoField:hover .infoLabelBox {
-  color: rgb(212, 212, 212);
+  color: var(--dashboard-text-soft);
 }
 
 .fieldIcon {
   width: 0.875rem;
   height: 0.875rem;
-  color: rgba(234, 88, 12, 0.4);
-  transition: color 300ms;
+  color: var(--dashboard-accent);
+  opacity: 0.6;
+  transition: opacity 300ms;
 }
 
 .infoField:hover .fieldIcon {
-  color: rgb(234, 88, 12);
+  opacity: 1;
 }
 
 .fieldLabelText {
-  font-size: 0.625rem;
-  font-weight: 600;
+  font-size: 0.6875rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
+  font-family: monospace;
 }
 
 .fieldValue {
   text-align: right;
   font-family: monospace;
-  font-size: 0.75rem;
-  color: rgb(229, 229, 229);
-  font-weight: 500;
+  font-size: 0.8125rem;
+  color: var(--dashboard-text);
+  font-weight: 600;
 }
 
 .valuePlaceholder {
-  color: rgb(82, 82, 82);
+  color: var(--dashboard-text-muted);
+  opacity: 0.5;
 }
 
 /* Status Indicators */
 .statusActive {
   color: rgb(16, 185, 129);
-  font-weight: 700;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.statusActive::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: rgb(16, 185, 129);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgb(16, 185, 129);
 }
 
 .statusOffline {
-  color: rgb(115, 115, 115);
+  color: var(--dashboard-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.statusOffline::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--dashboard-text-muted);
+  border-radius: 50%;
 }
 
 /* Severity Badges */
 .severityBadge {
   display: inline-flex;
   align-items: center;
-  gap: 0.375rem;
-  padding: 0.25rem 0.625rem;
-  border-radius: 0.375rem;
+  gap: 0.5rem;
+  padding: 0.375rem 0.875rem;
+  border-radius: 99px;
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  border-width: 1px;
+  border: 1px solid transparent;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .sevCritical {
-  background-color: rgba(239, 68, 68, 0.1);
-  color: rgb(239, 68, 68);
-  border-color: rgba(239, 68, 68, 0.2);
+  background-color: rgba(239, 68, 68, 0.15);
+  color: rgb(252, 165, 165);
+  border-color: rgba(239, 68, 68, 0.4);
 }
 
 .sevHigh {
-  background-color: rgba(249, 115, 22, 0.1);
-  color: rgb(249, 115, 22);
-  border-color: rgba(249, 115, 22, 0.2);
+  background-color: rgba(245, 158, 11, 0.15);
+  color: rgb(253, 186, 116);
+  border-color: rgba(245, 158, 11, 0.4);
 }
 
 .sevMedium {
-  background-color: rgba(234, 179, 8, 0.1);
-  color: rgb(234, 179, 8);
-  border-color: rgba(234, 179, 8, 0.2);
+  background-color: rgba(234, 179, 8, 0.15);
+  color: rgb(253, 224, 71);
+  border-color: rgba(234, 179, 8, 0.4);
 }
 
 .sevLow {
-  background-color: rgba(34, 197, 94, 0.1);
-  color: rgb(34, 197, 94);
-  border-color: rgba(34, 197, 94, 0.2);
+  background-color: rgba(16, 185, 129, 0.15);
+  color: rgb(110, 231, 183);
+  border-color: rgba(16, 185, 129, 0.4);
 }
 
 .sevDot {
-  width: 0.375rem;
-  height: 0.375rem;
+  width: 0.5rem;
+  height: 0.5rem;
   border-radius: 9999px;
 }
 
 .dotCritical {
   background-color: rgb(239, 68, 68);
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  box-shadow: 0 0 8px rgb(239, 68, 68);
+  animation: pulse 2s infinite;
 }
 
 .dotHigh {
-  background-color: rgb(249, 115, 22);
+  background-color: rgb(245, 158, 11);
+  box-shadow: 0 0 8px rgb(245, 158, 11);
 }
 
 .dotMedium {
@@ -171,7 +204,7 @@
 }
 
 .dotLow {
-  background-color: rgb(34, 197, 94);
+  background-color: rgb(16, 185, 129);
 }
 
 /* Responsive adjustments */
@@ -181,15 +214,7 @@
   }
 
   .infoField {
-    padding: 0.5rem 0.75rem;
-  }
-
-  .fieldLabelText {
-    font-size: 0.5625rem;
-  }
-
-  .fieldValue {
-    font-size: 0.6875rem;
+    padding: 0.75rem 1rem;
   }
 }
 
@@ -198,8 +223,10 @@
   0%,
   100% {
     opacity: 1;
+    transform: scale(1);
   }
   50% {
-    opacity: 0.5;
+    opacity: 0.6;
+    transform: scale(1.1);
   }
 }

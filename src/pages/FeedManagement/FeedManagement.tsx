@@ -25,11 +25,11 @@ export default function FeedManagement() {
     <div className={feedStyles.pageContainer}>
       <div className={feedStyles.headerSection}>
         <div>
-          <div className={feedStyles.systemOverviewLabel}>
+          <div className={feedStyles.headerLabel}>
             <div className={feedStyles.statusDotActive} />
-            Feed Synchronization
+            THREAT INTELLIGENCE & DATA SYNCHRONIZATION
           </div>
-          <h1 className={feedStyles.pageTitle}>FEED MANAGEMENT</h1>
+          <h1 className={feedStyles.pageTitle}>Feed Management</h1>
         </div>
 
         <Button

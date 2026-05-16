@@ -47,7 +47,8 @@ export default function AssetDetailsPage() {
 
   const getSeverityBadgeClass = (severity: string) => {
     const baseClass = styles.severityBadge;
-    switch (severity) {
+    const sev = severity?.toLowerCase();
+    switch (sev) {
       case 'critical':
         return `${baseClass} ${styles.sevCritical}`;
       case 'high':
@@ -61,7 +62,8 @@ export default function AssetDetailsPage() {
 
   const getSeverityDotClass = (severity: string) => {
     const baseClass = styles.sevDot;
-    switch (severity) {
+    const sev = severity?.toLowerCase();
+    switch (sev) {
       case 'critical':
         return `${baseClass} ${styles.dotCritical}`;
       case 'high':
@@ -80,14 +82,17 @@ export default function AssetDetailsPage() {
       {/* Header Section */}
       <div className={styles.headerSection}>
         <div>
+          <div className={styles.headerLabel}>
+            <div className={styles.statusDotActive} />
+            Asset Intelligence Detail
+          </div>
           <h1 className={styles.assetHostname}>
             {asset.hostname || asset.ip_address}
           </h1>
-          <div className={styles.headerLabel}>Asset Detail</div>
         </div>
         <Button onClick={goBack} className={styles.backButton}>
           <ArrowLeft className={styles.backIcon} />
-          BACK
+          BACK TO DASHBOARD
         </Button>
       </div>
 

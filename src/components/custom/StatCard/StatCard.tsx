@@ -19,14 +19,8 @@ const StatCard = memo(function StatCard({
   iconColorClass,
   subtitle,
 }: StatCardProps) {
-  const iconBgClass = iconColorClass
-    ? iconColorClass.replace('text-', 'bg-').replace('500', '500/10')
-    : 'bg-white/5';
-
   return (
-    <Card className={`group ${styles.card}`}>
-      <div className={styles.hoverGradient} />
-
+    <Card className={styles.card}>
       <CardContent className={styles.content}>
         <div className={styles.row}>
           <div className={styles.textColumn}>
@@ -35,7 +29,7 @@ const StatCard = memo(function StatCard({
             {subtitle ? <p className={styles.subtitle}>{subtitle}</p> : null}
           </div>
 
-          <div className={`${styles.iconBox} ${iconBgClass}`}>
+          <div className={styles.iconBox}>
             <Icon
               className={`${styles.icon} ${iconColorClass || 'text-neutral-400'}`}
             />

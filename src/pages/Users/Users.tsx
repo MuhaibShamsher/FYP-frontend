@@ -94,9 +94,12 @@ export default function UsersPage() {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.headerSection}>
-        <div className={styles.titleContainer}>
-          <h1 className={styles.pageTitle}>Users</h1>
-          <p className={styles.pageSubtitle}>Manage users and roles</p>
+        <div>
+          <div className={styles.headerLabel}>
+            <div className={styles.statusDotActive}></div>
+            USER DIRECTORY & ACCESS CONTROL
+          </div>
+          <h1 className={styles.pageTitle}>User Management</h1>
         </div>
         <div className={styles.headerControls}>
           <SearchFilterBar
