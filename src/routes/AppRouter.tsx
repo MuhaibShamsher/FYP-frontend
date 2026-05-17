@@ -13,12 +13,26 @@ import {
   ComplianceResultsPage,
   FeedManagementPage,
   UsersPage,
+  ForgotPasswordPage,
+  ResetPasswordPage,
 } from '@/pages';
 
 export const router = createBrowserRouter([
   {
     path: '/login',
     element: <LoginPage />,
+  },
+  {
+    path: '/forgot-password',
+    element: <ForgotPasswordPage />,
+  },
+  {
+    path: '/reset-password/:userId/:resetToken',
+    element: <ResetPasswordPage />,
+  },
+  {
+    path: '/reset-password',
+    element: <Navigate to="/forgot-password" replace />,
   },
   {
     element: <ProtectedRoute />,

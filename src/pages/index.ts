@@ -10,3 +10,5 @@ export { default as ComplianceViolationsPage } from './ComplianceViolations/Comp
 export { default as ComplianceResultsPage } from './ComplianceResults/ComplianceResults';
 export { default as FeedManagementPage } from './FeedManagement/FeedManagement';
 export { default as UsersPage } from './Users/Users';
+export { default as ForgotPasswordPage } from './ForgotPassword/ForgotPassword';
+export { default as ResetPasswordPage } from './ResetPassword/ResetPassword';
