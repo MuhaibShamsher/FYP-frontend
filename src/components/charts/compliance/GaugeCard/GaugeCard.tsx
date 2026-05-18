@@ -6,6 +6,7 @@ interface GaugeCardProps {
   title: string;
   value: number;
   max?: number;
+  onClick?: () => void;
 }
 
 const ZONE_SEGMENTS = [
@@ -26,7 +27,7 @@ function getGaugeLabel(value: number) {
   return 'High';
 }
 
-export default function GaugeCard({ title, value, max = 100 }: GaugeCardProps) {
+export default function GaugeCard({ title, value, max = 100, onClick }: GaugeCardProps) {
   const safeValue = Math.max(0, Math.min(value, max));
   const gaugeColor = getGaugeColor(safeValue);
   const gaugeLabel = getGaugeLabel(safeValue);
@@ -40,7 +41,7 @@ export default function GaugeCard({ title, value, max = 100 }: GaugeCardProps) {
   ];
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} >
       <div className={styles.header}>
         <div className={styles.headerLeft}>
           <p className={styles.title}>{title}</p>
@@ -58,7 +59,7 @@ export default function GaugeCard({ title, value, max = 100 }: GaugeCardProps) {
         </span>
       </div>
 
-      <div className={styles.chartContainer}>
+      <div className={styles.chartContainer} onClick={onClick} >
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie

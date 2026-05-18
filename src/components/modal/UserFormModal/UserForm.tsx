@@ -62,7 +62,6 @@ export default function UserForm({
       return {
         email: '',
         name: '',
-        password: '',
         role: 'risk_monitor',
       };
     } else {
@@ -85,9 +84,6 @@ export default function UserForm({
       const createData = formData as CreateUserRequest;
       if (!createData.name?.trim()) e.name = 'Name is required';
       if (!createData.email?.trim()) e.email = 'Email is required';
-      if (!createData.password) e.password = 'Password is required';
-      else if (createData.password.length < 8)
-        e.password = 'Minimum 8 characters';
     } else {
       const editData = formData as UpdateUserRequest;
       if (!editData.name?.trim()) e.name = 'Name is required';
@@ -145,20 +141,6 @@ export default function UserForm({
                 value={user?.email || ''}
                 disabled
                 className={styles.inputDisabled}
-              />
-            </FieldGroup>
-          )}
-
-          {isCreateMode && (
-            <FieldGroup label="Password" error={errors.password}>
-              <Input
-                type="password"
-                value={(formData as CreateUserRequest).password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
-                placeholder="Minimum 8 characters"
-                className={styles.input}
               />
             </FieldGroup>
           )}

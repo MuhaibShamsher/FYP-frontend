@@ -6,7 +6,7 @@ import {
   useDeleteUserMutation,
 } from '@/apis';
 import { useErrorHandler } from '@/hooks';
-import type { CreateUserRequest, UpdateUserRequest, User } from '@/types/auth';
+import type { CreateUserRequest, UpdateUserRequest, User, UserRole } from '@/types/auth';
 
 export default function useUserManagement(params?: { search?: string; is_active?: boolean }) {
   const { handleAsyncError } = useErrorHandler({ showToast: true });
@@ -64,7 +64,18 @@ export default function useUserManagement(params?: { search?: string; is_active?
   const handleCreateUser = useCallback(
     async (data: CreateUserRequest | UpdateUserRequest) => {
       const ok = await handleAsyncError(async () => {
-        await createUserMutation(data as CreateUserRequest).unwrap();
+        const createData = data as CreateUserRequest;
+        const roleMap: Record<UserRole, number> = {
+          admin: 1,
+          risk_analyzer: 2,
+          risk_monitor: 3,
+        };
+        const payload = {
+          email: createData.email,
+          name: createData.name,
+          role: roleMap[createData.role],
+        };
+        await createUserMutation(payload).unwrap();
         return true;
       }, 'Failed to create user');
       if (ok) closeCreateModal();
@@ -77,9 +88,20 @@ export default function useUserManagement(params?: { search?: string; is_active?
     async (data: CreateUserRequest | UpdateUserRequest) => {
       if (!selectedUser) return false;
       const ok = await handleAsyncError(async () => {
+        const editData = data as UpdateUserRequest;
+        const roleMap: Record<UserRole, number> = {
+          admin: 1,
+          risk_analyzer: 2,
+          risk_monitor: 3,
+        };
+        const payload = {
+          name: editData.name,
+          role: roleMap[editData.role],
+          is_active: editData.is_active,
+        };
         await updateUserMutation({
           id: selectedUser.id,
-          data: data as UpdateUserRequest,
+          data: payload,
         }).unwrap();
         return true;
       }, 'Failed to update user');

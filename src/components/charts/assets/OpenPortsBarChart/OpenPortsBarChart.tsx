@@ -12,8 +12,10 @@ import { transformAssetToBarChartData } from '@/constants';
 import { getSeverityColorFallback, getRiskLevel } from '@/utils/chartColors';
 import type { Asset } from '@/types';
 import styles from './OpenPortsBarChart.module.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function PortsBarChart({ assets }: { assets: Asset[] }) {
+  const navigate = useNavigate();
   const dataRaw = transformAssetToBarChartData(assets);
   const maxPorts = Math.max(...dataRaw.map((d) => d.ports), 0);
   const data = dataRaw.map((d) => ({
@@ -75,6 +77,12 @@ export default function PortsBarChart({ assets }: { assets: Asset[] }) {
 
   const CustomXAxisTick = (props: any) => {
     const { x, y, payload } = props;
+    const handleClick = () => {
+      const asset = data.find((d) => d.name === payload.value);
+      if (asset && asset.id) {
+        navigate(`/assets/${asset.id}`);
+      }
+    };
     return (
       <text
         x={x}
@@ -86,6 +94,8 @@ export default function PortsBarChart({ assets }: { assets: Asset[] }) {
         fontWeight="800"
         transform={`rotate(-45, ${x}, ${y})`}
         className={styles.xAxisTick}
+        onClick={handleClick}
+        style={{ cursor: 'pointer' }}
       >
         {payload.value}
       </text>
@@ -215,6 +225,12 @@ export default function PortsBarChart({ assets }: { assets: Asset[] }) {
                 animationBegin={0}
                 animationDuration={1500}
                 animationEasing="ease-out"
+                onClick={(entry) => {
+                  if (entry && entry.id) {
+                    navigate(`/assets/${entry.id}`);
+                  }
+                }}
+                style={{ cursor: 'pointer' }}
               >
                 {data.map((entry, index) => {
                   const color = getBarColor(entry.ports);

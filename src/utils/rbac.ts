@@ -28,38 +28,38 @@ const ANALYZER_PERMISSIONS = new Set([
 const READ_ONLY_PERMISSIONS = new Set(['read_assessment', 'read_assets']);
 
 export function normalizeUserRole(
-  role: string | null | undefined
+  role: string | number | null | undefined
 ): UserRole | null {
-  if (!role) return null;
+  if (role === null || role === undefined) return null;
 
-  const normalized = role.trim().toLowerCase().replace(/\s+/g, '_');
-  if (normalized === 'admin') return 'admin';
-  if (normalized === 'risk_analyzer') return 'risk_analyzer';
-  if (normalized === 'risk_monitor') return 'risk_monitor';
+  const normalized = String(role).trim().toLowerCase().replace(/\s+/g, '_');
+  if (normalized === 'admin' || normalized === '1') return 'admin';
+  if (normalized === 'risk_analyzer' || normalized === '2') return 'risk_analyzer';
+  if (normalized === 'risk_monitor' || normalized === '3') return 'risk_monitor';
 
   return null;
 }
 
 export function roleBadgeVariant(
-  role: string | null | undefined
+  role: string | number | null | undefined
 ): BadgeVariant {
   const normalized = normalizeUserRole(role);
   if (!normalized) return 'destructive';
   return ROLE_BADGE_VARIANTS[normalized];
 }
 
-export function canAccessUsers(role: string | null | undefined): boolean {
+export function canAccessUsers(role: string | number | null | undefined): boolean {
   return normalizeUserRole(role) === 'admin';
 }
 
 export function canManageOrganization(
-  role: string | null | undefined
+  role: string | number | null | undefined
 ): boolean {
   return normalizeUserRole(role) === 'admin';
 }
 
 export function hasPermission(
-  role: string | null | undefined,
+  role: string | number | null | undefined,
   permission:
     | 'manage_users'
     | 'create_assessment'
@@ -81,14 +81,14 @@ export function hasPermission(
 }
 
 export function hasAnyRole(
-  role: string | null | undefined,
+  role: string | number | null | undefined,
   allowedRoles: readonly UserRole[]
 ): boolean {
   const normalized = normalizeUserRole(role);
   return normalized ? allowedRoles.includes(normalized) : false;
 }
 
-export function getRoleLabel(role: string | null | undefined): string {
+export function getRoleLabel(role: string | number | null | undefined): string {
   const normalized = normalizeUserRole(role);
   return normalized ? ROLE_DISPLAY_NAMES[normalized] : 'Unknown Role';
 }

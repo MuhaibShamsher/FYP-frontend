@@ -192,6 +192,27 @@
   letter-spacing: 0.05em;
 }
 
+.roleAdmin {
+  background-color: rgba(var(--ui-status-fail), 0.12) !important;
+  color: rgb(var(--ui-status-fail)) !important;
+  border: 1px solid rgba(var(--ui-status-fail), 0.3) !important;
+  box-shadow: 0 0 10px rgba(var(--ui-status-fail), 0.08);
+}
+
+.roleRiskAnalyzer {
+  background-color: rgba(var(--ui-status-high), 0.12) !important;
+  color: rgb(var(--ui-status-high)) !important;
+  border: 1px solid rgba(var(--ui-status-high), 0.3) !important;
+  box-shadow: 0 0 10px rgba(var(--ui-status-high), 0.08);
+}
+
+.roleRiskMonitor {
+  background-color: rgba(var(--ui-status-pass), 0.12) !important;
+  color: rgb(var(--ui-status-pass)) !important;
+  border: 1px solid rgba(var(--ui-status-pass), 0.3) !important;
+  box-shadow: 0 0 10px rgba(var(--ui-status-pass), 0.08);
+}
+
 .cellStatus {
   padding: 1.25rem 1.5rem;
 }

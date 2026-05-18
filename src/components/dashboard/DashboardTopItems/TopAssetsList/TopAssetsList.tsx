@@ -1,8 +1,11 @@
 import styles from './TopAssetsList.module.css';
 import { TopPriorityList } from '../TopPriorityList/TopPriorityList.tsx';
 import type { DashboardTopAsset } from '@/types/dashboard';
+import { useNavigate } from 'react-router-dom';
 
 export function TopAssetsList({ items }: { items: DashboardTopAsset[] }) {
+  const navigate = useNavigate();
+
   return (
     <TopPriorityList
       items={items}
@@ -34,6 +37,11 @@ export function TopAssetsList({ items }: { items: DashboardTopAsset[] }) {
           </span>
         </>
       )}
+      onItemClick={(asset: DashboardTopAsset) => {
+        if (asset.asset_id) {
+          navigate(`/assets/${asset.asset_id}`);
+        }
+      }}
     />
   );
 }

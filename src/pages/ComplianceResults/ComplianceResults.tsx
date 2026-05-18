@@ -52,14 +52,13 @@ export default function ComplianceResultsPage() {
     <div className={styles.pageContainer}>
       <div className={styles.headerRow}>
         <div className={styles.pageHeader}>
-          <div className={styles.headerLabel}>
-            <div className={styles.statusDotActive}></div>
-            REGULATORY STANDARDS & GOVERNANCE
-          </div>
           <h1 className={styles.title}>
             <ShieldCheck className={styles.titleIcon} aria-hidden />
             Compliance Results
           </h1>
+          <p className={styles.subtitle}>
+            Overview of control assessment results and framework compliance.
+          </p>
         </div>
 
         <SearchFilterBar

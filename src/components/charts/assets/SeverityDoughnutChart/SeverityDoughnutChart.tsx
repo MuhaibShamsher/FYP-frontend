@@ -14,6 +14,7 @@ import { CalculateAssetStatistics } from '@/utils/asset';
 import { getSeverityColorFallback, getGlowColor } from '@/utils/chartColors';
 import type { Asset } from '@/types';
 import styles from './SeverityDoughnutChart.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const renderActiveShape = (props: any) => {
   const {
@@ -96,6 +97,7 @@ const renderCenterLabel = (props: any) => {
 };
 
 export default function DoughnutChart({ assets }: { assets: Asset[] }) {
+  const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(-1);
 
   const stats = useMemo(() => CalculateAssetStatistics(assets), [assets]);
@@ -198,6 +200,7 @@ export default function DoughnutChart({ assets }: { assets: Asset[] }) {
         <ResponsiveContainer width="100%" height="100%" minHeight={400}>
           <PieChart>
             <Pie
+              onClick={() => navigate('/assets')}
               {...({
                 activeIndex: activeIndex,
                 activeShape: renderActiveShape,

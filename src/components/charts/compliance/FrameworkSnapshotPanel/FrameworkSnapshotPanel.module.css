@@ -71,6 +71,7 @@
 
 .row:hover {
   border-color: var(--dashboard-border-strong);
+  cursor: pointer;
 }
 
 .rowHeader {

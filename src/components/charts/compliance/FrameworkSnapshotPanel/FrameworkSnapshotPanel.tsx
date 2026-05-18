@@ -1,6 +1,15 @@
 import { getSeverityColorFallback } from '@/utils/chartColors';
 import { BarChart3 } from 'lucide-react';
 import styles from './FrameworkSnapshotPanel.module.css';
+import { useNavigate } from 'react-router-dom';
+
+const mapFrameworkToId = (name: string) => {
+  const n = name.toLowerCase();
+  if (n.includes('iso')) return 'iso27001';
+  if (n.includes('cis')) return 'cis';
+  if (n.includes('nist')) return 'nist';
+  return 'iso27001';
+};
 
 export interface FrameworkSnapshotData {
   framework: string;
@@ -22,6 +31,8 @@ function getProgressColor(score: number) {
 }
 
 export default function FrameworkSnapshotPanel({rows}: FrameworkSnapshotPanelProps) {
+  const navigate = useNavigate();
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -38,7 +49,11 @@ export default function FrameworkSnapshotPanel({rows}: FrameworkSnapshotPanelPro
 
       <div className={styles.itemsContainer}>
         {rows.map((row) => (
-          <div key={row.framework} className={styles.row}>
+          <div 
+            key={row.framework} 
+            className={styles.row}
+            onClick={() => navigate(`/compliance/results?framework=${mapFrameworkToId(row.framework)}`)}
+          >
             <div className={styles.rowHeader}>
               <div className={styles.rowLabel}>{row.framework}</div>
               <div className={styles.rowControls}>

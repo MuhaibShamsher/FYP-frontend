@@ -13,6 +13,7 @@ import { transformAssetsToDeviceTypeData } from '@/constants';
 import { getPaletteColorFallback, getGlowColor } from '@/utils/chartColors';
 import type { Asset } from '@/types';
 import styles from './DeviceTypePieChart.module.css';
+import { useNavigate } from 'react-router-dom';
 
 interface DeviceTypePieChartProps {
   assets: Asset[];
@@ -79,6 +80,7 @@ const renderActiveShape = (props: any) => {
 export default function DeviceTypePieChart({
   assets,
 }: DeviceTypePieChartProps) {
+  const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(-1);
 
   const chartDataRaw = useMemo(
@@ -168,6 +170,7 @@ export default function DeviceTypePieChart({
           <PieChart>
             <defs />
             <Pie
+              onClick={() => navigate('/assets')}
               {...({
                 activeIndex: activeIndex,
                 activeShape: renderActiveShape,

@@ -10,6 +10,15 @@ import {
 } from 'recharts';
 import { getSeverityColorFallback } from '@/utils/chartColors';
 import styles from './FrameworkBarChart.module.css';
+import { useNavigate } from 'react-router-dom';
+
+const mapFrameworkToId = (name: string) => {
+  const n = name.toLowerCase();
+  if (n.includes('iso')) return 'iso27001';
+  if (n.includes('cis')) return 'cis';
+  if (n.includes('nist')) return 'nist';
+  return 'iso27001';
+};
 
 export interface FrameworkBarData {
   name: string;
@@ -68,6 +77,14 @@ function LegendChip({ color, label }: { color: string; label: string }) {
 }
 
 export default function FrameworkBarChart({ data }: FrameworkBarChartProps) {
+  const navigate = useNavigate();
+
+  const handleBarClick = (entry: any) => {
+    if (entry && entry.name) {
+      navigate(`/compliance/results?framework=${mapFrameworkToId(entry.name)}`);
+    }
+  };
+
   if (data.length === 0) {
     return (
       <div className={styles.emptyState}>No framework data available yet.</div>
@@ -189,6 +206,8 @@ export default function FrameworkBarChart({ data }: FrameworkBarChartProps) {
               radius={[0, 0, 0, 0]}
               animationDuration={900}
               barSize={100}
+              onClick={handleBarClick}
+              style={{ cursor: 'pointer' }}
             />
             <Bar
               dataKey="partial"
@@ -197,6 +216,8 @@ export default function FrameworkBarChart({ data }: FrameworkBarChartProps) {
               radius={[0, 0, 0, 0]}
               animationDuration={900}
               barSize={100}
+              onClick={handleBarClick}
+              style={{ cursor: 'pointer' }}
             />
             <Bar
               dataKey="fail"
@@ -205,6 +226,8 @@ export default function FrameworkBarChart({ data }: FrameworkBarChartProps) {
               radius={[8, 8, 0, 0]}
               animationDuration={900}
               barSize={100}
+              onClick={handleBarClick}
+              style={{ cursor: 'pointer' }}
             />
           </BarChart>
         </ResponsiveContainer>

@@ -6,8 +6,8 @@ import { Card, CardContent, Button, Badge } from '@/components/ui';
 import { LoadingState, ErrorState, SearchFilterBar } from '@/components/custom';
 import {
   getRoleLabel,
-  roleBadgeVariant,
   canAccessUsers,
+  normalizeUserRole,
 } from '@/utils/rbac';
 import { formatDateTime } from '@/utils/formatUtils';
 import { Plus, Edit2, Trash2, ToggleLeft, ToggleRight } from 'lucide-react';
@@ -172,8 +172,13 @@ export default function UsersPage() {
                         </td>
                         <td className={styles.cellRole}>
                           <Badge
-                            variant={roleBadgeVariant(u.role)}
-                            className={styles.roleBadge}
+                            className={`${styles.roleBadge} ${
+                              normalizeUserRole(u.role) === 'admin'
+                                ? styles.roleAdmin
+                                : normalizeUserRole(u.role) === 'risk_analyzer'
+                                  ? styles.roleRiskAnalyzer
+                                  : styles.roleRiskMonitor
+                            }`}
                           >
                             {getRoleLabel(u.role)}
                           </Badge>

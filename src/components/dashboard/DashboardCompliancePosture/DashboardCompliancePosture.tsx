@@ -1,4 +1,4 @@
-﻿import { useMemo } from 'react';
+import { useMemo } from 'react';
 import {
   buildComplianceDashboardData,
   buildComplianceFrameworkRows,
@@ -13,12 +13,23 @@ import {
 import InsightsPanel from './ComplianceInsightsPanel/InsightsPanel';
 import type { DashboardViewModel } from '@/lib/dashboardViewModel';
 import styles from './DashboardCompliancePosture.module.css';
+import { useNavigate } from 'react-router-dom';
+
+const mapFrameworkToId = (name: string) => {
+  const n = name.toLowerCase();
+  if (n.includes('iso')) return 'iso27001';
+  if (n.includes('cis')) return 'cis';
+  if (n.includes('nist')) return 'nist';
+  return 'iso27001';
+};
 
 interface DashboardCompliancePostureProps {
   model: DashboardViewModel;
 }
 
 export default function DashboardCompliancePosture({model}: DashboardCompliancePostureProps) {
+  const navigate = useNavigate();
+
   const complianceData = useMemo(
     () => buildComplianceDashboardData(model),
     [model]
@@ -68,6 +79,13 @@ export default function DashboardCompliancePosture({model}: DashboardComplianceP
             title={gauge.title}
             value={gauge.value}
             max={100}
+            onClick={() => {
+              if (gauge.title !== 'Overall Risk Score') {
+                navigate(`/compliance/results?framework=${mapFrameworkToId(gauge.title)}`);
+              } else {
+                navigate('/compliance/results');
+              }
+            }}
           />
         ))}
       </div>

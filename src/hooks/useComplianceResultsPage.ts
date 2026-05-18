@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import { useGetComplianceResultsQuery } from '@/apis';
 import { useDebouncedSearch, useVisualFetching } from '@/hooks';
@@ -27,7 +28,15 @@ function categorySearchPlaceholder(framework: ComplianceFramework): string {
 export default function useComplianceResultsPage() {
   const { complianceId } = useSelector((s: RootState) => s.activeIds);
 
-  const [framework, setFramework] = useState<ComplianceFramework>('iso27001');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const framework = (searchParams.get('framework') as ComplianceFramework) || 'iso27001';
+  const setFramework = (f: ComplianceFramework) => {
+    setSearchParams((prev) => {
+      prev.set('framework', f);
+      return prev;
+    }, { replace: true });
+  };
+
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);

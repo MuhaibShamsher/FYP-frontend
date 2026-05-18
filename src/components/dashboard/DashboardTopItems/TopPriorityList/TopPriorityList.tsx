@@ -8,6 +8,7 @@ interface TopPriorityListProps<T> {
   renderTitle: (item: T) => ReactNode;
   renderSubline: (item: T) => ReactNode;
   renderMeta: (item: T) => ReactNode;
+  onItemClick?: (item: T) => void;
 }
 
 export function TopPriorityList<T>({
@@ -18,6 +19,7 @@ export function TopPriorityList<T>({
   renderTitle,
   renderSubline,
   renderMeta,
+  onItemClick,
 }: TopPriorityListProps<T>) {
   if (!items || items.length === 0) {
     return <div className={styles.emptyState}>{emptyMessage}</div>;
@@ -26,7 +28,12 @@ export function TopPriorityList<T>({
   return (
     <ul className={styles.itemList}>
       {items.map((item, index) => (
-        <li key={getKey(item, index)} className={styles.priorityRow}>
+        <li
+          key={getKey(item, index)}
+          className={styles.priorityRow}
+          onClick={onItemClick ? () => onItemClick(item) : undefined}
+          style={onItemClick ? { cursor: 'pointer' } : undefined}
+        >
           <div className={styles.rankBadge}>{index + 1}</div>
           <div className={styles.priorityBody}>
             {renderTitle(item)}
