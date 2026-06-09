@@ -16,7 +16,7 @@ export default function SettingsPage() {
             Settings
           </h1>
           <p className="globalPageSubtitle">
-            Allow user to update their profile information.
+            Allows you to update your profile information and view organization details.
           </p>
         </div>
       </div>

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGenerateScanReportMutation } from '@/apis';
 import { formatDateTime, formatDuration } from '@/utils/formatUtils';
@@ -17,6 +18,7 @@ import {
   Loader2,
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { getReportDownloadUrl } from '@/constants/config';
 import styles from './ScanDetail.module.css';
 
 interface ScanDetailModalProps {
@@ -28,14 +30,24 @@ export default function ScanDetailModal({
   selectedScan,
   setSelectedScan,
 }: ScanDetailModalProps) {
-  const [generateReport, { isLoading: isGeneratingReport }] =
-    useGenerateScanReportMutation();
+  const [generateReport, { isLoading: isGeneratingReport }] = useGenerateScanReportMutation();
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const navigate = useNavigate();
 
   const handleGenerateReport = async () => {
     try {
-      const blob = await generateReport(selectedScan.id).unwrap();
+      setIsDownloading(true);
+      const response = await generateReport({ scan_id: selectedScan.id }).unwrap();
+      const reportUrl = response.report_url;
+
+      const downloadUrl = getReportDownloadUrl(reportUrl);
+      const fileResponse = await fetch(downloadUrl);
+      if (!fileResponse.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const blob = await fileResponse.blob();
+
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
@@ -44,10 +56,12 @@ export default function ScanDetailModal({
       link.click();
       link.remove();
       window.URL.revokeObjectURL(url);
-      toast.success('Report generated successfully');
+
+      toast.success('Report generated and downloaded successfully');
     } catch (error) {
-      console.error('Failed to generate report:', error);
       toast.error('Failed to generate report');
+    } finally {
+      setIsDownloading(false);
     }
   };
 
@@ -155,24 +169,24 @@ export default function ScanDetailModal({
             <Button
               className={styles.reportButton}
               onClick={handleGenerateReport}
-              disabled={isGeneratingReport}
+              disabled={isGeneratingReport || isDownloading}
             >
-              {isGeneratingReport ? (
+              {isGeneratingReport || isDownloading ? (
                 <>
-                  <Loader2 className={styles.spinnerIcon} /> GENERATING...
+                  <Loader2 className={styles.spinnerIcon} /> Generating...
                 </>
               ) : (
                 <>
-                  <FileText className={styles.buttonIconLeft} /> GENERATE REPORT
+                  <FileText className={styles.buttonIconLeft} /> Generate Report
                 </>
               )}
             </Button>
             <Button
               className={styles.viewAssetsButton}
               onClick={() => navigate(`/assets?scanID=${selectedScan.id}`)}
-              disabled={isGeneratingReport}
+              disabled={isGeneratingReport || isDownloading}
             >
-              VIEW ASSETS <ArrowRight className={styles.buttonIconRight} />
+              View Assets <ArrowRight className={styles.buttonIconRight} />
             </Button>
           </div>
         </CardContent>

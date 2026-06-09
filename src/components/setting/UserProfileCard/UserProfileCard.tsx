@@ -10,7 +10,7 @@ export default function UserProfileCard() {
 
   return (
     <Card className={styles.profileCard}>
-      <SettingsCardHeader tone="blue" title="USER PROFILE" />
+      <SettingsCardHeader tone="blue" title="User Profile" />
       <CardContent className={styles.profileCardContent}>
         <div className={styles.avatarContainer}>
           <div className={styles.avatarWrapper}>

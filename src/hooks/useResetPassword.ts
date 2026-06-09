@@ -24,6 +24,7 @@ interface UseResetPasswordReturn {
   passwordStrength: PasswordStrength;
   isResetting: boolean;
   isSuccess: boolean;
+  isTokenInvalid: boolean;
   setNewPassword: (value: string) => void;
   setConfirmPassword: (value: string) => void;
   setShowNewPassword: (show: boolean) => void;
@@ -43,8 +44,9 @@ export default function useResetPassword(): UseResetPasswordReturn {
   });
 
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isTokenInvalid, setIsTokenInvalid] = useState(false);
 
-  const { handleError, handleAsyncError } = useErrorHandler({
+  const { handleError } = useErrorHandler({
     showToast: true,
     logToConsole: true,
   });
@@ -53,24 +55,15 @@ export default function useResetPassword(): UseResetPasswordReturn {
 
   const validatePasswordStrength = useCallback(
     (password: string): PasswordStrength => {
-      const hasMinLength = password.length >= 8;
-      const hasUpperCase = /[A-Z]/.test(password);
-      const hasLowerCase = /[a-z]/.test(password);
-      const hasNumber = /[0-9]/.test(password);
-      const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+      const hasMinLength = password.length >= 7;
 
       return {
         hasMinLength,
-        hasUpperCase,
-        hasLowerCase,
-        hasNumber,
-        hasSpecial,
-        isValid:
-          hasMinLength &&
-          hasUpperCase &&
-          hasLowerCase &&
-          hasNumber &&
-          hasSpecial,
+        hasUpperCase: true,
+        hasLowerCase: true,
+        hasNumber: true,
+        hasSpecial: true,
+        isValid: hasMinLength,
       };
     },
     []
@@ -111,21 +104,29 @@ export default function useResetPassword(): UseResetPasswordReturn {
         return;
       }
 
-      const result = await handleAsyncError(async () => {
+      try {
         await resetPassword({
           user_id: userId,
           reset_token: resetToken,
           password: passwordData.newPassword,
+          confirmPassword: passwordData.confirmPassword,
         }).unwrap();
-        return true;
-      }, 'Failed to reset password');
-
-      if (result) {
         setIsSuccess(true);
         toast.success('Password reset successfully! You can now log in.');
+      } catch (err: any) {
+        console.error('Reset password failed:', err);
+        const errMsg = err?.data?.message || err?.message || '';
+        if (
+          errMsg.toLowerCase().includes('invalid') ||
+          errMsg.toLowerCase().includes('expire')
+        ) {
+          setIsTokenInvalid(true);
+        } else {
+          handleError(errMsg || 'Failed to reset password');
+        }
       }
     },
-    [passwordData, passwordStrength.isValid, resetPassword, handleAsyncError, handleError]
+    [passwordData, passwordStrength.isValid, resetPassword, handleError]
   );
 
   return {
@@ -134,6 +135,7 @@ export default function useResetPassword(): UseResetPasswordReturn {
     passwordStrength,
     isResetting,
     isSuccess,
+    isTokenInvalid,
     setNewPassword,
     setConfirmPassword,
     setShowNewPassword,

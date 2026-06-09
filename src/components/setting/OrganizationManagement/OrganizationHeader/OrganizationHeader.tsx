@@ -23,7 +23,7 @@ export function OrganizationHeader({
         <div
           className={`${styles.statusIndicator} ${styles.orangeIndicator}`}
         />
-        ORGANIZATION DETAILS
+        Organization Details
       </CardTitle>
 
       <div className={styles.headerActions}>

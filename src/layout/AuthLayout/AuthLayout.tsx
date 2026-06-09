@@ -25,13 +25,13 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
               </div>
               <div>
                 <h1 className={styles.brandName}>ARMOR</h1>
-                <p className={styles.brandSubtitle}>Enterprise Security</p>
+                <p className={styles.brandSubtitle}>Assets, Vulnerability & Compliance</p>
               </div>
             </div>
 
             <div className={styles.featuresWrapper}>
               <h2 className={styles.featuresTitle}>
-                Next-Gen Cybersecurity Platform
+                Risk & Compliance Management
               </h2>
 
               <div className={styles.featureList}>
@@ -40,10 +40,9 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
                     <Server className={styles.featureIcon} />
                   </div>
                   <div>
-                    <h3 className={styles.featureTitle}>Asset Management</h3>
+                    <h3 className={styles.featureTitle}>Asset Inventory</h3>
                     <p className={styles.featureDesc}>
-                      Complete visibility and control over your digital
-                      infrastructure inventory.
+                      Track discovered active devices, hardware details, and network topology.
                     </p>
                   </div>
                 </div>
@@ -53,10 +52,9 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
                     <Shield className={styles.featureIcon} />
                   </div>
                   <div>
-                    <h3 className={styles.featureTitle}>Risk Assessment</h3>
+                    <h3 className={styles.featureTitle}>Vulnerability Scanning</h3>
                     <p className={styles.featureDesc}>
-                      Continuous vulnerability scanning and automated threat
-                      prioritization.
+                      Scan network assets and identify security flaws and critical threat priorities.
                     </p>
                   </div>
                 </div>
@@ -66,10 +64,9 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
                     <Activity className={styles.featureIcon} />
                   </div>
                   <div>
-                    <h3 className={styles.featureTitle}>Compliance Inspection</h3>
+                    <h3 className={styles.featureTitle}>Compliance Auditing</h3>
                     <p className={styles.featureDesc}>
-                      Automated regulatory adherence checks and real-time
-                      reporting.
+                      Map scan results against ISO 27001, NIST, and CIS compliance benchmarks.
                     </p>
                   </div>
                 </div>

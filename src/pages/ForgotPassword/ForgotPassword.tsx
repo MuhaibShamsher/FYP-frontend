@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useForgotPassword } from '@/hooks';
 import { Button } from '@/components/ui';
 import { TypingText } from '@/components/custom';
-import { Mail, ArrowLeft, CheckCircle2, Zap } from 'lucide-react';
+import { Mail, ArrowLeft, CheckCircle2, Loader2 } from 'lucide-react';
 import AuthLayout from '@/layout/AuthLayout/AuthLayout';
 import styles from './ForgotPassword.module.css';
 
@@ -20,7 +20,7 @@ export default function ForgotPasswordPage() {
                 <TypingText text="PASSWORD RESET" speed={80} />
               </h2>
               <p className={styles.formSubtitle}>
-                Enter the email address registered to your account.
+                Enter your registered email address to receive a password reset link.
               </p>
             </div>
 
@@ -48,11 +48,11 @@ export default function ForgotPasswordPage() {
               >
                 {isSending ? (
                   <>
-                    <Zap className={`${styles.btnActionIcon} ${styles.spinningIcon}`} />
-                    SENDING EMAIL...
+                    <Loader2 className={`${styles.btnActionIcon} ${styles.spinningIcon}`} />
+                    SENDING LINK...
                   </>
                 ) : (
-                  'SEND RECOVERY LINK'
+                  'SEND RESET LINK'
                 )}
               </Button>
             </form>
@@ -62,9 +62,9 @@ export default function ForgotPasswordPage() {
             <div className={styles.successIconBox}>
               <CheckCircle2 className={styles.successIcon} />
             </div>
-            <h2 className={styles.successTitle}>RECOVERY LINK SENT</h2>
+            <h2 className={styles.successTitle}>Reset Link Sent</h2>
             <p className={styles.successDesc}>
-              If a registered account exists for <strong>{email}</strong>, a recovery link will arrive containing further security directions.
+              We have sent a password reset link to <strong>{email}</strong> if an account is registered with this address.
             </p>
           </div>
         )}
@@ -73,7 +73,7 @@ export default function ForgotPasswordPage() {
         <div className={styles.linksContainer}>
           <Link to="/login" className={styles.backToLoginLink}>
             <ArrowLeft className={styles.linkIcon} />
-            BACK TO LOGIN PAGE
+            Back to Login
           </Link>
         </div>
       </div>

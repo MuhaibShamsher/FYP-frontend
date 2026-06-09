@@ -2,15 +2,13 @@ import { Link, useParams } from 'react-router-dom';
 import { useResetPassword } from '@/hooks';
 import { Button } from '@/components/ui';
 import { TypingText } from '@/components/custom';
-import { PasswordRequirement } from '@/components/setting/ChangePasswordManagement/PasswordRequirement/PasswordRequirement';
 import {
   Lock,
   Eye,
   EyeOff,
   CheckCircle,
   AlertTriangle,
-  Zap,
-  Info,
+  Loader2,
 } from 'lucide-react';
 import AuthLayout from '@/layout/AuthLayout/AuthLayout';
 import styles from './ResetPassword.module.css';
@@ -23,6 +21,7 @@ export default function ResetPasswordPage() {
     passwordStrength,
     isResetting,
     isSuccess,
+    isTokenInvalid,
     setNewPassword,
     setConfirmPassword,
     setShowNewPassword,
@@ -40,14 +39,27 @@ export default function ResetPasswordPage() {
   return (
     <AuthLayout>
       <div className={styles.formWrapper}>
-        {!isSuccess ? (
+        {isTokenInvalid ? (
+          <div className={styles.successContainer}>
+            <div className={styles.successIconBox} style={{ borderColor: 'rgba(239, 68, 68, 0.25)', background: 'rgba(239, 68, 68, 0.1)' }}>
+              <AlertTriangle className={styles.successIcon} style={{ color: '#ef4444' }} />
+            </div>
+            <h2 className={styles.successTitle}>Link Expired or Invalid</h2>
+            <p className={styles.successDesc}>
+              The password reset link is invalid or has expired. Please request a new link to reset your password.
+            </p>
+            <Link to="/forgot-password" className={styles.backToLoginButton}>
+              Request New Link
+            </Link>
+          </div>
+        ) : !isSuccess ? (
           <>
             <div className={styles.formHeader}>
               <h2 className={styles.welcomeTitle}>
                 <TypingText text="RESET PASSWORD" speed={80} />
               </h2>
               <p className={styles.formSubtitle}>
-                Please choose a strong password to secure your credentials.
+                Choose a new password to secure your account.
               </p>
             </div>
 
@@ -79,38 +91,6 @@ export default function ResetPasswordPage() {
                   </button>
                 </div>
               </div>
-
-              {/* Password Requirements */}
-              {passwordData.newPassword && (
-                <div className={styles.requirementsContainer}>
-                  <h4 className={styles.requirementsTitle}>
-                    <Info className={styles.requirementsTitleIcon} />
-                    Password Requirements
-                  </h4>
-                  <div className={styles.requirementsGrid}>
-                    <PasswordRequirement
-                      met={passwordStrength.hasMinLength}
-                      text="At least 8 characters"
-                    />
-                    <PasswordRequirement
-                      met={passwordStrength.hasUpperCase}
-                      text="One uppercase letter"
-                    />
-                    <PasswordRequirement
-                      met={passwordStrength.hasLowerCase}
-                      text="One lowercase letter"
-                    />
-                    <PasswordRequirement
-                      met={passwordStrength.hasNumber}
-                      text="One number"
-                    />
-                    <PasswordRequirement
-                      met={passwordStrength.hasSpecial}
-                      text="One special character"
-                    />
-                  </div>
-                </div>
-              )}
 
               {/* Confirm Password */}
               <div className={styles.inputFieldWrapper}>
@@ -167,11 +147,11 @@ export default function ResetPasswordPage() {
               >
                 {isResetting ? (
                   <>
-                    <Zap className={`${styles.btnActionIcon} ${styles.spinningIcon}`} />
-                    RESETTING CREDENTIALS...
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Resetting password...
                   </>
                 ) : (
-                  'RESET PASSWORD'
+                  'Reset Password'
                 )}
               </Button>
             </form>
@@ -181,12 +161,12 @@ export default function ResetPasswordPage() {
             <div className={styles.successIconBox}>
               <CheckCircle className={styles.successIcon} />
             </div>
-            <h2 className={styles.successTitle}>PASSWORD RESET SUCCESSFUL</h2>
+            <h2 className={styles.successTitle}>Password Reset Successful</h2>
             <p className={styles.successDesc}>
-              Your security credentials have been updated. You may now return to the secure gateway and initiate a session.
+              Your password has been successfully updated. You can now log back into your account.
             </p>
             <Link to="/login" className={styles.backToLoginButton}>
-              BACK TO LOGIN PAGE
+              Back to Login
             </Link>
           </div>
         )}

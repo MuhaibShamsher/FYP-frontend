@@ -13,11 +13,10 @@
 }
 
 .cardTitle {
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 700;
   color: rgb(229, 229, 229);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  text-transform: capitalize;
   display: flex;
   align-items: center;
   gap: 0.75rem;

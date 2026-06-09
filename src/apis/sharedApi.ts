@@ -49,7 +49,19 @@ export const sharedApi = baseApi.injectEndpoints({
       query: () => 'shared/latest/',
       providesTags: ['Scans', 'RiskAssessments', 'ComplianceResults'],
     }),
+
+    generateScanReport: builder.mutation<{ report_url: string }, { scan_id: string }>({
+      query: (body) => ({
+        url: 'shared/report/',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useStartPipelineMutation, useGetLatestPipelineQuery } = sharedApi;
+export const {
+  useStartPipelineMutation,
+  useGetLatestPipelineQuery,
+  useGenerateScanReportMutation
+} = sharedApi;

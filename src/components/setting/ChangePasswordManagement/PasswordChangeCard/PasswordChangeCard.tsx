@@ -32,7 +32,7 @@ export default function PasswordChangeCard() {
 
   return (
     <Card className={styles.passwordCard}>
-      <SettingsCardHeader tone="orange" title="CHANGE PASSWORD" />
+      <SettingsCardHeader tone="orange" title="Change Password" />
       <CardContent className={styles.cardContent}>
         <form onSubmit={handleChangePassword} className={styles.formContainer}>
           <PasswordField

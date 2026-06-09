@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useLoginPage } from '@/hooks';
 import { Button } from '@/components/ui';
 import { TypingText } from '@/components/custom';
-import { Lock, Eye, EyeOff, AlertTriangle, Zap } from 'lucide-react';
+import { Lock, Eye, EyeOff, AlertTriangle, Loader2, Mail } from 'lucide-react';
 import AuthLayout from '@/layout/AuthLayout/AuthLayout';
 import styles from './Login.module.css';
 
@@ -11,7 +11,6 @@ export default function LoginPage() {
     email,
     password,
     showPassword,
-    scanProgress,
     isLoginLoading,
     loginError,
     setEmail,
@@ -29,14 +28,14 @@ export default function LoginPage() {
             <TypingText text="WELCOME BACK" speed={80} />
           </h2>
           <p className={styles.formSubtitle}>
-            Enter your credentials to access the Armor's dashboard.
+            Sign in to access your Armor dashboard.
           </p>
         </div>
 
         {/* Form */}
         <form onSubmit={handleLogin} className={styles.form}>
           <div className={styles.inputFieldWrapper}>
-            <label className={styles.inputLabel}>Username / Email</label>
+            <label className={styles.inputLabel}>Email</label>
             <div className={styles.inputGroup}>
               <input
                 type="email"
@@ -46,12 +45,12 @@ export default function LoginPage() {
                 className={styles.input}
                 required
               />
-              <Lock className={styles.inputIcon} />
+              <Mail className={styles.inputIcon} />
             </div>
           </div>
 
           <div className={styles.inputFieldWrapper}>
-              <label className={styles.inputLabel}>Password</label>
+            <label className={styles.inputLabel}>Password</label>
             <div className={styles.inputGroup}>
               <input
                 type={showPassword ? 'text' : 'password'}
@@ -74,27 +73,12 @@ export default function LoginPage() {
                 )}
               </button>
             </div>
-              <div className={styles.labelRow}>
-                <Link to="/forgot-password" className={styles.forgotLink}>
-                  Forgot Password?
-                </Link>
-              </div>
-          </div>
-
-          {isLoginLoading && (
-            <div className={styles.loadingSection}>
-              <div className={styles.loadingHeader}>
-                <span>Establishing Secure Handshake...</span>
-                <span>{Math.round(scanProgress)}%</span>
-              </div>
-              <div className={styles.progressBarContainer}>
-                <div
-                  className={styles.progressBar}
-                  style={{ width: `${scanProgress}%` }}
-                />
-              </div>
+            <div className={styles.labelRow}>
+              <Link to="/forgot-password" className={styles.forgotLink}>
+                Forgot Password?
+              </Link>
             </div>
-          )}
+          </div>
 
           {loginError && (
             <div className={styles.errorAlert}>
@@ -103,7 +87,7 @@ export default function LoginPage() {
                 {typeof loginError === 'string'
                   ? loginError
                   : (loginError as any)?.data?.message ||
-                    'Authentication Failed'}
+                  'Authentication Failed'}
               </span>
             </div>
           )}
@@ -115,11 +99,11 @@ export default function LoginPage() {
           >
             {isLoginLoading ? (
               <>
-                <Zap className={`${styles.btnActionIcon} ${styles.spinningIcon}`} />
-                AUTHENTICATING
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Signing in...
               </>
             ) : (
-              'INITIATE SESSION'
+              'Sign In'
             )}
           </Button>
         </form>
