@@ -95,10 +95,10 @@ export default function FrameworkBarChart({ data }: FrameworkBarChartProps) {
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.headerContent}>
-          <p className={styles.eyebrow}>Framework breakdown</p>
-          <h3 className={styles.title}>
-            Pass, fail, and partial control posture
-          </h3>
+          <h3 className={styles.title}>Framework Breakdown</h3>
+          <p className={styles.description}>
+            Control status (Pass, Fail, Partial) across frameworks
+          </p>
         </div>
         <div className={styles.legendContainer}>
           <LegendChip color={BAR_COLORS.pass} label="Pass" />

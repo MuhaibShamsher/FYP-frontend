@@ -34,7 +34,7 @@ export default function DashboardOperationalAnalytics({ model, assets }: Dashboa
             Exposure & Asset Risk Insights
           </h2>
           <p className={styles.description}>
-            Visualize asset distribution, exposure levels, and risk signals to guide operational security decisions.
+            Track device distribution, network exposure, and security risks across your environment.
           </p>
         </div>
 
@@ -56,7 +56,7 @@ export default function DashboardOperationalAnalytics({ model, assets }: Dashboa
                 Severity distribution
               </CardTitle>
               <CardDescription className={styles.cardDescription}>
-                Current asset severity mix from the latest discovery snapshot.
+                Overview of asset risk levels detected in the latest scan.
               </CardDescription>
             </div>
           </CardHeader>
@@ -65,7 +65,7 @@ export default function DashboardOperationalAnalytics({ model, assets }: Dashboa
               <AssetSeverityDoughnutChart assets={assets} />
             ) : (
               <div className={styles.emptyState}>
-                No asset data available yet.
+                No assets found. Run a scan to get started.
               </div>
             )}
           </CardContent>
@@ -79,8 +79,7 @@ export default function DashboardOperationalAnalytics({ model, assets }: Dashboa
                 Device classification
               </CardTitle>
               <CardDescription className={styles.cardDescription}>
-                Assets grouped by device type to expose where the fleet is
-                concentrated.
+                Breakdown of discovered devices by system type.
               </CardDescription>
             </div>
           </CardHeader>
@@ -89,7 +88,7 @@ export default function DashboardOperationalAnalytics({ model, assets }: Dashboa
               <AssetDeviceTypePieChart assets={assets} />
             ) : (
               <div className={styles.emptyState}>
-                No asset data available yet.
+                No assets found. Run a scan to get started.
               </div>
             )}
           </CardContent>
@@ -103,7 +102,7 @@ export default function DashboardOperationalAnalytics({ model, assets }: Dashboa
                 Open port exposure
               </CardTitle>
               <CardDescription className={styles.cardDescription}>
-                Ranked hosts by open port count to highlight exposure hotspots.
+                Hosts with the number of open ports.
               </CardDescription>
             </div>
           </CardHeader>
@@ -112,7 +111,7 @@ export default function DashboardOperationalAnalytics({ model, assets }: Dashboa
               <AssetOpenPortsBarChart assets={assets} />
             ) : (
               <div className={styles.emptyState}>
-                No open-port exposure data available yet.
+                No open port data available for these assets.
               </div>
             )}
           </CardContent>
@@ -126,8 +125,7 @@ export default function DashboardOperationalAnalytics({ model, assets }: Dashboa
                 Threat source mix
               </CardTitle>
               <CardDescription className={styles.cardDescription}>
-                Vulnerability type and detection source breakdown from the risk
-                engine.
+                Top vulnerability types and where they were detected.
               </CardDescription>
             </div>
           </CardHeader>
@@ -192,7 +190,7 @@ export default function DashboardOperationalAnalytics({ model, assets }: Dashboa
               </>
             ) : (
               <div className={styles.emptyState}>
-                No threat source breakdown available yet.
+                No security threats detected.
               </div>
             )}
           </CardContent>

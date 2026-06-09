@@ -36,7 +36,7 @@ export default function Navbar() {
 
           <div className={styles.logoTextWrapper}>
             <span className={styles.brandName}>ARMOR</span>
-            <span className={styles.brandSubtitle}>Security Intelligence</span>
+            <span className={styles.brandSubtitle}>Assets, Vulnerability & Compliance</span>
           </div>
         </div>
 

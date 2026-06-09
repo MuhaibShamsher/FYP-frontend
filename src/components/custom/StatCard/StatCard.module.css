@@ -35,13 +35,10 @@
 }
 
 .title {
-  font-size: 0.6875rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--dashboard-text-muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--dashboard-text);
   transition: color 300ms;
-  font-family: monospace;
 }
 
 .card:hover .title {

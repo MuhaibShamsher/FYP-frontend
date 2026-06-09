@@ -66,8 +66,7 @@ export default function DashboardCompliancePosture({model}: DashboardComplianceP
             Compliance Insights
           </h2>
           <p className={styles.description}>
-            A consolidated view of framework coverage across ISO 27001 2022,
-            NIST SP-800 53 Rev 5, and CIS.
+            Your current standing against ISO 27001, NIST SP-800-53, and CIS benchmarks.
           </p>
         </div>
       </div>

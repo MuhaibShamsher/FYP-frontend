@@ -29,10 +29,10 @@ export default function DashboardTopItems({latestData}: DashboardTopItemsProps) 
         <div>
           <p className={styles.sectionEyebrow}>Threat Priorities</p>
           <h2 id="top-priorities-title" className={styles.sectionTitle}>
-            Top 5 vulnerabilities and most critical assets
+            Top Vulnerabilities & Critical Assets
           </h2>
           <p className={styles.sectionDescription}>
-            Focus on the most impactful vulnerabilities and assets requiring immediate attention.
+            Vulnerabilities and affected devices that require immediate attention.
           </p>
         </div>
 
@@ -60,7 +60,7 @@ export default function DashboardTopItems({latestData}: DashboardTopItemsProps) 
                 Highest-risk vulnerabilities
               </CardTitle>
               <CardDescription className={styles.panelDescription}>
-                Ranked by ARMOR risk score and impact surface.
+                Vulnerabilities sorted by risk score and impact.
               </CardDescription>
             </div>
           </CardHeader>
@@ -77,7 +77,7 @@ export default function DashboardTopItems({latestData}: DashboardTopItemsProps) 
                 Most critical assets
               </CardTitle>
               <CardDescription className={styles.panelDescription}>
-                Highest-risk hosts based on vulnerability count and risk score.
+                Hosts with the highest vulnerability counts and risk levels.
               </CardDescription>
             </div>
           </CardHeader>

@@ -70,12 +70,14 @@ export default function AssetsPage() {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.headerSection}>
-        <div>
-          <div className={styles.headerLabel}>
-            <div className={styles.statusDotActive}></div>
-            ASSET INVENTORY & NETWORK TOPOLOGY
-          </div>
-          <h1 className={styles.pageTitle}>Network Assets</h1>
+        <div className="globalPageHeader">
+          <h1 className="globalPageTitle">
+            <Server className="globalTitleIcon" />
+            Network Assets
+          </h1>
+          <p className="globalPageSubtitle">
+            Provides an inventory of discovered active devices, hardware details, and network addresses.
+          </p>
         </div>
       </div>
       {/* Assets Statistics */}

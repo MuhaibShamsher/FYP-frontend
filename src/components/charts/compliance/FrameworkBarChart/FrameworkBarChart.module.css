@@ -47,6 +47,12 @@
   color: var(--dashboard-text);
 }
 
+.description {
+  font-size: 0.75rem;
+  color: var(--dashboard-text-soft);
+  margin-top: 0.25rem;
+}
+
 .legendContainer {
   display: flex;
   flex-wrap: wrap;

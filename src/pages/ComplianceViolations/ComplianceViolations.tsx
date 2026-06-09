@@ -34,14 +34,13 @@ export default function ComplianceViolationsPage() {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.headerRow}>
-        <div className={styles.pageHeader}>
-          <h1 className={styles.title}>
-            <ShieldAlert className={styles.titleIcon} />
+        <div className="globalPageHeader">
+          <h1 className="globalPageTitle">
+            <ShieldAlert className="globalTitleIcon" />
             Compliance Violations
           </h1>
-          <p className={styles.subtitle}>
-            nonCompliantAssets that failed one or more compliance controls, sorted by
-            violation count.
+          <p className="globalPageSubtitle">
+            Provides the results which assets are violating which compliance controls with evidences.
           </p>
         </div>
 

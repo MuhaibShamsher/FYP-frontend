@@ -37,8 +37,10 @@ export default function FrameworkSnapshotPanel({rows}: FrameworkSnapshotPanelPro
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.headerContent}>
-          <p className={styles.eyebrow}>Control posture</p>
-          <h3 className={styles.title}>Framework implementation snapshot</h3>
+          <h3 className={styles.title}>Control Posture</h3>
+          <p className={styles.description}>
+            Implementation progress by compliance framework
+          </p>
         </div>
         <div className={styles.badge}>
           <BarChart3 className={styles.badgeIcon} />

@@ -51,13 +51,13 @@ export default function ComplianceResultsPage() {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.headerRow}>
-        <div className={styles.pageHeader}>
-          <h1 className={styles.title}>
-            <ShieldCheck className={styles.titleIcon} aria-hidden />
+        <div className="globalPageHeader">
+          <h1 className="globalPageTitle">
+            <ShieldCheck className="globalTitleIcon" aria-hidden />
             Compliance Results
           </h1>
-          <p className={styles.subtitle}>
-            Overview of control assessment results and framework compliance.
+          <p className="globalPageSubtitle">
+            Provides results for pass, fail and partial compliance results for current scan with details.
           </p>
         </div>
 

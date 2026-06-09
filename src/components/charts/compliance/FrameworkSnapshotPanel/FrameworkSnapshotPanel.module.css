@@ -35,6 +35,12 @@
   color: var(--dashboard-text);
 }
 
+.description {
+  font-size: 0.75rem;
+  color: var(--dashboard-text-soft);
+  margin-top: 0.25rem;
+}
+
 .badge {
   border-radius: 9999px;
   border: 1px solid var(--dashboard-border);

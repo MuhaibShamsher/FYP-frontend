@@ -14,7 +14,7 @@ import {
 import { LoadingState, ErrorState, EmptyState } from '@/components/custom';
 import { InitiateScanModal } from '@/components/modal';
 import { Button } from '@/components/ui';
-import { Server } from 'lucide-react';
+import { Server, LayoutDashboard } from 'lucide-react';
 import type { RootState } from '@/store';
 import styles from './Dashboard.module.css';
 
@@ -76,12 +76,14 @@ export default function DashboardPage() {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.headerSection}>
-        <div>
-          <div className={styles.systemOverviewLabel}>
-            <div className={styles.statusDotActive} />
-            System Overview
-          </div>
-          <h1 className={styles.pageTitle}>DASHBOARD</h1>
+        <div className="globalPageHeader">
+          <h1 className="globalPageTitle">
+            <LayoutDashboard className="globalTitleIcon" />
+            Dashboard
+          </h1>
+          <p className="globalPageSubtitle">
+            Provides the overview of assets, risks and compliance.
+          </p>
         </div>
 
         <Button onClick={openNewScanModal} className={styles.initiateScanButton}>

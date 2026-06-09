@@ -65,13 +65,16 @@ h6 {
   width: 6px;
   height: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   background: hsl(var(--border));
   border-radius: 99px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--muted-foreground));
 }
@@ -124,7 +127,8 @@ h6 {
 .dark,
 :root {
   /* Deep Void Black Base */
-  --background: oklch(0.12 0 0); /* Almost black */
+  --background: oklch(0.12 0 0);
+  /* Almost black */
   --foreground: oklch(0.985 0 0);
 
   /* Glassy Card Styles */
@@ -135,7 +139,8 @@ h6 {
   --popover-foreground: oklch(0.985 0 0);
 
   /* Cyber Orange Primary */
-  --primary: oklch(0.65 0.22 45); /*  Vibrant Orange */
+  --primary: oklch(0.65 0.22 45);
+  /*  Vibrant Orange */
   --primary-foreground: oklch(1 0 0);
 
   /* Secondary / Muted */
@@ -153,13 +158,19 @@ h6 {
 
   --border: oklch(0.3 0 0);
   --input: oklch(0.25 0 0);
-  --ring: oklch(0.65 0.22 45); /* Orange Ring */
+  --ring: oklch(0.65 0.22 45);
+  /* Orange Ring */
 
-  --chart-1: oklch(0.65 0.22 45); /* Orange */
-  --chart-2: oklch(0.55 0.15 240); /* Cyber Blue */
-  --chart-3: oklch(0.7 0.15 150); /* Tech Green */
-  --chart-4: oklch(0.6 0.18 300); /* Neon Purple */
-  --chart-5: oklch(0.75 0.2 85); /* Yellow/Gold */
+  --chart-1: oklch(0.65 0.22 45);
+  /* Orange */
+  --chart-2: oklch(0.55 0.15 240);
+  /* Cyber Blue */
+  --chart-3: oklch(0.7 0.15 150);
+  /* Tech Green */
+  --chart-4: oklch(0.6 0.18 300);
+  /* Neon Purple */
+  --chart-5: oklch(0.75 0.2 85);
+  /* Yellow/Gold */
 
   /* Application Shared UI Colors */
   --ui-bg-gradient-start: rgba(20, 20, 25, 0.5);
@@ -206,6 +217,7 @@ h6 {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground tracking-wide;
   }
@@ -229,4 +241,36 @@ path * {
   outline: none !important;
   box-shadow: none !important;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Global Unified Page Header System */
+.globalPageHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.globalPageTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--dashboard-text);
+  letter-spacing: -0.03em;
+  /* margin: 0; */
+}
+
+.globalPageSubtitle {
+  font-size: 0.875rem;
+  color: var(--dashboard-text-soft);
+  max-width: 48rem;
+  line-height: 1.5;
+  /* margin: 0; */
+}
+
+.globalTitleIcon {
+  width: 1.65rem;
+  height: 1.65rem;
+  color: var(--dashboard-accent);
 }

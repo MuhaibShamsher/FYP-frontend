@@ -81,12 +81,14 @@ export default function ScansPage() {
     <div className={styles.pageContainer}>
       {/* Header Section */}
       <div className={styles.headerSection}>
-        <div>
-          <div className={styles.headerLabel}>
-            <div className={styles.statusDotActive}></div>
-            SCAN OPERATIONS CENTER
-          </div>
-          <h1 className={styles.pageTitle}>Vulnerability Scans</h1>
+        <div className="globalPageHeader">
+          <h1 className="globalPageTitle">
+            <Radar className="globalTitleIcon" />
+            Scans
+          </h1>
+          <p className="globalPageSubtitle">
+            Shows the past scan history with status pass, fail or running.
+          </p>
         </div>
       </div>
 

@@ -1,7 +1,7 @@
 import { useFeedManagementPage } from '@/hooks';
 import { LoadingState, ErrorState, FeedCard } from '@/components/custom';
 import { Button } from '@/components/ui';
-import { RefreshCw } from 'lucide-react';
+import { RefreshCw, Database } from 'lucide-react';
 import feedStyles from './FeedManagement.module.css';
 
 export default function FeedManagement() {
@@ -24,12 +24,14 @@ export default function FeedManagement() {
   return (
     <div className={feedStyles.pageContainer}>
       <div className={feedStyles.headerSection}>
-        <div>
-          <div className={feedStyles.headerLabel}>
-            <div className={feedStyles.statusDotActive} />
-            THREAT INTELLIGENCE & DATA SYNCHRONIZATION
-          </div>
-          <h1 className={feedStyles.pageTitle}>Feed Management</h1>
+        <div className="globalPageHeader">
+          <h1 className="globalPageTitle">
+            <Database className="globalTitleIcon" />
+            Feed Management
+          </h1>
+          <p className="globalPageSubtitle">
+            Helps to trigger cron jobs manually and keep nvd, epss and cisa kev local databse updated
+          </p>
         </div>
 
         <Button

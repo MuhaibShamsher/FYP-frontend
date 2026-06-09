@@ -1,4 +1,3 @@
-/* Navigation Header Component Styles */
 .navigationHeader {
   position: fixed;
   top: 5rem;
@@ -48,18 +47,13 @@
 
 .navButtonActive {
   color: var(--dashboard-accent);
-  background: linear-gradient(
-    180deg,
-    rgba(245, 158, 11, 0.08) 0%,
-    rgba(245, 158, 11, 0.02) 100%
-  );
-  border-color: transparent;
-  box-shadow: none;
+  background: rgba(245, 158, 11, 0.06);
+  border-color: rgba(245, 158, 11, 0.3);
 }
 
 .navButtonActive .navIcon {
   color: var(--dashboard-accent);
-  filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.5));
+  filter: drop-shadow(0 0 6px var(--dashboard-accent));
 }
 
 .navIcon {

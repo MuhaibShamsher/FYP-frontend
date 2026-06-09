@@ -61,7 +61,7 @@ export function buildDashboardViewModel(
       key: 'assets',
       title: 'Total Assets',
       value: totalAssets.toLocaleString(),
-      subtitle: 'Discovered in the latest pipeline snapshot',
+      subtitle: 'Active devices discovered during scans',
       tone: 'blue' as DashboardKpiTone,
     },
     {
@@ -71,36 +71,36 @@ export function buildDashboardViewModel(
         ? safeNumber(riskAssessment.overall_risk_score, 0).toFixed(1)
         : '0.0',
       subtitle: riskAssessment
-        ? `Risk level ${String(riskAssessment.overall_risk_level ?? 'unknown').toUpperCase()}`
-        : 'No active assessment',
+        ? `Severity rating: ${String(riskAssessment.overall_risk_level ?? 'unknown').toUpperCase()}`
+        : 'No active scan results',
       tone: 'orange' as DashboardKpiTone,
     },
     {
       key: 'critical-vulns',
       title: 'Critical Vulnerabilities',
       value: (riskAssessment?.critical_count ?? 0).toLocaleString(),
-      subtitle: 'Immediate attention required',
+      subtitle: 'Severe threats requiring immediate action',
       tone: 'rose' as DashboardKpiTone,
     },
     {
       key: 'kev-assets',
       title: 'KEV-affected Assets',
       value: (riskStatistics?.kev_affected_count ?? 0).toLocaleString(),
-      subtitle: 'Assets with known exploited vulnerabilities',
+      subtitle: 'Devices with active exploits in the wild',
       tone: 'amber' as DashboardKpiTone,
     },
     {
       key: 'compliance-average',
       title: 'Compliance Average',
       value: formatPercent(complianceAverage),
-      subtitle: 'ISO, CIS, and NIST combined posture',
+      subtitle: 'Overall standing across security standards',
       tone: 'emerald' as DashboardKpiTone,
     },
     {
       key: 'total-vulns',
       title: 'Total Vulnerabilities',
       value: totalVulnerabilities.toLocaleString(),
-      subtitle: 'Across all discovered assets',
+      subtitle: 'Identified security flaws in the environment',
       tone: 'slate' as DashboardKpiTone,
     },
   ];

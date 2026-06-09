@@ -50,13 +50,13 @@ export default function VulnerabilitiesPage() {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.headerRow}>
-        <div className={styles.pageHeader}>
-          <h1 className={styles.title}>
-            <ShieldAlert className={styles.titleIcon} aria-hidden />
+        <div className="globalPageHeader">
+          <h1 className="globalPageTitle">
+            <ShieldAlert className="globalTitleIcon" aria-hidden />
             Vulnerabilities
           </h1>
-          <p className={styles.subtitle}>
-            Security vulnerabilities identified in the latest assessment
+          <p className="globalPageSubtitle">
+            Provides the details of each vulnerability flaw discovered.
           </p>
         </div>
 

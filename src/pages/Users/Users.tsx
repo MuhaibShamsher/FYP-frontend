@@ -10,7 +10,7 @@ import {
   normalizeUserRole,
 } from '@/utils/rbac';
 import { formatDateTime } from '@/utils/formatUtils';
-import { Plus, Edit2, Trash2, ToggleLeft, ToggleRight } from 'lucide-react';
+import { Plus, Edit2, Trash2, ToggleLeft, ToggleRight, Users } from 'lucide-react';
 import type { RootState } from '@/store';
 import styles from './Users.module.css';
 
@@ -94,12 +94,14 @@ export default function UsersPage() {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.headerSection}>
-        <div>
-          <div className={styles.headerLabel}>
-            <div className={styles.statusDotActive}></div>
-            USER DIRECTORY & ACCESS CONTROL
-          </div>
-          <h1 className={styles.pageTitle}>User Management</h1>
+        <div className="globalPageHeader">
+          <h1 className="globalPageTitle">
+            <Users className="globalTitleIcon" />
+            User Management
+          </h1>
+          <p className="globalPageSubtitle">
+            Create new user and manage previous one.
+          </p>
         </div>
         <div className={styles.headerControls}>
           <SearchFilterBar

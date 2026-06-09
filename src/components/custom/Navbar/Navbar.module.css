@@ -14,12 +14,10 @@
 .dynamicBg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to right,
-    transparent,
-    color-mix(in srgb, var(--primary), transparent 95%),
-    transparent
-  );
+  background: linear-gradient(to right,
+      transparent,
+      color-mix(in srgb, var(--primary), transparent 95%),
+      transparent);
   opacity: 0;
   transition: opacity 700ms;
   pointer-events: none;
@@ -33,8 +31,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 5rem; /* h-20 */
-  padding: 0 2rem; /* px-8 */
+  height: 5rem;
+  /* h-20 */
+  padding: 0 2rem;
+  /* px-8 */
   gap: 2rem;
   position: relative;
   z-index: 10;
@@ -89,9 +89,7 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(
-    0 0 6px color-mix(in srgb, var(--primary), transparent 40%)
-  );
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--primary), transparent 40%));
 }
 
 .logoTextWrapper {
@@ -110,10 +108,6 @@
   filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.8));
 }
 
-.logoSection:hover .brandName {
-  color: var(--primary);
-}
-
 .brandSubtitle {
   font-size: 10px;
   text-transform: uppercase;
@@ -124,7 +118,7 @@
 }
 
 .logoSection:hover .brandSubtitle {
-  color: color-mix(in srgb, var(--primary), transparent 30%);
+  color: oklch(0.75 0.20 45);
 }
 
 /* Right Side Controls */
@@ -170,12 +164,10 @@
 .separator {
   width: 1px;
   height: 2.5rem;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    rgba(255, 255, 255, 0.1),
-    transparent
-  );
+  background: linear-gradient(to bottom,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent);
   display: none;
 }
 
@@ -246,21 +238,21 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    color-mix(in srgb, var(--primary), transparent 50%),
-    transparent
-  );
+  background: linear-gradient(to right,
+      transparent,
+      color-mix(in srgb, var(--primary), transparent 50%),
+      transparent);
   box-shadow: 0 0 4px color-mix(in srgb, var(--primary), transparent 50%);
 }
 
 /* Animations */
 @keyframes pulse {
+
   0%,
   100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }

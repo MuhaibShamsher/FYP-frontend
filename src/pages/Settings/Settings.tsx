@@ -3,18 +3,21 @@ import {
   PasswordChangeCard,
   OrganizationDetails,
 } from '@/components/setting';
+import { Settings } from 'lucide-react';
 import styles from './Settings.module.css';
 
 export default function SettingsPage() {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.headerSection}>
-        <div>
-          <div className={styles.headerLabel}>
-            <div className={styles.statusDotActive} />
-            GLOBAL CONFIGURATION & SECURITY POLICIES
-          </div>
-          <h1 className={styles.pageTitle}>Settings</h1>
+        <div className="globalPageHeader">
+          <h1 className="globalPageTitle">
+            <Settings className="globalTitleIcon" />
+            Settings
+          </h1>
+          <p className="globalPageSubtitle">
+            Allow user to update their profile information.
+          </p>
         </div>
       </div>
 

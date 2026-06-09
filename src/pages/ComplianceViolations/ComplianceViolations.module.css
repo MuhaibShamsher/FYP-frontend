@@ -17,39 +17,11 @@
 .headerRow {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   flex-wrap: wrap;
   gap: 1rem;
 }
 
-.pageHeader {
-  margin-bottom: 0;
-}
-
-.title {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: var(--ui-text-primary);
-  margin-bottom: 0.5rem;
-  letter-spacing: -0.02em;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-}
-
-.titleIcon {
-  color: rgb(var(--ui-status-fail));
-  width: 1.85rem;
-  height: 1.85rem;
-  filter: drop-shadow(0 0 8px rgba(var(--ui-status-fail), 0.4));
-}
-
-.subtitle {
-  color: var(--ui-text-muted);
-  font-size: 0.875rem;
-}
 
 /* Search Controls */
 .controlsContainer {
@@ -104,10 +76,12 @@
   flex-direction: column;
   gap: 0;
 }
+
 @keyframes spin {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -117,6 +91,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -127,6 +102,7 @@
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
