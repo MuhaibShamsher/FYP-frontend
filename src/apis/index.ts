@@ -5,5 +5,5 @@ export * from './assetsApi';
 export * from './riskApi';
 export * from './complianceApi';
 export * from './feedApis';
-export * from './reports';
+export * from './ragApi';
 export * from './sharedApi';
