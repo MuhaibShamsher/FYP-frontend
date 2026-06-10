@@ -1,4 +1,4 @@
-/* AI Remediation Styles */
+/* AI Explanation Styles */
 .aiButton {
   display: inline-flex;
   align-items: center;
@@ -40,7 +40,7 @@
   height: 0.875rem;
 }
 
-.aiRemediationCard {
+.aiExplanationCard {
   margin-top: 1rem;
   padding: 1.25rem;
   background: rgba(255, 255, 255, 0.02);

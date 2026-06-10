@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Loader2 } from 'lucide-react';
 import {
   Label,
   Input,
@@ -73,6 +74,8 @@ export default function UserForm({
     }
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [errors, setErrors] = useState<
     Partial<Record<keyof CreateUserRequest, string>>
   >({});
@@ -96,7 +99,12 @@ export default function UserForm({
   const handleSubmit = async (ev: React.FormEvent) => {
     ev.preventDefault();
     if (validate()) {
-      await onSubmit(formData);
+      setIsSubmitting(true);
+      try {
+        await onSubmit(formData);
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -186,11 +194,23 @@ export default function UserForm({
               variant="ghost"
               onClick={() => onOpenChange(false)}
               className={styles.cancelButton}
+              disabled={isSubmitting}
             >
               CANCEL
             </Button>
-            <Button type="submit" className={styles.submitButton}>
-              {submitText}
+            <Button
+              type="submit"
+              className={styles.submitButton}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {mode === 'create' ? 'CREATING...' : 'SAVING...'}
+                </>
+              ) : (
+                submitText
+              )}
             </Button>
           </DialogFooter>
         </form>

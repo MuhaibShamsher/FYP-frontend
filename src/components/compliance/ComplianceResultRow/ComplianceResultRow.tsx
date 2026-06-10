@@ -1,6 +1,7 @@
 import { ComplianceEvidencePanel } from '@/components/compliance';
 import { ExpandableRow } from '@/components/custom';
 import { Badge } from '@/components/ui';
+import ComplianceExplanation from '../ComplianceExplanation/ComplianceExplanation';
 import {
   createIgData,
   hasAnyIg,
@@ -89,6 +90,8 @@ export default function ComplianceResultRow({row, isOpen, onToggle}: ComplianceR
           <p className={styles.notesText}>{row.notes}</p>
         </div>
       )}
+
+      <ComplianceExplanation resultId={row.id} />
 
       <IgTagsRow ig1={row.ig1} ig2={row.ig2} ig3={row.ig3} />
     </>

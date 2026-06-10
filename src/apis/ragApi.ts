@@ -17,7 +17,17 @@ export interface VulnerabilityRemediation {
 }
 
 export interface ComplianceExplanation {
-  explanation: string;
+  id: string;
+  response_type: string;
+  generated_content: {
+    explanation?: string;
+    evidence?: string[];
+    fix_steps?: string[];
+    citations?: string[];
+    message?: string;
+  };
+  model_name: string;
+  confidence_level: string;
 }
 
 export const ragApi = baseApi.injectEndpoints({

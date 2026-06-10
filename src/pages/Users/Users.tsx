@@ -23,15 +23,18 @@ const ActionButton = ({
   onClick,
   icon: Icon,
   variant,
+  disabled,
 }: {
   title: string;
   onClick: () => void;
   icon: ComponentType<{ className?: string }>;
   variant: 'edit' | 'delete';
+  disabled?: boolean;
 }) => (
   <button
     title={title}
     onClick={onClick}
+    disabled={disabled}
     className={`${styles.iconButton} ${variant === 'edit' ? styles.editButton : styles.deleteButton}`}
   >
     <Icon className="h-3.5 w-3.5" />
@@ -39,7 +42,8 @@ const ActionButton = ({
 );
 
 export default function UsersPage() {
-  const userRole = useSelector((state: RootState) => state.auth.user?.role);
+  const currentUser = useSelector((state: RootState) => state.auth.user);
+  const userRole = currentUser?.role;
 
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<boolean | undefined>(
@@ -209,10 +213,11 @@ export default function UsersPage() {
                               variant="edit"
                             />
                             <ActionButton
-                              title="Delete User"
+                              title={currentUser?.id === u.id || currentUser?.email === u.email ? "Cannot delete yourself" : "Delete User"}
                               onClick={() => openDeleteModal(u.id)}
                               icon={Trash2}
                               variant="delete"
+                              disabled={currentUser?.id === u.id || currentUser?.email === u.email}
                             />
                           </div>
                         </td>

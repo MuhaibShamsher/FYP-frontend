@@ -268,6 +268,14 @@
   background-color: rgba(239, 68, 68, 0.05);
 }
 
+.iconButton:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  border-color: var(--dashboard-border) !important;
+  color: var(--dashboard-text-muted) !important;
+  background-color: var(--dashboard-bg) !important;
+}
+
 /* Animations */
 @keyframes fade-in {
   from {
