@@ -3,6 +3,7 @@ import {
   clearActiveIds,
   riskStarted,
   complianceStarted,
+  updateRiskProgress,
 } from '@/store/slices/activeIdsSlice';
 import { createSocketMiddleware } from './createSocketMiddleware';
 import { toast } from 'sonner';
@@ -29,6 +30,10 @@ export const riskSocketMiddleware = createSocketMiddleware({
 
   onMessage: (msg, dispatch, _id) => {
     if (msg?.type !== 'assessment_update' || !msg.data) return 'keep';
+
+    if (typeof msg.data.progress === 'number') {
+      dispatch(updateRiskProgress(msg.data.progress));
+    }
 
     switch (msg.data.status) {
       case 'completed': {

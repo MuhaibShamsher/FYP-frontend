@@ -1,4 +1,4 @@
-﻿import type { RootState } from '@/store';
+import type { RootState } from '@/store';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { scanReset } from '@/store/slices/scanSessionSlice';
@@ -24,11 +24,36 @@ import {
   Activity,
   AlertTriangle,
   ScanLine,
+  ExternalLink,
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
 import styles from './InitiateScan.module.css';
 
 const CIDR_RE = /^(\d{1,3}\.){3}\d{1,3}(\/\d{1,2})?$/;
+
+const validateIPRange = (range: string): { valid: boolean; error?: string } => {
+  if (!CIDR_RE.test(range)) return { valid: false, error: 'Format must be IP or CIDR (e.g., 192.168.1.0/24)' };
+
+  const [ip, mask] = range.split('/');
+  const octets = ip.split('.');
+
+  for (const octet of octets) {
+    const num = parseInt(octet, 10);
+    if (isNaN(num) || num < 0 || num > 255) {
+      return { valid: false, error: `Invalid IP: Octet '${octet}' must be between 0 and 255` };
+    }
+  }
+
+  if (mask) {
+    const maskNum = parseInt(mask, 10);
+    if (isNaN(maskNum) || maskNum < 0 || maskNum > 32) {
+      return { valid: false, error: `Invalid subnet: '/${mask}' must be between 0 and 32` };
+    }
+  }
+
+  return { valid: true };
+};
 
 const FRAMEWORK_OPTIONS = [
   { id: 'iso-27001', label: 'ISO 27001 2022' },
@@ -58,8 +83,8 @@ export default function InitiateScanModal({
   isCancelling,
 }: Props) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
-    scanId,
     isScanning,
     status,
     message,
@@ -73,6 +98,14 @@ export default function InitiateScanModal({
     successful,
     failed,
   } = useSelector((s: RootState) => s.scanSession);
+
+  const {
+    riskAssessmentId,
+    complianceId,
+    riskProgress,
+    complianceProgress,
+    isPipelineActive,
+  } = useSelector((s: RootState) => s.activeIds);
 
   const [ipRange, setIpRange] = useState<string>('');
   const [scanType, setScanType] = useState<'standard' | 'comprehensive'>(
@@ -95,10 +128,13 @@ export default function InitiateScanModal({
       toast.error('Please enter a target IP range.');
       return;
     }
-    if (!CIDR_RE.test(trimmed)) {
-      toast.error('Invalid format. Use CIDR notation, e.g. 192.168.1.0/24.');
+
+    const validation = validateIPRange(trimmed);
+    if (!validation.valid) {
+      toast.error(validation.error);
       return;
     }
+
     await onStart(
       trimmed,
       scanType,
@@ -110,17 +146,36 @@ export default function InitiateScanModal({
     setSelectedFrameworks((previousFrameworks) =>
       previousFrameworks.includes(framework)
         ? previousFrameworks.filter(
-            (existingFramework) => existingFramework !== framework
-          )
+          (existingFramework) => existingFramework !== framework
+        )
         : [...previousFrameworks, framework]
     );
   };
 
-  const isActive = isScanning;
-  const isDone =
-    status === 'completed' || status === 'failed' || status === 'cancelled';
+  const isPipelineRunning = isScanning || isPipelineActive;
 
-  const statusClass = isScanning
+  const isActive = isPipelineRunning;
+  const isDone =
+    (status === 'completed' && !isPipelineActive) ||
+    status === 'failed' ||
+    status === 'cancelled';
+
+  let displayStatus = '';
+  if (isScanning) {
+    displayStatus = 'SCANNING_ACTIVE';
+  } else if (isPipelineActive) {
+    if (complianceId) {
+      displayStatus = 'COMPLIANCE_ACTIVE';
+    } else if (riskAssessmentId) {
+      displayStatus = 'RISK_ANALYSIS_ACTIVE';
+    } else {
+      displayStatus = 'PROCESSING';
+    }
+  } else if (isDone) {
+    displayStatus = status.toUpperCase();
+  }
+
+  const statusClass = isPipelineRunning
     ? styles.statusActive
     : status === 'completed'
       ? styles.statusCompleted
@@ -137,7 +192,18 @@ export default function InitiateScanModal({
         if (!open) onClose();
       }}
     >
-      <DialogContent className={`${styles.modalContent}`} >
+      <DialogContent
+        className={`${styles.modalContent}`}
+        onInteractOutside={(e) => {
+          if (isActive) {
+            e.preventDefault();
+            toast.warning('Scan is in progress. Please abort the scan before closing.');
+          }
+        }}
+        onEscapeKeyDown={(e) => {
+          if (isActive) e.preventDefault();
+        }}
+      >
         {/* Modal Header */}
         <div className={styles.header}>
           <div className={styles.headerIconContainer}>
@@ -341,6 +407,18 @@ export default function InitiateScanModal({
                   >
                     <Play className="w-4 h-4 mr-2" /> NEW SCAN
                   </Button>
+                  {status === 'completed' && (
+                    <Button
+                      onClick={() => {
+                        onClose();
+                        navigate(`/dashboard`);
+                      }}
+                      className={styles.executeButton}
+                      style={{ backgroundColor: '#10b981', borderColor: '#059669', boxShadow: '0 4px 12px rgba(16, 185, 129, 0.25)' }}
+                    >
+                      <ExternalLink className="w-4 h-4 mr-2" /> VIEW RESULTS
+                    </Button>
+                  )}
                 </>
               ) : (
                 <>
@@ -368,27 +446,70 @@ export default function InitiateScanModal({
             <div className={styles.vizContent}>
               <RadarScanner progress={progress} isActive={isScanning} />
 
-              <div className={styles.statusContainer}>
-                <div className={styles.statusHeader}>
-                  <span className={styles.statusLabel}>Status</span>
-                  <span className={`${styles.statusValue} ${statusClass}`}>
-                    {isScanning
-                      ? 'SCANNING_ACTIVE'
-                      : isDone
-                        ? status.toUpperCase()
-                        : 'SYSTEM_READY'}
-                  </span>
-                </div>
+              {status !== 'idle' && (
+                <div className={styles.statusContainer}>
+                  <div className={styles.statusHeader}>
+                    <span className={styles.statusLabel}>Status</span>
+                    <span className={`${styles.statusValue} ${statusClass}`}>
+                      {displayStatus}
+                    </span>
+                  </div>
 
-                <div className={styles.sessionIdBox}>
-                  <div className={styles.sessionLabelHeader}>
-                    <span>Session ID</span>
+                  <div className={styles.sessionIdBox}>
+                    <div className={styles.sessionLabelHeader}>
+                      <span>Network Discovery Pipeline</span>
+                      <span className={styles.progressPct}>
+                        {status === 'completed' ? '100%' : isScanning ? `${progress}%` : '0%'}
+                      </span>
+                    </div>
+                    <div className={styles.progressBarContainer}>
+                      <div
+                        className={styles.progressBar}
+                        style={{ width: `${status === 'completed' ? 100 : isScanning ? progress : 0}%` }}
+                      />
+                    </div>
+                    <div className={styles.sessionIdValue}>
+                      {status === 'completed' ? 'SCANNING COMPLETE' : isScanning ? 'SCANNING ACTIVE' : 'WAITING_FOR_INIT...'}
+                    </div>
                   </div>
-                  <div className={styles.sessionIdValue}>
-                    {scanId || 'WAITING_FOR_INIT...'}
+
+                  <div className={styles.sessionIdBox}>
+                    <div className={styles.sessionLabelHeader}>
+                      <span>Risk Analysis Pipeline</span>
+                      <span className={styles.progressPct}>
+                        {status === 'completed' ? '100%' : (riskAssessmentId || riskProgress > 0) ? `${riskProgress}%` : '0%'}
+                      </span>
+                    </div>
+                    <div className={styles.progressBarContainer}>
+                      <div
+                        className={styles.progressBar}
+                        style={{ width: `${status === 'completed' ? 100 : (riskAssessmentId || riskProgress > 0) ? riskProgress : 0}%` }}
+                      />
+                    </div>
+                    <div className={styles.sessionIdValue}>
+                      {status === 'completed' ? 'ANALYSIS COMPLETE' : (riskAssessmentId || riskProgress > 0) ? 'ANALYSIS ACTIVE' : 'PENDING_DISCOVERY...'}
+                    </div>
+                  </div>
+
+                  <div className={styles.sessionIdBox}>
+                    <div className={styles.sessionLabelHeader}>
+                      <span>Compliance Validation Pipeline</span>
+                      <span className={styles.progressPct}>
+                        {status === 'completed' ? '100%' : (complianceId || complianceProgress > 0) ? `${complianceProgress}%` : '0%'}
+                      </span>
+                    </div>
+                    <div className={styles.progressBarContainer}>
+                      <div
+                        className={styles.progressBar}
+                        style={{ width: `${status === 'completed' ? 100 : (complianceId || complianceProgress > 0) ? complianceProgress : 0}%` }}
+                      />
+                    </div>
+                    <div className={styles.sessionIdValue}>
+                      {status === 'completed' ? 'VALIDATION COMPLETE' : (complianceId || complianceProgress > 0) ? 'VALIDATION ACTIVE' : 'PENDING_RISK_ANALYSIS...'}
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>

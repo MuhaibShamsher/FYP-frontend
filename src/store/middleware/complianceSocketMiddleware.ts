@@ -1,5 +1,5 @@
 import { baseApi } from '@/apis';
-import { clearActiveIds, complianceStarted } from '@/store/slices/activeIdsSlice';
+import { clearActiveIds, complianceStarted, updateComplianceProgress } from '@/store/slices/activeIdsSlice';
 import { createSocketMiddleware } from './createSocketMiddleware';
 import { toast } from 'sonner';
 
@@ -26,6 +26,10 @@ export const complianceSocketMiddleware = createSocketMiddleware({
 
   onMessage: (msg, dispatch, _id) => {
     if (msg?.type !== 'compliance_update' || !msg.data) return 'keep';
+
+    if (typeof msg.data.progress === 'number') {
+      dispatch(updateComplianceProgress(msg.data.progress));
+    }
 
     switch (msg.data.status) {
       case 'completed': {

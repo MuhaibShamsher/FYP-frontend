@@ -5,6 +5,8 @@ interface ActiveIdsState {
   riskAssessmentId: string | null;
   complianceId: string | null;
   isPipelineActive: boolean;
+  riskProgress: number;
+  complianceProgress: number;
 }
 
 const initialState: ActiveIdsState = {
@@ -12,6 +14,8 @@ const initialState: ActiveIdsState = {
   riskAssessmentId: null,
   complianceId: null,
   isPipelineActive: false,
+  riskProgress: 0,
+  complianceProgress: 0,
 };
 
 const activeIdsSlice = createSlice({
@@ -37,6 +41,12 @@ const activeIdsSlice = createSlice({
       state.complianceId = action.payload;
       state.isPipelineActive = true;
     },
+    updateRiskProgress: (state, action: PayloadAction<number>) => {
+      state.riskProgress = action.payload;
+    },
+    updateComplianceProgress: (state, action: PayloadAction<number>) => {
+      state.complianceProgress = action.payload;
+    },
     // Mark pipeline as inactive when done or reset
     setPipelineActive: (state, action: PayloadAction<boolean>) => {
       state.isPipelineActive = action.payload;
@@ -46,6 +56,8 @@ const activeIdsSlice = createSlice({
       state.riskAssessmentId = null;
       state.complianceId = null;
       state.isPipelineActive = false;
+      state.riskProgress = 0;
+      state.complianceProgress = 0;
     },
   },
 });
@@ -56,6 +68,8 @@ export const {
   setActiveComplianceId,
   riskStarted,
   complianceStarted,
+  updateRiskProgress,
+  updateComplianceProgress,
   setPipelineActive,
   clearActiveIds,
 } = activeIdsSlice.actions;
